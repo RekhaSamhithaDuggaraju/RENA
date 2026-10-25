@@ -13,6 +13,8 @@ import type {
   LLMJobResults,
   MIRAItem,
   MIRAScoreResult,
+  ForgettingAuditSummary,
+  UnifiedAuditRow,
 } from "@/lib/types";
 
 export type {
@@ -28,6 +30,8 @@ export type {
   LLMJobResults,
   MIRAItem,
   MIRAScoreResult,
+  ForgettingAuditSummary,
+  UnifiedAuditRow,
 } from "@/lib/types";
 
 export function authHeaders(extra: Record<string, string> = {}) {
@@ -126,6 +130,10 @@ export function logout() {
 
 export async function me() {
   return apiJson("/production/auth/me");
+}
+
+export async function listForgettingAudits(): Promise<ForgettingAuditSummary[]> {
+  return apiJson<ForgettingAuditSummary[]>("/forgetting-audits");
 }
 
 export async function listAudits(limit = 50): Promise<Audit[]> {

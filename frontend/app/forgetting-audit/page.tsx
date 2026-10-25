@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { API, authHeaders } from "@/lib/api";
 
 const inputStyle =
@@ -151,6 +151,25 @@ export default function ForgettingAuditPage() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [copiedLatex, setCopiedLatex] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const aid = params.get("audit_id");
+    const trk = params.get("track");
+    if (trk === "track_a_model_unlearning" || trk === "track_b_memory_deletion") {
+      setAuditTrack(trk);
+    }
+    if (aid) {
+      void act(async () => {
+        const fresh = await req(`/forgetting-audits/${aid}`);
+        setAudit(fresh);
+        if (fresh?.track_metadata?.track) {
+          setAuditTrack(fresh.track_metadata.track);
+        }
+      });
+    }
+  }, []);
 
   function handleProviderChange(providerId: string) {
     setTarget(providerId);

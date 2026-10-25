@@ -130,3 +130,34 @@ export interface MIRAScoreResult {
   weights: Record<string, number>;
   limitations?: string[];
 }
+
+export interface ForgettingAuditSummary {
+  id: string;
+  name: string;
+  status: "complete" | "running" | "pending" | "setup" | "failed";
+  audit_track: "track_a_model_unlearning" | "track_b_memory_deletion";
+  target: string;
+  fact_count: number;
+  validity_status: "PASS" | "WARNING" | "BLOCKED";
+  validity_summary: string;
+  primary_outcome: string;
+  verdict: string;
+  created_at: string;
+  updated_at: string;
+  events?: { at: string; event: string }[];
+}
+
+export interface UnifiedAuditRow {
+  id: string;
+  name: string;
+  audit_track: "track_a_model_unlearning" | "track_b_memory_deletion" | "classical";
+  track_label: string;
+  status: "complete" | "running" | "pending" | "setup" | "failed";
+  validity_status?: "PASS" | "WARNING" | "BLOCKED";
+  primary_outcome: string;
+  verdict?: string | null;
+  created_at: string;
+  link: string;
+  raw_type: "forgetting" | "classical";
+}
+
