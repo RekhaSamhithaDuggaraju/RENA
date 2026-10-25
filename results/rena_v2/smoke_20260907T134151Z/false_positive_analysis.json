@@ -1,0 +1,21 @@
+{
+  "cases": [],
+  "metrics": {
+    "NAIVE_AVERAGE": {
+      "abstention_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "false_positive_rate": 0.6666666666666666
+    },
+    "RENA_FULL": {
+      "abstention_rate": 0.16666666666666666,
+      "false_negative_rate": 0.0,
+      "false_positive_rate": 0.6666666666666666
+    },
+    "WEIGHTED_NO_OVERRIDE": {
+      "abstention_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "false_positive_rate": 0.6666666666666666
+    }
+  },
+  "rra_threshold": 0.5
+}

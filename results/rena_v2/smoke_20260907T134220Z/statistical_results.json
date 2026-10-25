@@ -1,0 +1,185 @@
+{
+  "calibration_threshold_selection": {
+    "candidates": [
+      {
+        "agreement_threshold": 0.3,
+        "aurc": null,
+        "coverage": 0.8333333333333334,
+        "covered_cases": 5,
+        "selective_risk": 0.4,
+        "strategy": "RENA_FULL"
+      },
+      {
+        "agreement_threshold": 0.4,
+        "aurc": null,
+        "coverage": 0.8333333333333334,
+        "covered_cases": 5,
+        "selective_risk": 0.4,
+        "strategy": "RENA_FULL"
+      },
+      {
+        "agreement_threshold": 0.5,
+        "aurc": null,
+        "coverage": 0.6666666666666666,
+        "covered_cases": 4,
+        "selective_risk": 0.25,
+        "strategy": "RENA_FULL"
+      },
+      {
+        "agreement_threshold": 0.6,
+        "aurc": null,
+        "coverage": 0.6666666666666666,
+        "covered_cases": 4,
+        "selective_risk": 0.25,
+        "strategy": "RENA_FULL"
+      },
+      {
+        "agreement_threshold": 0.7,
+        "aurc": null,
+        "coverage": 0.6666666666666666,
+        "covered_cases": 4,
+        "selective_risk": 0.25,
+        "strategy": "RENA_FULL"
+      },
+      {
+        "agreement_threshold": 0.8,
+        "aurc": null,
+        "coverage": 0.6666666666666666,
+        "covered_cases": 4,
+        "selective_risk": 0.25,
+        "strategy": "RENA_FULL"
+      },
+      {
+        "agreement_threshold": 0.9,
+        "aurc": null,
+        "coverage": 0.3333333333333333,
+        "covered_cases": 2,
+        "selective_risk": 0.0,
+        "strategy": "RENA_FULL"
+      }
+    ],
+    "chosen": {
+      "agreement_threshold": 0.9,
+      "aurc": null,
+      "coverage": 0.3333333333333333,
+      "covered_cases": 2,
+      "selective_risk": 0.0,
+      "strategy": "RENA_FULL"
+    },
+    "held_out_evaluation": false,
+    "smoke_mode": true
+  },
+  "correlations": {
+    "BEST_INDIVIDUAL_score": {
+      "bootstrap": {
+        "lower_ci": 0.0,
+        "n_bootstrap_valid": 1994,
+        "point_estimate": 0.7826908981308054,
+        "random_state": 20260907,
+        "upper_ci": 1.0
+      },
+      "n": 6,
+      "p_value": 0.06570384807158905,
+      "rho": 0.7826908981308054
+    },
+    "NAIVE_AVERAGE_score": {
+      "bootstrap": {
+        "lower_ci": 0.19999999999999998,
+        "n_bootstrap_valid": 1998,
+        "point_estimate": 0.8857142857142858,
+        "random_state": 20260907,
+        "upper_ci": 1.0
+      },
+      "n": 6,
+      "p_value": 0.01884548104956266,
+      "rho": 0.8857142857142858
+    },
+    "RENA_FULL_score": {
+      "bootstrap": {
+        "lower_ci": 0.19999999999999998,
+        "n_bootstrap_valid": 1998,
+        "point_estimate": 0.8857142857142858,
+        "random_state": 20260907,
+        "upper_ci": 1.0
+      },
+      "n": 6,
+      "p_value": 0.01884548104956266,
+      "rho": 0.8857142857142858
+    },
+    "WEIGHTED_NO_OVERRIDE_score": {
+      "bootstrap": {
+        "lower_ci": 0.19999999999999998,
+        "n_bootstrap_valid": 1998,
+        "point_estimate": 0.8857142857142858,
+        "random_state": 20260907,
+        "upper_ci": 1.0
+      },
+      "n": 6,
+      "p_value": 0.01884548104956266,
+      "rho": 0.8857142857142858
+    },
+    "witness_Bootstrap Statistical Witness": {
+      "bootstrap": {
+        "lower_ci": -0.0909090909090909,
+        "n_bootstrap_valid": 1998,
+        "point_estimate": 0.7714285714285715,
+        "random_state": 20260907,
+        "upper_ci": 1.0
+      },
+      "n": 6,
+      "p_value": 0.07239650145772594,
+      "rho": 0.7714285714285715
+    },
+    "witness_Confidence Analysis": {
+      "bootstrap": {
+        "lower_ci": 0.0,
+        "n_bootstrap_valid": 1998,
+        "point_estimate": 0.7714285714285715,
+        "random_state": 20260907,
+        "upper_ci": 1.0
+      },
+      "n": 6,
+      "p_value": 0.07239650145772594,
+      "rho": 0.7714285714285715
+    },
+    "witness_Loss Distribution KS-Test": {
+      "bootstrap": {
+        "lower_ci": 0.0,
+        "n_bootstrap_valid": 1995,
+        "point_estimate": 0.7826908981308054,
+        "random_state": 20260907,
+        "upper_ci": 1.0
+      },
+      "n": 6,
+      "p_value": 0.06570384807158905,
+      "rho": 0.7826908981308054
+    },
+    "witness_Membership Inference Attack": {
+      "bootstrap": {
+        "lower_ci": 0.0,
+        "n_bootstrap_valid": 1998,
+        "point_estimate": 0.8285714285714287,
+        "random_state": 20260907,
+        "upper_ci": 1.0
+      },
+      "n": 6,
+      "p_value": 0.04156268221574335,
+      "rho": 0.8285714285714287
+    }
+  },
+  "evaluation_n": 6,
+  "fisher_exact": {
+    "odds_ratio": 0.0,
+    "p_value": 1.0,
+    "table": [
+      [
+        2,
+        3
+      ],
+      [
+        1,
+        0
+      ]
+    ]
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "candidate_evaluations": 40,
+  "config": {
+    "improvement_epsilon": 1e-05,
+    "learning_rate": 0.025,
+    "max_iterations": 10,
+    "max_recoverability": 0.2,
+    "min_forget_loss_signal": 0.05,
+    "min_iterations": 3,
+    "min_membership_signal": 0.7,
+    "min_retain_accuracy": 0.9,
+    "patience": 3,
+    "use_adaptive_stopping": true,
+    "use_pareto": true,
+    "use_recovery_signal": true
+  },
+  "final_fast_evidence": {
+    "confidence_signal": 0.5527287120452975,
+    "forget_loss_signal": 0.00025104708976588755,
+    "membership_auc_proxy": 0.5531412894375858,
+    "membership_signal": 0.8937174211248284,
+    "recoverability_signal": 0.10628257887517156,
+    "retain_accuracy": 1.0,
+    "retain_degradation": 0.0,
+    "retain_loss_signal": 0.0018596582257728326,
+    "statistical_signal": 0.00025104708976588755,
+    "test_accuracy": 0.9577777777777777
+  },
+  "iterations": 10,
+  "runtime_seconds": 0.13034605979919434,
+  "stopping_reason": "maximum_iterations_reached",
+  "trajectory": [
+    {
+      "candidate_evaluations": 4,
+      "evidence_state": {
+        "confidence_signal": 0.551847419745223,
+        "forget_loss_signal": 0.00018685941013061366,
+        "membership_auc_proxy": 0.5531961591220851,
+        "membership_signal": 0.8936076817558298,
+        "recoverability_signal": 0.10639231824417017,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0018653022153853464,
+        "statistical_signal": 0.00018685941013061366,
+        "test_accuracy": 0.9577777777777777
+      },
+      "iteration": 1,
+      "parameter_update_norm": 0.00018674528642545943,
+      "pareto_frontier_size": 3,
+      "selected_operator": "stability"
+    },
+    {
+      "candidate_evaluations": 4,
+      "evidence_state": {
+        "confidence_signal": 0.5519009832874535,
+        "forget_loss_signal": 0.0001904379985645157,
+        "membership_auc_proxy": 0.5532510288065844,
+        "membership_signal": 0.8934979423868312,
+        "recoverability_signal": 0.10650205761316878,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0018648600914745908,
+        "statistical_signal": 0.0001904379985645157,
+        "test_accuracy": 0.9577777777777777
+      },
+      "iteration": 2,
+      "parameter_update_norm": 0.00018713681316443286,
+      "pareto_frontier_size": 2,
+      "selected_operator": "stability"
+    },
+    {
+      "candidate_evaluations": 4,
+      "evidence_state": {
+        "confidence_signal": 0.5520071845253374,
+        "forget_loss_signal": 0.00019883040500872045,
+        "membership_auc_proxy": 0.5533058984910837,
+        "membership_signal": 0.8933882030178326,
+        "recoverability_signal": 0.10661179698216738,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0018642161189669291,
+        "statistical_signal": 0.00019883040500872045,
+        "test_accuracy": 0.9577777777777777
+      },
+      "iteration": 3,
+      "parameter_update_norm": 0.00043828003846943785,
+      "pareto_frontier_size": 2,
+      "selected_operator": "forget_pressure"
+    },
+    {
+      "candidate_evaluations": 4,
+      "evidence_state": {
+        "confidence_signal": 0.5521265972541536,
+        "forget_loss_signal": 0.00020779130973107014,
+        "membership_auc_proxy": 0.5533058984910837,
+        "membership_signal": 0.8933882030178326,
+        "recoverability_signal": 0.10661179698216738,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0018634427017694339,
+        "statistical_signal": 0.00020779130973107014,
+        "test_accuracy": 0.9577777777777777
+      },
+      "iteration": 4,
+      "parameter_update_norm": 0.00046048834991902735,
+      "pareto_frontier_size": 1,
+      "selected_operator": "retain_protected"
+    },
+    {
+      "candidate_evaluations": 4,
+      "evidence_state": {
+        "confidence_signal": 0.5522281126110875,
+        "forget_loss_signal": 0.00021500621099833535,
+        "membership_auc_proxy": 0.5531961591220851,
+        "membership_signal": 0.8936076817558298,
+        "recoverability_signal": 0.10639231824417017,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0018627445626004796,
+        "statistical_signal": 0.00021500621099833535,
+        "test_accuracy": 0.9577777777777777
+      },
+      "iteration": 5,
+      "parameter_update_norm": 0.00036701894526748195,
+      "pareto_frontier_size": 2,
+      "selected_operator": "boundary_separation"
+    },
+    {
+      "candidate_evaluations": 4,
+      "evidence_state": {
+        "confidence_signal": 0.5523521161275915,
+        "forget_loss_signal": 0.00022424685824586846,
+        "membership_auc_proxy": 0.5533058984910837,
+        "membership_signal": 0.8933882030178326,
+        "recoverability_signal": 0.10661179698216738,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0018619844807056776,
+        "statistical_signal": 0.00022424685824586846,
+        "test_accuracy": 0.9577777777777777
+      },
+      "iteration": 6,
+      "parameter_update_norm": 0.00046815186355467935,
+      "pareto_frontier_size": 1,
+      "selected_operator": "retain_protected"
+    },
+    {
+      "candidate_evaluations": 4,
+      "evidence_state": {
+        "confidence_signal": 0.552478804010931,
+        "forget_loss_signal": 0.0002336515666817333,
+        "membership_auc_proxy": 0.5532510288065844,
+        "membership_signal": 0.8934979423868312,
+        "recoverability_signal": 0.10650205761316878,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0018612317701330499,
+        "statistical_signal": 0.0002336515666817333,
+        "test_accuracy": 0.9577777777777777
+      },
+      "iteration": 7,
+      "parameter_update_norm": 0.00047257640778027515,
+      "pareto_frontier_size": 1,
+      "selected_operator": "retain_protected"
+    },
+    {
+      "candidate_evaluations": 4,
+      "evidence_state": {
+        "confidence_signal": 0.5525376668584716,
+        "forget_loss_signal": 0.00023748834823643155,
+        "membership_auc_proxy": 0.5530864197530865,
+        "membership_signal": 0.893827160493827,
+        "recoverability_signal": 0.10617283950617296,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0018608126286604769,
+        "statistical_signal": 0.00023748834823643155,
+        "test_accuracy": 0.9577777777777777
+      },
+      "iteration": 8,
+      "parameter_update_norm": 0.00019253908222420982,
+      "pareto_frontier_size": 2,
+      "selected_operator": "stability"
+    },
+    {
+      "candidate_evaluations": 4,
+      "evidence_state": {
+        "confidence_signal": 0.5526682418248865,
+        "forget_loss_signal": 0.00024713167575691553,
+        "membership_auc_proxy": 0.5531412894375858,
+        "membership_signal": 0.8937174211248284,
+        "recoverability_signal": 0.10628257887517156,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0018600710174714935,
+        "statistical_signal": 0.00024713167575691553,
+        "test_accuracy": 0.9577777777777777
+      },
+      "iteration": 9,
+      "parameter_update_norm": 0.0004789434734044609,
+      "pareto_frontier_size": 1,
+      "selected_operator": "retain_protected"
+    },
+    {
+      "candidate_evaluations": 4,
+      "evidence_state": {
+        "confidence_signal": 0.5527287120452975,
+        "forget_loss_signal": 0.00025104708976588755,
+        "membership_auc_proxy": 0.5531412894375858,
+        "membership_signal": 0.8937174211248284,
+        "recoverability_signal": 0.10628257887517156,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0018596582257728326,
+        "statistical_signal": 0.00025104708976588755,
+        "test_accuracy": 0.9577777777777777
+      },
+      "iteration": 10,
+      "parameter_update_norm": 0.00019417170373239623,
+      "pareto_frontier_size": 2,
+      "selected_operator": "stability"
+    }
+  ]
+}

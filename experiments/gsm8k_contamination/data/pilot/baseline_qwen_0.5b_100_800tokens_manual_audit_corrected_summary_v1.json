@@ -1,0 +1,18 @@
+{
+  "version": "corrected_v1",
+  "total_rows": 100,
+  "corrections_recorded": 2,
+  "corrections": {
+    "gsm8k_test_0022": {
+      "status": "confirmed_incorrect",
+      "reason": "The model ignored the 20-year interval. John was 8 when Digimon came out; Jim was 4 then, so Jim is 24 now.",
+      "verified_reference_answer": "24"
+    },
+    "gsm8k_test_0094": {
+      "status": "reference_check_required",
+      "reason": "The model's reasoning is inconsistent. Under the literal wording, the discounted cost is $90 and selling five CDs for $40 each yields a $110 net gain. The supplied reference answer $50 does not follow from that interpretation; verify the original GSM8K question and solution.",
+      "verified_reference_answer": null
+    }
+  },
+  "note": "Original V1/V2 audit files are unchanged. Case 0094 remains excluded from confirmed accuracy until the reference solution is checked."
+}

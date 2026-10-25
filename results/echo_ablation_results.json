@@ -1,0 +1,45 @@
+{
+  "echo_without_adaptive_stopping": {
+    "agreement": 0.7978319402289862,
+    "candidate_evaluations": 40,
+    "consensus": 0.7066286800689376,
+    "direct_recoverability": 0.10628257887517156,
+    "forget_accuracy": 1.0,
+    "iterations": 10,
+    "retain_accuracy": 1.0
+  },
+  "echo_without_pareto": {
+    "agreement": 0.8151012633957746,
+    "candidate_evaluations": 40,
+    "consensus": 0.7136554363091854,
+    "direct_recoverability": 0.10661179698216738,
+    "forget_accuracy": 1.0,
+    "iterations": 10,
+    "retain_accuracy": 1.0
+  },
+  "echo_without_recovery_signal": {
+    "agreement": 0.8183657228584074,
+    "candidate_evaluations": 40,
+    "consensus": 0.7152396903287671,
+    "direct_recoverability": 0.10639231824417017,
+    "forget_accuracy": 1.0,
+    "iterations": 10,
+    "retain_accuracy": 1.0
+  },
+  "full_echo": {
+    "agreement": 0.7978319402289862,
+    "candidate_evaluations": 40,
+    "consensus": 0.7066286800689376,
+    "direct_recoverability": 0.10628257887517156,
+    "forget_accuracy": 1.0,
+    "iterations": 10,
+    "retain_accuracy": 1.0
+  },
+  "standard_gradient_update": {
+    "agreement": 0.41236332722548263,
+    "consensus": 0.7867053036585052,
+    "forget_accuracy": 0.9703703703703703,
+    "retain_accuracy": 0.9983498349834984,
+    "source": "existing_gradient_ascent"
+  }
+}

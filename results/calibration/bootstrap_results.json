@@ -1,0 +1,98 @@
+{
+  "FIXED_THRESHOLD_score": {
+    "lower_ci": 0.19999999999999998,
+    "n_bootstrap_requested": 2000,
+    "n_bootstrap_valid": 1998,
+    "point_estimate": 0.8857142857142858,
+    "random_state": 20260907,
+    "upper_ci": 1.0
+  },
+  "NAIVE_AVERAGE_score": {
+    "lower_ci": 0.19999999999999998,
+    "n_bootstrap_requested": 2000,
+    "n_bootstrap_valid": 1998,
+    "point_estimate": 0.8857142857142858,
+    "random_state": 20260907,
+    "upper_ci": 1.0
+  },
+  "RENA_FULL_score": {
+    "lower_ci": 0.19999999999999998,
+    "n_bootstrap_requested": 2000,
+    "n_bootstrap_valid": 1998,
+    "point_estimate": 0.8857142857142858,
+    "random_state": 20260907,
+    "upper_ci": 1.0
+  },
+  "WEIGHTED_NO_OVERRIDE_score": {
+    "lower_ci": 0.19999999999999998,
+    "n_bootstrap_requested": 2000,
+    "n_bootstrap_valid": 1998,
+    "point_estimate": 0.8857142857142858,
+    "random_state": 20260907,
+    "upper_ci": 1.0
+  },
+  "WEIGHTING_OFF_OVERRIDE_OFF_score": {
+    "lower_ci": 0.19999999999999998,
+    "n_bootstrap_requested": 2000,
+    "n_bootstrap_valid": 1998,
+    "point_estimate": 0.8857142857142858,
+    "random_state": 20260907,
+    "upper_ci": 1.0
+  },
+  "WEIGHTING_OFF_OVERRIDE_ON_score": {
+    "lower_ci": 0.19999999999999998,
+    "n_bootstrap_requested": 2000,
+    "n_bootstrap_valid": 1998,
+    "point_estimate": 0.8857142857142858,
+    "random_state": 20260907,
+    "upper_ci": 1.0
+  },
+  "WEIGHTING_ON_OVERRIDE_OFF_score": {
+    "lower_ci": 0.19999999999999998,
+    "n_bootstrap_requested": 2000,
+    "n_bootstrap_valid": 1998,
+    "point_estimate": 0.8857142857142858,
+    "random_state": 20260907,
+    "upper_ci": 1.0
+  },
+  "WEIGHTING_ON_OVERRIDE_ON_score": {
+    "lower_ci": 0.19999999999999998,
+    "n_bootstrap_requested": 2000,
+    "n_bootstrap_valid": 1998,
+    "point_estimate": 0.8857142857142858,
+    "random_state": 20260907,
+    "upper_ci": 1.0
+  },
+  "witness_Bootstrap Statistical Witness": {
+    "lower_ci": -0.0909090909090909,
+    "n_bootstrap_requested": 2000,
+    "n_bootstrap_valid": 1998,
+    "point_estimate": 0.7714285714285715,
+    "random_state": 20260907,
+    "upper_ci": 1.0
+  },
+  "witness_Confidence Analysis": {
+    "lower_ci": 0.0,
+    "n_bootstrap_requested": 2000,
+    "n_bootstrap_valid": 1998,
+    "point_estimate": 0.7714285714285715,
+    "random_state": 20260907,
+    "upper_ci": 1.0
+  },
+  "witness_Loss Distribution KS-Test": {
+    "lower_ci": 0.0,
+    "n_bootstrap_requested": 2000,
+    "n_bootstrap_valid": 1995,
+    "point_estimate": 0.7826908981308054,
+    "random_state": 20260907,
+    "upper_ci": 1.0
+  },
+  "witness_Membership Inference Attack": {
+    "lower_ci": 0.0,
+    "n_bootstrap_requested": 2000,
+    "n_bootstrap_valid": 1998,
+    "point_estimate": 0.8285714285714287,
+    "random_state": 20260907,
+    "upper_ci": 1.0
+  }
+}

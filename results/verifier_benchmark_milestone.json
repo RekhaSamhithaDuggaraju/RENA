@@ -1,0 +1,113 @@
+{
+  "verifier_comparison": {
+    "rena_calibrated": {
+      "score": 0.0,
+      "basis": "held-out empirical retraining distribution"
+    },
+    "ultra_style": {
+      "baseline": "ULTRA-style_worst_case",
+      "axes": {
+        "behavioral_equivalence": 0.0,
+        "membership_indistinguishability": 0.0,
+        "representation_neutrality": 0.0,
+        "retain_consistency": 0.0,
+        "irreversibility": 0.0,
+        "efficiency": 0.0
+      },
+      "score": 0.0,
+      "aggregation": "minimum across six normalized requirements",
+      "reproduction_status": "protocol baseline; not a claim of exact ULTRA reproduction"
+    },
+    "difference": 0.0,
+    "interpretation": "The baseline shares the worst-case principle; the research distinction is reference-distribution calibration and abstention, not the six-axis taxonomy."
+  },
+  "partial_forgetting_curve": {
+    "rows": [
+      {
+        "forgetting_fraction": 0.0,
+        "rena_x": 0.0625,
+        "verdict": "REVIEW",
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0
+      },
+      {
+        "forgetting_fraction": 0.25,
+        "rena_x": 0.0625,
+        "verdict": "REVIEW",
+        "forget_accuracy": 0.9851851851851852,
+        "retain_accuracy": 0.9966996699669967
+      },
+      {
+        "forgetting_fraction": 0.5,
+        "rena_x": 0.0625,
+        "verdict": "REVIEW",
+        "forget_accuracy": 0.9851851851851852,
+        "retain_accuracy": 0.9966996699669967
+      },
+      {
+        "forgetting_fraction": 0.75,
+        "rena_x": 0.0625,
+        "verdict": "REVIEW",
+        "forget_accuracy": 0.9851851851851852,
+        "retain_accuracy": 0.9966996699669967
+      },
+      {
+        "forgetting_fraction": 1.0,
+        "rena_x": 0.1875,
+        "verdict": "PASS",
+        "forget_accuracy": 0.9555555555555556,
+        "retain_accuracy": 1.0
+      }
+    ],
+    "spearman_fraction_vs_score": 0.7071067811865475,
+    "monotonicity_interpretation": "higher forgetting should generally reduce retrain-consistency score; this is a diagnostic, not a theorem"
+  },
+  "calibration": {
+    "mode": "held_out_empirical_retrain_null",
+    "n_references": 10,
+    "calibration_reference_count": 6,
+    "evaluation_reference_count": 4,
+    "null_pair_count": 15,
+    "median_distances": {
+      "behavioral": 0.03606308573402593,
+      "membership": 0.023895747599451206,
+      "representation": 0.3403930862661371,
+      "retain": 0.0,
+      "irreversibility": 0.08150099775270714
+    },
+    "scores": {
+      "behavioral": 0.625,
+      "membership": 0.5,
+      "representation": 0.1875,
+      "retain": 1.0,
+      "irreversibility": 0.625
+    },
+    "raw_null_summary": {
+      "behavioral": {
+        "median": 0.04011108374783322,
+        "mad": 0.00635444904395218
+      },
+      "membership": {
+        "median": 0.02331961591220849,
+        "mad": 0.010480109739369026
+      },
+      "representation": {
+        "median": 0.2912954709541291,
+        "mad": 0.032727220752825414
+      },
+      "retain": {
+        "median": 0.0,
+        "mad": 0.0
+      },
+      "irreversibility": {
+        "median": 0.18888749602439334,
+        "mad": 0.025109217410286905
+      }
+    },
+    "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+    "certification_alpha": 0.1,
+    "review_alpha": 0.05,
+    "decision_rule": "PASS if every mandatory axis empirical p-value >= 0.10; REVIEW for 0.05-0.10; FAIL below 0.05",
+    "certification_verdict": "PASS"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "completed_conditions": 6,
+  "expected_conditions": 6,
+  "forget_fractions": [
+    0.1
+  ],
+  "methods": [
+    "fine_tuning",
+    "gradient_ascent",
+    "ground_truth_retraining",
+    "sisa",
+    "prism",
+    "echo"
+  ],
+  "run_id": "smoke_20260907T134320Z",
+  "seeds": [
+    42
+  ],
+  "threshold_selection": {
+    "agreement_threshold": 0.9,
+    "aurc": null,
+    "coverage": 0.3333333333333333,
+    "covered_cases": 2,
+    "selective_risk": 0.0,
+    "strategy": "RENA_FULL"
+  }
+}

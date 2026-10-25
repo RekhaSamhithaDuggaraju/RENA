@@ -1,0 +1,10 @@
+{"example_id": "gsm8k_test_0000", "reference_final_answer": "15", "predicted_final_answer": "15", "parse_status": "parsed", "correct": true}
+{"example_id": "gsm8k_test_0001", "reference_final_answer": "800", "predicted_final_answer": "800", "parse_status": "parsed", "correct": true}
+{"example_id": "gsm8k_test_0002", "reference_final_answer": "84", "predicted_final_answer": "30", "parse_status": "parsed", "correct": false}
+{"example_id": "gsm8k_test_0003", "reference_final_answer": "14400", "predicted_final_answer": "18000", "parse_status": "parsed", "correct": false}
+{"example_id": "gsm8k_test_0004", "reference_final_answer": "2", "predicted_final_answer": "48", "parse_status": "parsed", "correct": false}
+{"example_id": "gsm8k_test_0005", "reference_final_answer": "14", "predicted_final_answer": "27", "parse_status": "parsed", "correct": false}
+{"example_id": "gsm8k_test_0006", "reference_final_answer": "75", "predicted_final_answer": "48", "parse_status": "parsed", "correct": false}
+{"example_id": "gsm8k_test_0007", "reference_final_answer": "120", "predicted_final_answer": "370", "parse_status": "parsed", "correct": false}
+{"example_id": "gsm8k_test_0008", "reference_final_answer": "4", "predicted_final_answer": "4", "parse_status": "parsed", "correct": true}
+{"example_id": "gsm8k_test_0009", "reference_final_answer": "370", "predicted_final_answer": "370", "parse_status": "parsed", "correct": true}

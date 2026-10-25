@@ -1,0 +1,15 @@
+{
+  "n_total": 100,
+  "n_parseable": 14,
+  "n_unparseable": 86,
+  "n_correct_parseable": 7,
+  "n_token_limit_reached": 10,
+  "accuracy_all_examples_unparseable_counted_incorrect": 0.07,
+  "accuracy_among_parseable": 0.5,
+  "n_not_at_token_limit": 90,
+  "accuracy_not_at_token_limit": 0.07777777777777778,
+  "n_parseable_not_at_token_limit": 14,
+  "accuracy_parseable_not_at_token_limit": 0.5,
+  "scored_file": "experiments/gsm8k_contamination/data/pilot/baseline_qwen_0.5b_100_scored.jsonl",
+  "caution": "Pilot evaluation only. Token-limit responses are flagged, not assumed incorrect solely because they hit the limit."
+}

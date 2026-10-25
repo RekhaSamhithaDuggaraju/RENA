@@ -1,0 +1,6 @@
+# Optional dependencies for the LLM evaluation track; install in a dedicated venv.
+torch>=2.2
+transformers>=4.45
+accelerate>=0.34
+safetensors>=0.4
+# Training and evaluation runner are intentionally optional and isolated from core tests.

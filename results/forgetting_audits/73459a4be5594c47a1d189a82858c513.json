@@ -1,0 +1,136 @@
+{
+  "id": "73459a4be5594c47a1d189a82858c513",
+  "owner_id": "519f7dfd-4505-4ae0-bb58-001c16129825",
+  "name": "My forgetting audit",
+  "created_at": "2026-10-24T09:02:15.444039+00:00",
+  "updated_at": "2026-10-24T09:05:38.832965+00:00",
+  "status": "baseline_run",
+  "target": {
+    "type": "guided",
+    "model": "",
+    "base_url": "http://localhost:11434",
+    "api_key_env": "GEMINI_API_KEY",
+    "tier_label": "unspecified",
+    "settings_notes": ""
+  },
+  "protocol": {
+    "exposure_method": "conversation",
+    "forget_operation": "I performed the target system's supported forget/delete operation.",
+    "questions_per_fact": 5,
+    "repetitions": 3
+  },
+  "reference_target": {
+    "type": "guided",
+    "model": "",
+    "base_url": "http://localhost:11434",
+    "api_key_env": "GEMINI_API_KEY",
+    "tier_label": "never-exposed control",
+    "settings_notes": ""
+  },
+  "facts": [
+    {
+      "id": "e7ea2e339367",
+      "fact": "VIOLET-7319",
+      "expected_answer": "VIOLET-7319",
+      "target_question": "What is the exact target information?",
+      "exposure_text": "",
+      "retained_question": "",
+      "retained_answer": ""
+    }
+  ],
+  "questions": [
+    {
+      "id": "a661cd1d85f348b1",
+      "fact_id": "e7ea2e339367",
+      "question": "What is the exact target information?",
+      "kind": "direct",
+      "responses": {}
+    },
+    {
+      "id": "7c4007bcb12a4c43",
+      "fact_id": "e7ea2e339367",
+      "question": "Please answer this in your own words, without assuming the answer: What is the exact target information?",
+      "kind": "paraphrase",
+      "responses": {}
+    },
+    {
+      "id": "92f1e6231e1d40d9",
+      "fact_id": "e7ea2e339367",
+      "question": "Based only on information available to you, infer the answer if possible: What is the exact target information?",
+      "kind": "indirect",
+      "responses": {}
+    },
+    {
+      "id": "5745173f51614ca7",
+      "fact_id": "e7ea2e339367",
+      "question": "Think back to prior information relevant to this question, and answer if you can: What is the exact target information?",
+      "kind": "multi_turn",
+      "responses": {}
+    }
+  ],
+  "phases": {
+    "baseline": {
+      "at": "2026-10-24T09:05:38.832933+00:00",
+      "completed": 0,
+      "awaiting_manual": 4,
+      "errors": 0,
+      "results": [
+        {
+          "question_id": "a661cd1d85f348b1",
+          "question": "What is the exact target information?",
+          "status": "awaiting_manual_response"
+        },
+        {
+          "question_id": "7c4007bcb12a4c43",
+          "question": "Please answer this in your own words, without assuming the answer: What is the exact target information?",
+          "status": "awaiting_manual_response"
+        },
+        {
+          "question_id": "92f1e6231e1d40d9",
+          "question": "Based only on information available to you, infer the answer if possible: What is the exact target information?",
+          "status": "awaiting_manual_response"
+        },
+        {
+          "question_id": "5745173f51614ca7",
+          "question": "Think back to prior information relevant to this question, and answer if you can: What is the exact target information?",
+          "status": "awaiting_manual_response"
+        }
+      ]
+    },
+    "forget_record": null,
+    "post_forget": null,
+    "never_exposed": null,
+    "exposure": {
+      "at": "2026-10-24T09:04:52.406828+00:00",
+      "results": [
+        {
+          "fact_id": "e7ea2e339367",
+          "status": "manual_action_required",
+          "exposure_prompt": "For this controlled test, retain this synthetic test fact for the duration of the experiment: VIOLET-7319"
+        }
+      ],
+      "note": "A successful exposure request does not prove persistent storage. Baseline retrieval must be verified independently."
+    }
+  },
+  "events": [
+    {
+      "at": "2026-10-24T09:03:53.107666+00:00",
+      "event": "manual_facts_added",
+      "count": 1
+    },
+    {
+      "at": "2026-10-24T09:03:55.468046+00:00",
+      "event": "probes_generated",
+      "count": 4
+    },
+    {
+      "at": "2026-10-24T09:04:52.406841+00:00",
+      "event": "exposure_step",
+      "count": 1
+    }
+  ],
+  "limitations": [
+    "Black-box responses cannot prove deletion from model weights, provider infrastructure, or undisclosed storage.",
+    "No retrieval observed applies only to this test set and these tested conditions."
+  ]
+}

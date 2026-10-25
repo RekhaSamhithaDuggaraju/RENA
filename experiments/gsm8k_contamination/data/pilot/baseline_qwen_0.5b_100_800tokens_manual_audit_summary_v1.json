@@ -1,0 +1,12 @@
+{
+  "audit_version": "v1",
+  "input_file": "experiments/gsm8k_contamination/data/pilot/baseline_qwen_0.5b_100_800tokens_scored_auto_v4.jsonl",
+  "output_file": "experiments/gsm8k_contamination/data/pilot/baseline_qwen_0.5b_100_800tokens_manual_audit_v1.jsonl",
+  "total_baseline_rows": 100,
+  "rows_decided_provisionally": 35,
+  "provisional_correct": 15,
+  "provisional_incorrect": 19,
+  "needs_reference_check": 1,
+  "not_reviewed_in_this_pass": 65,
+  "important_note": "These are provisional manual decisions for the previously flagged rows, not final verified baseline accuracy. Check references and audit the automatically scored rows before reporting accuracy."
+}

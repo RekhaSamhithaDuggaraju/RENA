@@ -1,0 +1,274 @@
+{
+  "accuracy": {
+    "forget": 1.0,
+    "original_model_test": 0.9577777777777777,
+    "retain": 1.0,
+    "test": 0.9577777777777777
+  },
+  "algorithm": "echo",
+  "conformal_diagnostic": {
+    "alpha": 0.1,
+    "calibration_source": "retain_set",
+    "calibration_threshold": 0.0054088714219612255,
+    "exclusion_gap": -0.010946094609460943,
+    "forget_label_exclusion": 0.0888888888888889,
+    "limitation": "Supplementary empirical prediction-set diagnostic; it does not prove machine unlearning.",
+    "retain_label_exclusion": 0.09983498349834985
+  },
+  "consensus": {
+    "agreement": 0.7978319402289862,
+    "consensus_score": 0.7066286800689376,
+    "discounted_modules": [],
+    "per_module_contribution": [
+      {
+        "forget_score": 0.8793415637860083,
+        "module": "Membership Inference Attack",
+        "reliability": 1.0,
+        "weight_pct": 25.0
+      },
+      {
+        "forget_score": 0.8444444444444444,
+        "module": "Loss Distribution KS-Test",
+        "reliability": 1.0,
+        "weight_pct": 25.0
+      },
+      {
+        "forget_score": 0.5527287120452975,
+        "module": "Confidence Analysis",
+        "reliability": 1.0,
+        "weight_pct": 25.0
+      },
+      {
+        "forget_score": 0.55,
+        "module": "Bootstrap Statistical Witness",
+        "reliability": 1.0,
+        "weight_pct": 25.0
+      }
+    ],
+    "verdict": "Ambiguous"
+  },
+  "diagnosis": {
+    "findings": [
+      "No failure indicators detected. Consensus verdict 'Ambiguous' is supported by agreement=0.80 across 4 independent verification modules."
+    ],
+    "recommendations": [
+      "No corrective action indicated."
+    ],
+    "verdict": "Ambiguous"
+  },
+  "echo": {
+    "adaptive_recovery": {
+      "conditions": [
+        {
+          "adaptive_operator": "confidence_loss_guided_gaussian",
+          "auc": 0.5552263374485598,
+          "n_per_group": 135,
+          "normalized_recoverability": 0.11045267489711952,
+          "sigma": 0.05
+        },
+        {
+          "adaptive_operator": "confidence_loss_guided_gaussian",
+          "auc": 0.5506172839506173,
+          "n_per_group": 135,
+          "normalized_recoverability": 0.10123456790123453,
+          "sigma": 0.15
+        },
+        {
+          "adaptive_operator": "confidence_loss_guided_gaussian",
+          "auc": 0.561755829903978,
+          "n_per_group": 135,
+          "normalized_recoverability": 0.12351165980795598,
+          "sigma": 0.25
+        },
+        {
+          "adaptive_operator": "confidence_loss_guided_gaussian",
+          "auc": 0.5151714677640604,
+          "n_per_group": 135,
+          "normalized_recoverability": 0.03034293552812084,
+          "sigma": 0.4
+        }
+      ],
+      "description": "Lightweight adaptive proxy: chooses the highest residual loss-based membership recoverability over noise intensities; not a state-of-the-art adaptive attack.",
+      "max_recoverability": 0.12351165980795598
+    },
+    "candidate_evaluations": 40,
+    "ground_truth_parameter_distance": 1.4899646700821985,
+    "ground_truth_test_prediction_agreement": 0.9911111111111112,
+    "iterations": 10,
+    "parameter_update_norm": 0.003431334009473862
+  },
+  "gemini_evidence_assessment": {
+    "analysis_mode": "FALLBACK",
+    "claim": "The structured verification evidence supports forgetting only under the tested conditions.",
+    "claim_strength": "MODERATE",
+    "contradictory_evidence_ids": [],
+    "limitations": [
+      "OFFLINE FALLBACK: GEMINI_API_KEY was absent; no Gemini API call was made.",
+      "Evidence is limited to tested digits data and perturbations."
+    ],
+    "missing_evidence": [
+      "adaptive recovery attack",
+      "independent external replication"
+    ],
+    "model": null,
+    "overall_status": "SUPPORTED",
+    "provider": "Offline fallback",
+    "reasoning_summary": "Rule-based synthesis of supplied evidence IDs; no metrics were generated or altered.",
+    "supporting_evidence_ids": [
+      "E1001",
+      "E1002",
+      "E1003",
+      "E1004"
+    ]
+  },
+  "module_results": [
+    {
+      "detail": {
+        "attack_auc": 0.5603292181069959,
+        "n_forget": 135
+      },
+      "forget_score": 0.8793415637860083,
+      "module_name": "Membership Inference Attack",
+      "p_value": null,
+      "raw_statistic": 0.5603292181069959,
+      "reliability": 1.0,
+      "reliability_reason": "forget-set size (135) meets the reliability threshold"
+    },
+    {
+      "detail": {
+        "forget_loss_mean": 0.00211070531553872,
+        "test_loss_mean": 0.12659996811382884
+      },
+      "forget_score": 0.8444444444444444,
+      "module_name": "Loss Distribution KS-Test",
+      "p_value": 0.07618026411369071,
+      "raw_statistic": 0.15555555555555556,
+      "reliability": 1.0,
+      "reliability_reason": "forget-set size (135) meets the reliability threshold"
+    },
+    {
+      "detail": {
+        "gap_baseline_original_model": 0.05,
+        "gap_unlearned": 0.022363564397735125
+      },
+      "forget_score": 0.5527287120452975,
+      "module_name": "Confidence Analysis",
+      "p_value": null,
+      "raw_statistic": 0.022363564397735125,
+      "reliability": 1.0,
+      "reliability_reason": "forget-set size (135) meets the reliability threshold"
+    },
+    {
+      "detail": {
+        "bootstrap_se": 0.0005137410392887817,
+        "n_bootstrap": 2000,
+        "observed_diff": 0.0003821287365914875
+      },
+      "forget_score": 0.55,
+      "module_name": "Bootstrap Statistical Witness",
+      "p_value": 0.45,
+      "raw_statistic": 0.0003821287365914875,
+      "reliability": 1.0,
+      "reliability_reason": "forget-set size (135) meets the reliability threshold"
+    }
+  ],
+  "multiple_seed_summary": {
+    "agreement": {
+      "mean": 0.8030655580849229,
+      "std": 0.06563644726899642
+    },
+    "consensus": {
+      "mean": 0.7454707788387126,
+      "std": 0.03990062705808909
+    },
+    "direct_recoverability": {
+      "mean": 0.09344307270233203,
+      "std": 0.03621748330842605
+    },
+    "forget_accuracy": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "iterations": {
+      "mean": 10.0,
+      "std": 0.0
+    },
+    "retain_accuracy": {
+      "mean": 1.0,
+      "std": 0.0
+    }
+  },
+  "recovery_stress": [
+    {
+      "auc": 0.5531412894375858,
+      "comparison": "forget_vs_held_out",
+      "condition": "direct",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.10628257887517156
+    },
+    {
+      "auc": 0.521837037037037,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "direct",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.043674074074073976
+    },
+    {
+      "auc": 0.5341015089163238,
+      "comparison": "forget_vs_held_out",
+      "condition": "gaussian_noise",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.0682030178326476
+    },
+    {
+      "auc": 0.5094320987654322,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "gaussian_noise",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.018864197530864324
+    },
+    {
+      "auc": 0.5540192043895747,
+      "comparison": "forget_vs_held_out",
+      "condition": "random_mask",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.1080384087791495
+    },
+    {
+      "auc": 0.5146962962962962,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "random_mask",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.029392592592592415
+    },
+    {
+      "auc": 0.5054595336076818,
+      "comparison": "forget_vs_held_out",
+      "condition": "spatial_shift",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.01091906721536362
+    },
+    {
+      "auc": 0.5306962962962962,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "spatial_shift",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.06139259259259244
+    },
+    {
+      "auc": 0.5565980795610426,
+      "comparison": "forget_vs_held_out",
+      "condition": "contrast_brightness",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.11319615912208514
+    },
+    {
+      "auc": 0.5235407407407406,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "contrast_brightness",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.04708148148148128
+    }
+  ],
+  "runtime_seconds": 0.13034605979919434
+}

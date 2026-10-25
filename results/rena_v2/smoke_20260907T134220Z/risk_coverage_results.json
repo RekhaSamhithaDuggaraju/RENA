@@ -1,0 +1,77 @@
+{
+  "curves": [
+    {
+      "agreement_threshold": 0.3,
+      "aurc": 0.09583333333333335,
+      "coverage": 0.8333333333333334,
+      "covered_cases": 5,
+      "selective_risk": 0.4,
+      "strategy": "RENA_FULL"
+    },
+    {
+      "agreement_threshold": 0.4,
+      "aurc": 0.09583333333333335,
+      "coverage": 0.8333333333333334,
+      "covered_cases": 5,
+      "selective_risk": 0.4,
+      "strategy": "RENA_FULL"
+    },
+    {
+      "agreement_threshold": 0.5,
+      "aurc": 0.09583333333333335,
+      "coverage": 0.6666666666666666,
+      "covered_cases": 4,
+      "selective_risk": 0.25,
+      "strategy": "RENA_FULL"
+    },
+    {
+      "agreement_threshold": 0.6,
+      "aurc": 0.09583333333333335,
+      "coverage": 0.6666666666666666,
+      "covered_cases": 4,
+      "selective_risk": 0.25,
+      "strategy": "RENA_FULL"
+    },
+    {
+      "agreement_threshold": 0.7,
+      "aurc": 0.09583333333333335,
+      "coverage": 0.6666666666666666,
+      "covered_cases": 4,
+      "selective_risk": 0.25,
+      "strategy": "RENA_FULL"
+    },
+    {
+      "agreement_threshold": 0.8,
+      "aurc": 0.09583333333333335,
+      "coverage": 0.6666666666666666,
+      "covered_cases": 4,
+      "selective_risk": 0.25,
+      "strategy": "RENA_FULL"
+    },
+    {
+      "agreement_threshold": 0.9,
+      "aurc": 0.09583333333333335,
+      "coverage": 0.3333333333333333,
+      "covered_cases": 2,
+      "selective_risk": 0.0,
+      "strategy": "RENA_FULL"
+    },
+    {
+      "agreement_threshold": 0,
+      "aurc": null,
+      "coverage": 0.8333333333333334,
+      "covered_cases": 5,
+      "selective_risk": 0.4,
+      "strategy": "WEIGHTED_NO_OVERRIDE"
+    },
+    {
+      "agreement_threshold": 0,
+      "aurc": null,
+      "coverage": 0.8333333333333334,
+      "covered_cases": 5,
+      "selective_risk": 0.4,
+      "strategy": "NAIVE_AVERAGE"
+    }
+  ],
+  "evaluation_n": 6
+}

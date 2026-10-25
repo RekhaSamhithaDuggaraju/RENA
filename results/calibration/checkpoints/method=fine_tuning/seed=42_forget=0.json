@@ -1,0 +1,10 @@
+{
+  "architecture": "SimpleMLP",
+  "created_at_utc": "2026-09-07T13:31:09.017526+00:00",
+  "dataset": "sklearn_digits",
+  "forget_fraction": 0.1,
+  "format": "rena-simplemlp-npz-v1",
+  "method": "fine_tuning",
+  "role": "audited",
+  "seed": 42
+}

@@ -1,0 +1,322 @@
+[
+  {
+    "contradictions": [
+      "E018"
+    ],
+    "evidence_id": "E016",
+    "limitations": [
+      "forget-set size (135) meets the reliability threshold"
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "attack_auc": 0.5304252400548697,
+      "n_forget": 135,
+      "p_value": null
+    },
+    "metric": "forget_score",
+    "reliability": 1.0,
+    "result": 0.5304252400548697,
+    "score": 0.9391495198902606,
+    "supports_forgetting": true,
+    "verifier": "Membership Inference Attack"
+  },
+  {
+    "contradictions": [
+      "E018"
+    ],
+    "evidence_id": "E017",
+    "limitations": [
+      "forget-set size (135) meets the reliability threshold"
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "forget_loss_mean": 0.31253933897945796,
+      "p_value": 0.37632346584149867,
+      "test_loss_mean": 0.17632089789453376
+    },
+    "metric": "forget_score",
+    "reliability": 1.0,
+    "result": 0.11111111111111116,
+    "score": 0.8888888888888888,
+    "supports_forgetting": true,
+    "verifier": "Loss Distribution KS-Test"
+  },
+  {
+    "contradictions": [
+      "E016",
+      "E017",
+      "E019"
+    ],
+    "evidence_id": "E018",
+    "limitations": [
+      "forget-set size (135) meets the reliability threshold"
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "gap_baseline_original_model": 0.05,
+      "gap_unlearned": 0.03346085970725643,
+      "p_value": null
+    },
+    "metric": "forget_score",
+    "reliability": 1.0,
+    "result": 0.03346085970725643,
+    "score": 0.3307828058548714,
+    "supports_forgetting": false,
+    "verifier": "Confidence Analysis"
+  },
+  {
+    "contradictions": [
+      "E018"
+    ],
+    "evidence_id": "E019",
+    "limitations": [
+      "forget-set size (135) meets the reliability threshold"
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "bootstrap_se": 0.09385255858602909,
+      "n_bootstrap": 2000,
+      "observed_diff": 0.29469860276295035,
+      "p_value": 0.012
+    },
+    "metric": "forget_score",
+    "reliability": 1.0,
+    "result": 0.29469860276295035,
+    "score": 0.988,
+    "supports_forgetting": true,
+    "verifier": "Bootstrap Statistical Witness"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E020",
+    "limitations": [
+      "A loss-based proxy under fixed transformations; not an adaptive attack."
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "auc": 0.5547873799725651,
+      "comparison": "forget_vs_held_out",
+      "condition": "direct",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.10957475994513022
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.10957475994513022,
+    "score": 0.10957475994513022,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E021",
+    "limitations": [
+      "A loss-based proxy under fixed transformations; not an adaptive attack."
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "auc": 0.5279111111111111,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "direct",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.05582222222222222
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.05582222222222222,
+    "score": 0.05582222222222222,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E022",
+    "limitations": [
+      "A loss-based proxy under fixed transformations; not an adaptive attack."
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "auc": 0.5360768175582991,
+      "comparison": "forget_vs_held_out",
+      "condition": "gaussian_noise",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.07215363511659811
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.07215363511659811,
+    "score": 0.07215363511659811,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E023",
+    "limitations": [
+      "A loss-based proxy under fixed transformations; not an adaptive attack."
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "auc": 0.5168913580246914,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "gaussian_noise",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.03378271604938288
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.03378271604938288,
+    "score": 0.03378271604938288,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E024",
+    "limitations": [
+      "A loss-based proxy under fixed transformations; not an adaptive attack."
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "auc": 0.5469410150891633,
+      "comparison": "forget_vs_held_out",
+      "condition": "random_mask",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.09388203017832653
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.09388203017832653,
+    "score": 0.09388203017832653,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E025",
+    "limitations": [
+      "A loss-based proxy under fixed transformations; not an adaptive attack."
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "auc": 0.5140740740740741,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "random_mask",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.028148148148148255
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.028148148148148255,
+    "score": 0.028148148148148255,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E026",
+    "limitations": [
+      "A loss-based proxy under fixed transformations; not an adaptive attack."
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "auc": 0.48647462277091913,
+      "comparison": "forget_vs_held_out",
+      "condition": "spatial_shift",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.02705075445816174
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.02705075445816174,
+    "score": 0.02705075445816174,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E027",
+    "limitations": [
+      "A loss-based proxy under fixed transformations; not an adaptive attack."
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "auc": 0.5357037037037037,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "spatial_shift",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.07140740740740736
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.07140740740740736,
+    "score": 0.07140740740740736,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E028",
+    "limitations": [
+      "A loss-based proxy under fixed transformations; not an adaptive attack."
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "auc": 0.556488340192044,
+      "comparison": "forget_vs_held_out",
+      "condition": "contrast_brightness",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.11297668038408792
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.11297668038408792,
+    "score": 0.11297668038408792,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E029",
+    "limitations": [
+      "A loss-based proxy under fixed transformations; not an adaptive attack."
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "auc": 0.526646913580247,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "contrast_brightness",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.05329382716049391
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.05329382716049391,
+    "score": 0.05329382716049391,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E030",
+    "limitations": [
+      "Supplementary empirical prediction-set diagnostic; it does not prove machine unlearning."
+    ],
+    "metadata": {
+      "algorithm": "gradient_ascent",
+      "alpha": 0.1,
+      "calibration_source": "retain_set",
+      "calibration_threshold": 0.03433407562356261,
+      "exclusion_gap": 0.018683535020168618,
+      "forget_label_exclusion": 0.11851851851851847,
+      "limitation": "Supplementary empirical prediction-set diagnostic; it does not prove machine unlearning.",
+      "retain_label_exclusion": 0.09983498349834985
+    },
+    "metric": "exclusion_gap",
+    "reliability": null,
+    "result": 0.018683535020168618,
+    "score": null,
+    "supports_forgetting": null,
+    "verifier": "Conformal-style diagnostic"
+  }
+]

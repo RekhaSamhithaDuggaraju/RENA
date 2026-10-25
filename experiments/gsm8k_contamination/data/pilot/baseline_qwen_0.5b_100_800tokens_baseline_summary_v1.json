@@ -1,0 +1,24 @@
+{
+  "version": "baseline_summary_v1",
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "dataset": "GSM8K test pilot",
+  "pilot_size": 100,
+  "counts": {
+    "provisional_correct": 48,
+    "provisional_incorrect": 48,
+    "manually_confirmed_incorrect_overrides": 3,
+    "unscorable_token_limit": 1
+  },
+  "scorable_examples": 99,
+  "provisional_correct": 48,
+  "provisional_incorrect": 48,
+  "provisional_accuracy_percent": 48.48,
+  "overrides": {
+    "gsm8k_test_0012": "incorrect",
+    "gsm8k_test_0022": "incorrect",
+    "gsm8k_test_0094": "incorrect"
+  },
+  "caveat": "Provisional accuracy: 48/99 = 48.48%. There are 48 provisionally incorrect cases plus 3 separately reviewed incorrect cases, and 1 token-limited response. Other labels have not all been independently verified.",
+  "manually_confirmed_incorrect_overrides": 3,
+  "total_incorrect_including_overrides": 51
+}

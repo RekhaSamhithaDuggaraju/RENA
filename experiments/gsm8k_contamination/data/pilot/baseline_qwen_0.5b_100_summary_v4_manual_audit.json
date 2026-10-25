@@ -1,0 +1,12 @@
+{
+  "source_file": "baseline_qwen_0.5b_100_scored_v3.jsonl",
+  "output_file": "baseline_qwen_0.5b_100_scored_v4_manual_audit.jsonl",
+  "total_rows": 100,
+  "manually_audited_rows": 21,
+  "manual_audit_counts": {
+    "correct": 6,
+    "unscorable_incomplete": 8,
+    "incorrect": 7
+  },
+  "note": "Only the 21 flagged rows received manual decisions. All other rows retain their v3 scores. This is not yet a fully manually verified baseline."
+}

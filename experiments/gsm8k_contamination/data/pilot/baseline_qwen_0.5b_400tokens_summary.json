@@ -1,0 +1,11 @@
+{
+  "input_file": "experiments/gsm8k_contamination/data/pilot/baseline_qwen_0.5b_400tokens.jsonl",
+  "scored_file": "experiments/gsm8k_contamination/data/pilot/baseline_qwen_0.5b_400tokens_scored.jsonl",
+  "n_total": 10,
+  "n_parseable": 10,
+  "n_unparseable": 0,
+  "n_correct_parseable": 4,
+  "accuracy_all_examples": 0.4,
+  "accuracy_among_parseable": 0.4,
+  "warning": "Ten-example pilot only; not a reliable estimate of general GSM8K accuracy."
+}

@@ -1,0 +1,2080 @@
+{
+  "benchmark": "RENA Gemini Evidence Audit Benchmark",
+  "version": "v1.1",
+  "source": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+  "selection": {
+    "total_cases": 72,
+    "cases_per_method": 12,
+    "reference_verdict_counts": {
+      "Ambiguous": 16,
+      "Inconclusive": 23,
+      "Likely Forgotten": 33
+    },
+    "method_counts": {
+      "echo": 12,
+      "fine_tuning": 12,
+      "gradient_ascent": 12,
+      "ground_truth_retraining": 12,
+      "prism": 12,
+      "sisa": 12
+    },
+    "matrix": {
+      "echo": {
+        "Ambiguous": 4,
+        "Inconclusive": 4,
+        "Likely Forgotten": 4
+      },
+      "fine_tuning": {
+        "Ambiguous": 4,
+        "Inconclusive": 4,
+        "Likely Forgotten": 4
+      },
+      "gradient_ascent": {
+        "Ambiguous": 1,
+        "Inconclusive": 7,
+        "Likely Forgotten": 4
+      },
+      "ground_truth_retraining": {
+        "Ambiguous": 1,
+        "Inconclusive": 1,
+        "Likely Forgotten": 10
+      },
+      "prism": {
+        "Ambiguous": 2,
+        "Inconclusive": 3,
+        "Likely Forgotten": 7
+      },
+      "sisa": {
+        "Ambiguous": 4,
+        "Inconclusive": 4,
+        "Likely Forgotten": 4
+      }
+    },
+    "selection_policy": "Exactly 12 real cases per unlearning method. Up to four cases are selected from each reference verdict, prioritizing witness disagreement and then lower RENA_FULL score. When a verdict category has fewer than four available real cases, remaining slots are filled from unused real cases of the same method. No synthetic or duplicated cases are introduced."
+  },
+  "methodology": {
+    "reference_verdict_is_not_ground_truth": true,
+    "raw_witnesses_preserved": true,
+    "gemini_has_not_been_run": true,
+    "selection_frozen_before_gemini": true,
+    "missing_measurements_preserved_as_null": true
+  },
+  "cases": [
+    {
+      "case_id": "GEMINI-001",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "echo",
+        "seed": 44,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "2c3da6d17ce036da777962542b7ed8c6129838933a8b413d3f5a11b189518bfb"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7774943073844907,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.4585,
+          "Confidence Analysis": 0.7521691972258151,
+          "Loss Distribution KS-Test": 0.9135802469135802,
+          "Membership Inference Attack": 0.9857277853985673
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9644444444444444,
+        "rra": 1.8802577539782715e-05,
+        "parameter_rra": 0.0008863180422836193,
+        "prediction_disagreement_rate": 0.017777777777777778,
+        "runtime_seconds": 0.13140299999940908
+      }
+    },
+    {
+      "case_id": "GEMINI-002",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "echo",
+        "seed": 47,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "13895de5644b447e2031712dc22b44289eeffd0331f8cc1073a48ae656b5483c"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7749804405373044,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.486,
+          "Confidence Analysis": 0.7021570562668646,
+          "Loss Distribution KS-Test": 0.9117647058823529,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 8.363909625396856e-05,
+        "parameter_rra": 0.003275068624496625,
+        "prediction_disagreement_rate": 0.0044444444444444444,
+        "runtime_seconds": 0.11981591599760577
+      }
+    },
+    {
+      "case_id": "GEMINI-003",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "echo",
+        "seed": 48,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "b52064304eca38819c9a4ae55d132716eb5037fabc34f4bf2968c17dfbf28c08"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7577860504916994,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.7995,
+          "Confidence Analysis": 0.43916134874320356,
+          "Loss Distribution KS-Test": 0.8592592592592593,
+          "Membership Inference Attack": 0.9332235939643347
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 0.00011705942884416484,
+        "parameter_rra": 0.0024496012366066622,
+        "prediction_disagreement_rate": 0.011111111111111112,
+        "runtime_seconds": 0.12187825000000885
+      }
+    },
+    {
+      "case_id": "GEMINI-004",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "echo",
+        "seed": 51,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "b55f68576c88dc78677bf2266433d49169bad7476ab0c75d12086536d29ff705"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.663364259283803,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.773,
+          "Confidence Analysis": 0.2467670508526334,
+          "Loss Distribution KS-Test": 0.7999999999999999,
+          "Membership Inference Attack": 0.8336899862825788
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9666666666666667,
+        "rra": 6.710258557557872e-05,
+        "parameter_rra": 0.0013430630483185144,
+        "prediction_disagreement_rate": 0.013333333333333334,
+        "runtime_seconds": 0.12140916600037599
+      }
+    },
+    {
+      "case_id": "GEMINI-005",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "echo",
+        "seed": 42,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "49fc960c273df89231a366ca16764e01e724d3bec8b96e354581559aa1175947"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.5990124157381959,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.040000000000000036,
+          "Confidence Analysis": 0.5398631060254857,
+          "Loss Distribution KS-Test": 0.8839506172839505,
+          "Membership Inference Attack": 0.9322359396433471
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9533333333333334,
+        "rra": 3.7309221642401e-05,
+        "parameter_rra": 0.0007982175186004003,
+        "prediction_disagreement_rate": 0.017777777777777778,
+        "runtime_seconds": 0.1305717499999446
+      }
+    },
+    {
+      "case_id": "GEMINI-006",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "echo",
+        "seed": 45,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "0ecef148c37a128da139c5da65bc39e83a25b667bdff87c790bbe1a0a3ed6532"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.6450033123892176,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.10199999999999998,
+          "Confidence Analysis": 0.6161873083893656,
+          "Loss Distribution KS-Test": 0.9135802469135802,
+          "Membership Inference Attack": 0.9482456942539248
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9711111111111111,
+        "rra": 2.9470275540053136e-05,
+        "parameter_rra": 0.0007905595785949328,
+        "prediction_disagreement_rate": 0.015555555555555555,
+        "runtime_seconds": 0.13134883300153888
+      }
+    },
+    {
+      "case_id": "GEMINI-007",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "echo",
+        "seed": 46,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "c7a9bd36283f56c5a0197fa25575c88d48ae9c63594cffaf73fd01835fc0e70d"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.6025775927509408,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.08099999999999996,
+          "Confidence Analysis": 0.5832031045677768,
+          "Loss Distribution KS-Test": 0.8235294117647058,
+          "Membership Inference Attack": 0.9225778546712804
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9844444444444445,
+        "rra": 0.0004858598897672993,
+        "parameter_rra": 0.0039025070994513525,
+        "prediction_disagreement_rate": 0.0022222222222222222,
+        "runtime_seconds": 0.1195774160005385
+      }
+    },
+    {
+      "case_id": "GEMINI-008",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "echo",
+        "seed": 47,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "d2b0d8d0f350d06f1f34df26a79315d979a112be534c54dc29e5fecc5f9a0210"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.667447351046944,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.055499999999999994,
+          "Confidence Analysis": 0.7402153301137018,
+          "Loss Distribution KS-Test": 0.874074074074074,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 5.1875987696776696e-05,
+        "parameter_rra": 0.002045036820416962,
+        "prediction_disagreement_rate": 0.008888888888888889,
+        "runtime_seconds": 0.12131554200095707
+      }
+    },
+    {
+      "case_id": "GEMINI-009",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "echo",
+        "seed": 42,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "6f7d36499af21b8a3df4c10dafeec825755181ff2d2916faf5fc90e397555bb5"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7629259458575006,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.7204999999999999,
+          "Confidence Analysis": 0.5118347848017448,
+          "Loss Distribution KS-Test": 0.8703703703703703,
+          "Membership Inference Attack": 0.9489986282578875
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9533333333333334,
+        "rra": 4.5426036704158886e-05,
+        "parameter_rra": 0.001223589722246921,
+        "prediction_disagreement_rate": 0.02,
+        "runtime_seconds": 0.12674804200287326
+      }
+    },
+    {
+      "case_id": "GEMINI-010",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "echo",
+        "seed": 47,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "610977923e6ffa89122aa93d75da3e2a61f60f9c0e62d4bad7465ca23e6c3ca4"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8263126708465522,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.833,
+          "Confidence Analysis": 0.604193984712226,
+          "Loss Distribution KS-Test": 0.8938271604938272,
+          "Membership Inference Attack": 0.9742295381801556
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9666666666666667,
+        "rra": 1.0189415634813156e-05,
+        "parameter_rra": 0.0007225629013345315,
+        "prediction_disagreement_rate": 0.022222222222222223,
+        "runtime_seconds": 0.13081529200280784
+      }
+    },
+    {
+      "case_id": "GEMINI-011",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "echo",
+        "seed": 48,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "e54a870f07f3fb37e1e64226fa3286f19f5ed7cbf67e03ea3f6ebeb01566c52a"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7721969154868673,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.5645,
+          "Confidence Analysis": 0.6450832723727098,
+          "Loss Distribution KS-Test": 0.9037037037037037,
+          "Membership Inference Attack": 0.9755006858710562
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 9.670245984351609e-05,
+        "parameter_rra": 0.0012178074065208326,
+        "prediction_disagreement_rate": 0.022222222222222223,
+        "runtime_seconds": 0.12620445799984736
+      }
+    },
+    {
+      "case_id": "GEMINI-012",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "echo",
+        "seed": 51,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "365f5e5ae898d602a8cba3e70e6ce9b04cf61d562594878a5a2e2d2ef87ae63f"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7940304360708305,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.846,
+          "Confidence Analysis": 0.5311093986043094,
+          "Loss Distribution KS-Test": 0.8703703703703705,
+          "Membership Inference Attack": 0.9286419753086419
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9711111111111111,
+        "rra": 7.057319777636816e-05,
+        "parameter_rra": 0.0010861935767914512,
+        "prediction_disagreement_rate": 0.017777777777777778,
+        "runtime_seconds": 0.12559966699700453
+      }
+    },
+    {
+      "case_id": "GEMINI-013",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "fine_tuning",
+        "seed": 43,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "cb295f6cbf693e7afba3607370327ee37018a173991f28b92151bf0609504359"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7588316303730407,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.46499999999999997,
+          "Confidence Analysis": 0.7190965260646367,
+          "Loss Distribution KS-Test": 0.8987654320987654,
+          "Membership Inference Attack": 0.952464563328761
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 0.003831895766047641,
+        "parameter_rra": 0.02315636589915403,
+        "prediction_disagreement_rate": 0.017777777777777778,
+        "runtime_seconds": 0.022496749999845633
+      }
+    },
+    {
+      "case_id": "GEMINI-014",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "fine_tuning",
+        "seed": 47,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "fd455aea6bc42612a1e201c2a0aef649349fe35fb091d7aacf86dc2e5bd9436d"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7524810510592339,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.38649999999999995,
+          "Confidence Analysis": 0.7493501301628616,
+          "Loss Distribution KS-Test": 0.874074074074074,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 0.0030650812635350643,
+        "parameter_rra": 0.03770688978412861,
+        "prediction_disagreement_rate": 0.008888888888888889,
+        "runtime_seconds": 0.028651249998802086
+      }
+    },
+    {
+      "case_id": "GEMINI-015",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "fine_tuning",
+        "seed": 51,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "dd7ce5d7ddc1aa6721fe43c470881ae73bd0a96d15f2123e1653197cdf47249c"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.6280501927545139,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.6285000000000001,
+          "Confidence Analysis": 0.24770625798650547,
+          "Loss Distribution KS-Test": 0.7999999999999999,
+          "Membership Inference Attack": 0.8359945130315503
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 0.003645270111443167,
+        "parameter_rra": 0.03248959162200739,
+        "prediction_disagreement_rate": 0.011111111111111112,
+        "runtime_seconds": 0.02863079199960339
+      }
+    },
+    {
+      "case_id": "GEMINI-016",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "fine_tuning",
+        "seed": 51,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "8d1d0965d2e94deac82f25d1c1c4ad5105c6bceb4d9985aeecded3f4450e4835"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7300152102267314,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.39249999999999996,
+          "Confidence Analysis": 0.6610892664518122,
+          "Loss Distribution KS-Test": 0.9037037037037037,
+          "Membership Inference Attack": 0.9627678707514098
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9711111111111111,
+        "rra": 0.0059254164202979746,
+        "parameter_rra": 0.02490381716511097,
+        "prediction_disagreement_rate": 0.017777777777777778,
+        "runtime_seconds": 0.02254183300101431
+      }
+    },
+    {
+      "case_id": "GEMINI-017",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "fine_tuning",
+        "seed": 43,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "15d6295c72d0fe47e0214ffc84f8537a11ae0517f3588826c40f43ffe8c2d648"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.701608937660057,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.15200000000000002,
+          "Confidence Analysis": 0.7519940496800084,
+          "Loss Distribution KS-Test": 0.9074074074074074,
+          "Membership Inference Attack": 0.9950342935528123
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9644444444444444,
+        "rra": 0.002725193040412181,
+        "parameter_rra": 0.02256903182295639,
+        "prediction_disagreement_rate": 0.013333333333333334,
+        "runtime_seconds": 0.025283250000939006
+      }
+    },
+    {
+      "case_id": "GEMINI-018",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "fine_tuning",
+        "seed": 44,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "8e2f0533e585a90f17dc23dcbb03f8eb7ee7f2d88e79fb3e1da58e372b2253c5"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.6508681956980675,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.11499999999999999,
+          "Confidence Analysis": 0.6852720907507472,
+          "Loss Distribution KS-Test": 0.8529411764705883,
+          "Membership Inference Attack": 0.9502595155709344
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9644444444444444,
+        "rra": 0.006307407110240325,
+        "parameter_rra": 0.037923194404303355,
+        "prediction_disagreement_rate": 0.008888888888888889,
+        "runtime_seconds": 0.030038207998586586
+      }
+    },
+    {
+      "case_id": "GEMINI-019",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "fine_tuning",
+        "seed": 45,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "c0676a79aba009c6a4a32b32a66fc8863c4658d8d0c08728ce11d78e7ecdc974"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7110271604929914,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.14949999999999997,
+          "Confidence Analysis": 0.892705527785115,
+          "Loss Distribution KS-Test": 0.8235294117647058,
+          "Membership Inference Attack": 0.9783737024221453
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9666666666666667,
+        "rra": 0.006070676939100182,
+        "parameter_rra": 0.0346088654414712,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.02996129199891584
+      }
+    },
+    {
+      "case_id": "GEMINI-020",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "fine_tuning",
+        "seed": 46,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "5ba3c80d0a8a428a4b2a7e7b29d6d87e27a0a6c69865a4c8c241948ff604b4e0"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.5991869048215496,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.05049999999999999,
+          "Confidence Analysis": 0.5802942585180229,
+          "Loss Distribution KS-Test": 0.8703703703703703,
+          "Membership Inference Attack": 0.8955829903978052
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9822222222222222,
+        "rra": 0.011076659134562884,
+        "parameter_rra": 0.03291700035616508,
+        "prediction_disagreement_rate": 0.011111111111111112,
+        "runtime_seconds": 0.025518124999507563
+      }
+    },
+    {
+      "case_id": "GEMINI-021",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "fine_tuning",
+        "seed": 42,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "f007e07dd629cd58855180766d353542ce4e2495d87a3f77341ebeddf122b167"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8256499949570284,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.945,
+          "Confidence Analysis": 0.5236630799652877,
+          "Loss Distribution KS-Test": 0.8851851851851852,
+          "Membership Inference Attack": 0.9487517146776407
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9555555555555556,
+        "rra": 0.004829622109400269,
+        "parameter_rra": 0.025054613870691102,
+        "prediction_disagreement_rate": 0.022222222222222223,
+        "runtime_seconds": 0.025401499999134103
+      }
+    },
+    {
+      "case_id": "GEMINI-022",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "fine_tuning",
+        "seed": 46,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "485c1b3f6cb686b6ea4b4bd95ef5460016a9db19491135d97ec5f8d4bfd1c851"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7562429632001182,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.494,
+          "Confidence Analysis": 0.6932885728126661,
+          "Loss Distribution KS-Test": 0.9037037037037037,
+          "Membership Inference Attack": 0.933979576284103
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9822222222222222,
+        "rra": 0.008373690444236819,
+        "parameter_rra": 0.02319235435826239,
+        "prediction_disagreement_rate": 0.017777777777777778,
+        "runtime_seconds": 0.02265941600126098
+      }
+    },
+    {
+      "case_id": "GEMINI-023",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "fine_tuning",
+        "seed": 47,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "34ec847a9fda5ae77d8b3995c47b3181da31735c8034fc18d14159248482566d"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7539345764254303,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.5315,
+          "Confidence Analysis": 0.6112921084756886,
+          "Loss Distribution KS-Test": 0.8987654320987654,
+          "Membership Inference Attack": 0.9741807651272671
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9666666666666667,
+        "rra": 0.0011928207619999432,
+        "parameter_rra": 0.020325897826646976,
+        "prediction_disagreement_rate": 0.022222222222222223,
+        "runtime_seconds": 0.022606499998801155
+      }
+    },
+    {
+      "case_id": "GEMINI-024",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "fine_tuning",
+        "seed": 48,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "0d0a435343a5f62f110e4e8d180ec1c96a2bad7c69249867e43fedd550347ee4"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7892638563847253,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.89,
+          "Confidence Analysis": 0.47293777848007723,
+          "Loss Distribution KS-Test": 0.8529411764705883,
+          "Membership Inference Attack": 0.9411764705882353
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9644444444444444,
+        "rra": 0.004921445244095074,
+        "parameter_rra": 0.03176584675895405,
+        "prediction_disagreement_rate": 0.008888888888888889,
+        "runtime_seconds": 0.030099833002168452
+      }
+    },
+    {
+      "case_id": "GEMINI-025",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "gradient_ascent",
+        "seed": 51,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "44e81eb93c91d351808d7e5530f1ce0f2abaf0cbd5d2e4f53d47a766fa72d0eb"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.703370354900352,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.982,
+          "Confidence Analysis": 0.34834993171213513,
+          "Loss Distribution KS-Test": 0.6470588235294117,
+          "Membership Inference Attack": 0.8360726643598617
+        },
+        "forget_accuracy": 0.9852941176470589,
+        "retain_accuracy": 0.9992181391712275,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 0.5024825121055635,
+        "parameter_rra": 0.43954398461315564,
+        "prediction_disagreement_rate": 0.02,
+        "runtime_seconds": 0.016126957998494618
+      }
+    },
+    {
+      "case_id": "GEMINI-026",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "gradient_ascent",
+        "seed": 43,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "839a9e6577ec6f378fafb05b0632d6bac7fdfe6535fcf98f4148346669ca46f3"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.836899641577061,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.01100000000000001,
+          "Confidence Analysis": 1.0,
+          "Loss Distribution KS-Test": 0.9888888888888889,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.1,
+        "retain_accuracy": 0.10027855153203342,
+        "test_accuracy": 0.1,
+        "rra": 0.5004016535311392,
+        "parameter_rra": 0.4981448858950562,
+        "prediction_disagreement_rate": 0.9044444444444445,
+        "runtime_seconds": 0.024562375001551118
+      }
+    },
+    {
+      "case_id": "GEMINI-027",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "gradient_ascent",
+        "seed": 44,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "b6fef4fe43240fcf92ae3ec640bb02b47d2689050e82f3f2af79293c9f2747b5"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8404032258064515,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.010499999999999954,
+          "Confidence Analysis": 1.0,
+          "Loss Distribution KS-Test": 1.0,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.1,
+        "retain_accuracy": 0.10027855153203342,
+        "test_accuracy": 0.1,
+        "rra": 0.5014410349644499,
+        "parameter_rra": 0.4989067294833518,
+        "prediction_disagreement_rate": 0.8911111111111111,
+        "runtime_seconds": 0.024753124998824205
+      }
+    },
+    {
+      "case_id": "GEMINI-028",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "gradient_ascent",
+        "seed": 45,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "bb690d7d08a123aafc001741ac27aa556f0f62d558e5c80763fe670099cfe559"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8427568697729987,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.03249999999999997,
+          "Confidence Analysis": 1.0,
+          "Loss Distribution KS-Test": 0.9962962962962962,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.1,
+        "retain_accuracy": 0.10120705663881151,
+        "test_accuracy": 0.10222222222222223,
+        "rra": 0.5003317009610904,
+        "parameter_rra": 0.4981855503255458,
+        "prediction_disagreement_rate": 0.9,
+        "runtime_seconds": 0.024736250001296867
+      }
+    },
+    {
+      "case_id": "GEMINI-029",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "gradient_ascent",
+        "seed": 47,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "bd120e1094b96230d53d520b9d35fb4f83cab38b5a07dade46d695d4b4b05523"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.726258573388203,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.017000000000000015,
+          "Confidence Analysis": 1.0,
+          "Loss Distribution KS-Test": 0.9975308641975309,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.10123456790123457,
+        "retain_accuracy": 0.10084925690021232,
+        "test_accuracy": 0.10222222222222223,
+        "rra": 0.49948976765904224,
+        "parameter_rra": 0.49956699115397896,
+        "prediction_disagreement_rate": 0.9022222222222223,
+        "runtime_seconds": 0.030999957998574246
+      }
+    },
+    {
+      "case_id": "GEMINI-030",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "gradient_ascent",
+        "seed": 48,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "4eafc750eb62e35bf1f393060d4a8996aaa6a5846eab08921973ddf7464ff538"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8396774193548387,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.006000000000000005,
+          "Confidence Analysis": 1.0,
+          "Loss Distribution KS-Test": 1.0,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.1,
+        "retain_accuracy": 0.10027855153203342,
+        "test_accuracy": 0.1,
+        "rra": 0.5013495483282006,
+        "parameter_rra": 0.4988565263937432,
+        "prediction_disagreement_rate": 0.8933333333333333,
+        "runtime_seconds": 0.025018791999173118
+      }
+    },
+    {
+      "case_id": "GEMINI-031",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "gradient_ascent",
+        "seed": 49,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "9b6f274fa0b35f7c3e74d91c8779f2ac3dc9aa0ba3ebae4472697a1277e9b1e8"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.837368578255675,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.00649999999999995,
+          "Confidence Analysis": 1.0,
+          "Loss Distribution KS-Test": 0.9925925925925926,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.1,
+        "retain_accuracy": 0.10027855153203342,
+        "test_accuracy": 0.1,
+        "rra": 0.4999402900684607,
+        "parameter_rra": 0.49921983330090464,
+        "prediction_disagreement_rate": 0.9,
+        "runtime_seconds": 0.024767958002485102
+      }
+    },
+    {
+      "case_id": "GEMINI-032",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "gradient_ascent",
+        "seed": 50,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "bbe84c1d4b798952943e7ce842a4825580c59aa5bd7d05126bd1505a2df3bc13"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8460483870967741,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.045499999999999985,
+          "Confidence Analysis": 1.0,
+          "Loss Distribution KS-Test": 1.0,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.0962962962962963,
+        "retain_accuracy": 0.09749303621169916,
+        "test_accuracy": 0.09555555555555556,
+        "rra": 0.5004442836238343,
+        "parameter_rra": 0.49906673724185824,
+        "prediction_disagreement_rate": 0.8977777777777778,
+        "runtime_seconds": 0.02511337499890942
+      }
+    },
+    {
+      "case_id": "GEMINI-033",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "gradient_ascent",
+        "seed": 45,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "ed3a62525c0d532531acf3c6212550a16d307dd6b47406385936cdf6321b070a"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8946965308412379,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.991,
+          "Confidence Analysis": 0.6907272998355398,
+          "Loss Distribution KS-Test": 0.8970588235294117,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9411764705882353,
+        "retain_accuracy": 0.9960906958561376,
+        "test_accuracy": 0.9577777777777777,
+        "rra": 0.5053890603351092,
+        "parameter_rra": 0.4608098771337342,
+        "prediction_disagreement_rate": 0.02,
+        "runtime_seconds": 0.01631804100179579
+      }
+    },
+    {
+      "case_id": "GEMINI-034",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "gradient_ascent",
+        "seed": 46,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "5f218e518ee0c24cdba4d1e23e67f1cda99380408c845e91c6f1912e02e2de33"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8251700099855576,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.993,
+          "Confidence Analysis": 0.5248080676238911,
+          "Loss Distribution KS-Test": 0.8529411764705882,
+          "Membership Inference Attack": 0.929930795847751
+        },
+        "forget_accuracy": 0.9558823529411765,
+        "retain_accuracy": 0.9992181391712275,
+        "test_accuracy": 0.9822222222222222,
+        "rra": 0.43554588996690075,
+        "parameter_rra": 0.3013847457880449,
+        "prediction_disagreement_rate": 0.0044444444444444444,
+        "runtime_seconds": 0.015954667000187328
+      }
+    },
+    {
+      "case_id": "GEMINI-035",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "gradient_ascent",
+        "seed": 46,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "4c8484b1c80e0c2f6e9b12ad3c763fc8df4694d3f5c042c7c8d78a0af36a3f3d"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8870630388022152,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.9995,
+          "Confidence Analysis": 0.6820854885421936,
+          "Loss Distribution KS-Test": 0.8666666666666667,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9555555555555556,
+        "retain_accuracy": 0.9975247524752475,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 0.48779810213083896,
+        "parameter_rra": 0.425618706834525,
+        "prediction_disagreement_rate": 0.02666666666666667,
+        "runtime_seconds": 0.018770750000840053
+      }
+    },
+    {
+      "case_id": "GEMINI-036",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "gradient_ascent",
+        "seed": 50,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "41cc26632946e3538e86bdd02ff5bc4f064d7ca854af76db75bfd9cd4067e16a"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8675716000634968,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.9845,
+          "Confidence Analysis": 0.6795580265515646,
+          "Loss Distribution KS-Test": 0.8676470588235293,
+          "Membership Inference Attack": 0.9385813148788928
+        },
+        "forget_accuracy": 0.9705882352941176,
+        "retain_accuracy": 0.9992181391712275,
+        "test_accuracy": 0.9666666666666667,
+        "rra": 0.49294008390425387,
+        "parameter_rra": 0.3101286438968269,
+        "prediction_disagreement_rate": 0.0044444444444444444,
+        "runtime_seconds": 0.016127000002597924
+      }
+    },
+    {
+      "case_id": "GEMINI-037",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "ground_truth_retraining",
+        "seed": 51,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "c22b67b814625097e2851fc8bbbcf616b8a8602e4f2073f612d832c73cab0233"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7980060400279658,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.988,
+          "Confidence Analysis": 0.46860577876755594,
+          "Loss Distribution KS-Test": 0.8444444444444444,
+          "Membership Inference Attack": 0.8909739368998628
+        },
+        "forget_accuracy": 0.9777777777777777,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9711111111111111,
+        "rra": 0.9999999996674239,
+        "parameter_rra": 0.9999999999993558,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.1520549580018269
+      }
+    },
+    {
+      "case_id": "GEMINI-038",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "ground_truth_retraining",
+        "seed": 51,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "be507bcd1ab71db9aefaaccaa45554f7ce03069556c8e76a0ceb0e6830cffb3e"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.6129814013840831,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.9835,
+          "Confidence Analysis": 0.0,
+          "Loss Distribution KS-Test": 0.6617647058823529,
+          "Membership Inference Attack": 0.8066608996539792
+        },
+        "forget_accuracy": 0.9852941176470589,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9711111111111111,
+        "rra": 0.9999999993604948,
+        "parameter_rra": 0.9999999999991824,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.16032391599947005
+      }
+    },
+    {
+      "case_id": "GEMINI-039",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "ground_truth_retraining",
+        "seed": 42,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "d08a9d739493f94d420eb295a1313442cbd8b5b7497f05cc72b9961b9236b817"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.9391204148239364,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 1.0,
+          "Confidence Analysis": 0.8157409185550049,
+          "Loss Distribution KS-Test": 0.9407407407407407,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9592592592592593,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9622222222222222,
+        "rra": 0.9999999998426125,
+        "parameter_rra": 0.9999999999994604,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.13554616699912003
+      }
+    },
+    {
+      "case_id": "GEMINI-040",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "ground_truth_retraining",
+        "seed": 42,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "ed4fc6fa84be143f298fda2898ed6d4249f99665d528feef0b8512fddf61cfcf"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.9437008781094461,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 1.0,
+          "Confidence Analysis": 0.8376232045578882,
+          "Loss Distribution KS-Test": 0.9481481481481481,
+          "Membership Inference Attack": 0.9890321597317482
+        },
+        "forget_accuracy": 0.9629629629629629,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9622222222222222,
+        "rra": 0.9999999998480997,
+        "parameter_rra": 0.999999999999557,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.11956645900136209
+      }
+    },
+    {
+      "case_id": "GEMINI-041",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "ground_truth_retraining",
+        "seed": 45,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "e2c07610d82fbfdd22165015a0bb286d4fdcec09fe1571bc0d5c9c3cd3a78815"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.9141369190284018,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.9935,
+          "Confidence Analysis": 0.839518264348901,
+          "Loss Distribution KS-Test": 0.823529411764706,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9666666666666667,
+        "rra": 0.9999999987536445,
+        "parameter_rra": 0.9999999999992745,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.15997520800010534
+      }
+    },
+    {
+      "case_id": "GEMINI-042",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "ground_truth_retraining",
+        "seed": 46,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "b3252ecbecb26baac54bc29fd9dcf99d41a192bd46fdda59fa6bc8f8cdd36be2"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.9484386814679286,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.9955,
+          "Confidence Analysis": 0.960019431754068,
+          "Loss Distribution KS-Test": 0.838235294117647,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9558823529411765,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9822222222222222,
+        "rra": 0.999999999263116,
+        "parameter_rra": 0.9999999999992323,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.16006712499802234
+      }
+    },
+    {
+      "case_id": "GEMINI-043",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "ground_truth_retraining",
+        "seed": 47,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "2dbc1cf85bf2dc601292c27dc0886c4616e70acf3f7f1786c3fe2899cd7ea171"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.9392040059368555,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.989,
+          "Confidence Analysis": 0.9233715793029775,
+          "Loss Distribution KS-Test": 0.8444444444444444,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9851851851851852,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9622222222222222,
+        "rra": 0.9999999996497604,
+        "parameter_rra": 0.999999999999187,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.15189741600261186
+      }
+    },
+    {
+      "case_id": "GEMINI-044",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "ground_truth_retraining",
+        "seed": 48,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "96aba8665880e2132690c483e1f6b133ab741fec36880cf555bcbb8db3a7ef85"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.9184667198826594,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 1.0,
+          "Confidence Analysis": 0.8018778534675377,
+          "Loss Distribution KS-Test": 0.9160493827160493,
+          "Membership Inference Attack": 0.9559396433470506
+        },
+        "forget_accuracy": 0.9530864197530864,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9444444444444444,
+        "rra": 0.9999999999004964,
+        "parameter_rra": 0.9999999999995954,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.11988383300194982
+      }
+    },
+    {
+      "case_id": "GEMINI-045",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "ground_truth_retraining",
+        "seed": 49,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "41cdf85dc8bd000b12c3c491e6ae4d373c4e4b50de75041fa13ec70c08f463c4"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.9228547895001058,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.998,
+          "Confidence Analysis": 0.9174676009069973,
+          "Loss Distribution KS-Test": 0.7941176470588236,
+          "Membership Inference Attack": 0.9818339100346019
+        },
+        "forget_accuracy": 0.9411764705882353,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9644444444444444,
+        "rra": 0.9999999991584206,
+        "parameter_rra": 0.9999999999992656,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.1603728330010199
+      }
+    },
+    {
+      "case_id": "GEMINI-046",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "ground_truth_retraining",
+        "seed": 49,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "d4cac340818a3eec15b9922434c2e0b3742c364064e16319625acb9f62aa9e2b"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.9274921403424804,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.999,
+          "Confidence Analysis": 0.807264857666218,
+          "Loss Distribution KS-Test": 0.9037037037037037,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9629629629629629,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9622222222222222,
+        "rra": 0.9999999996583255,
+        "parameter_rra": 0.9999999999994114,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.15223737500127754
+      }
+    },
+    {
+      "case_id": "GEMINI-047",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "ground_truth_retraining",
+        "seed": 50,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "d475dea181f648911cb56d06f43728a72e9143d62ab8a2262013539cc6c05cb2"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8949444641201149,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.987,
+          "Confidence Analysis": 0.7722761263766533,
+          "Loss Distribution KS-Test": 0.8382352941176471,
+          "Membership Inference Attack": 0.982266435986159
+        },
+        "forget_accuracy": 0.9852941176470589,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9711111111111111,
+        "rra": 0.9999999990405598,
+        "parameter_rra": 0.9999999999993098,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.16037312499975087
+      }
+    },
+    {
+      "case_id": "GEMINI-048",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "ground_truth_retraining",
+        "seed": 50,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "6dff71ee9f347d28aed5fc32eaa9d7eec4db8e99099b898fe545f17ca39abbff"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.93612060472265,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 1.0,
+          "Confidence Analysis": 0.8012725423473901,
+          "Loss Distribution KS-Test": 0.9432098765432099,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.945679012345679,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9622222222222222,
+        "rra": 0.9999999998134221,
+        "parameter_rra": 0.9999999999995745,
+        "prediction_disagreement_rate": 0.0,
+        "runtime_seconds": 0.11996650000219233
+      }
+    },
+    {
+      "case_id": "GEMINI-049",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "prism",
+        "seed": 51,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "5e1ea70c6b4c81cc69dfba25e31bebb672086e0743ec33efe0362a002781f32f"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7354965891749878,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.9845,
+          "Confidence Analysis": 0.3601680175996054,
+          "Loss Distribution KS-Test": 0.7205882352941176,
+          "Membership Inference Attack": 0.8767301038062283
+        },
+        "forget_accuracy": 0.9558823529411765,
+        "retain_accuracy": 0.9906176700547302,
+        "test_accuracy": 0.9666666666666667,
+        "rra": 0.4888685766816246,
+        "parameter_rra": 0.4679113820450181,
+        "prediction_disagreement_rate": 0.024444444444444446,
+        "runtime_seconds": 0.16440150000198628
+      }
+    },
+    {
+      "case_id": "GEMINI-050",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "prism",
+        "seed": 51,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "f7947f214ccc3b2393ca70ef96a48baf30c71b5ff8427cac675bb76f9114b4d6"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7333735768135758,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.6214999999999999,
+          "Confidence Analysis": 0.4925430040992964,
+          "Loss Distribution KS-Test": 0.8962962962962963,
+          "Membership Inference Attack": 0.9231550068587104
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9733333333333334,
+        "rra": 0.06476566527950431,
+        "parameter_rra": 0.03482928364414169,
+        "prediction_disagreement_rate": 0.02,
+        "runtime_seconds": 0.16946974999882514
+      }
+    },
+    {
+      "case_id": "GEMINI-051",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "prism",
+        "seed": 47,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "0ff306ec3eec03103ac368e1d8637725411494803b88fe67822a0d081c18b78c"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.6613018695290126,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.05049999999999999,
+          "Confidence Analysis": 0.6687815521901244,
+          "Loss Distribution KS-Test": 0.9259259259259259,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 0.010400453561925798,
+        "parameter_rra": 0.01864622451866613,
+        "prediction_disagreement_rate": 0.02,
+        "runtime_seconds": 0.16933720799715957
+      }
+    },
+    {
+      "case_id": "GEMINI-052",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "prism",
+        "seed": 47,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "0a69b2c4429e73673dea0082191911887b5833b79203a775a0794c464b23f7a6"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.6982480652937416,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.29000000000000004,
+          "Confidence Analysis": 0.6278207934109061,
+          "Loss Distribution KS-Test": 0.9061728395061728,
+          "Membership Inference Attack": 0.9689986282578875
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 0.018792158955577728,
+        "parameter_rra": 0.026212066901904415,
+        "prediction_disagreement_rate": 0.02,
+        "runtime_seconds": 0.17502129199783667
+      }
+    },
+    {
+      "case_id": "GEMINI-053",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "prism",
+        "seed": 51,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "14a17506d5b8bd3cbbf2fce5e2787299c0d96a076af5fa6df9e975b96f08bd88"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7059137476885354,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.969,
+          "Confidence Analysis": 0.16428462038377134,
+          "Loss Distribution KS-Test": 0.8222222222222222,
+          "Membership Inference Attack": 0.8681481481481481
+        },
+        "forget_accuracy": 0.9925925925925926,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9711111111111111,
+        "rra": 0.38440278666504957,
+        "parameter_rra": 0.2103052507560482,
+        "prediction_disagreement_rate": 0.006666666666666667,
+        "runtime_seconds": 0.16575337500034948
+      }
+    },
+    {
+      "case_id": "GEMINI-054",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "prism",
+        "seed": 42,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "c9ca13530a08e72480823f55c242a78d9c954c7b0fbd59fc0f206a9c2a3e4f28"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8687860870340509,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.986,
+          "Confidence Analysis": 0.6535339228961492,
+          "Loss Distribution KS-Test": 0.8888888888888888,
+          "Membership Inference Attack": 0.9467215363511658
+        },
+        "forget_accuracy": 0.9925925925925926,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.96,
+        "rra": 0.5577476592554069,
+        "parameter_rra": 0.33328742711078085,
+        "prediction_disagreement_rate": 0.0044444444444444444,
+        "runtime_seconds": 0.16535937499793363
+      }
+    },
+    {
+      "case_id": "GEMINI-055",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "prism",
+        "seed": 42,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "eb83f2435b4f5162d675fbea6c55ee576745daee2e48190c81ed6d71bc8cb3c7"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8415358379323893,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.9845,
+          "Confidence Analysis": 0.5538792913729043,
+          "Loss Distribution KS-Test": 0.8888888888888888,
+          "Membership Inference Attack": 0.9388751714677639
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9555555555555556,
+        "rra": 0.051492048783787804,
+        "parameter_rra": 0.04193276441577141,
+        "prediction_disagreement_rate": 0.022222222222222223,
+        "runtime_seconds": 0.17016933299964876
+      }
+    },
+    {
+      "case_id": "GEMINI-056",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "prism",
+        "seed": 42,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "5ef0ff6d73873e874d2288395804de4db8c6195bb877d130cc9c30af560e3393"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8099272197403751,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.8674999999999999,
+          "Confidence Analysis": 0.552608208332023,
+          "Loss Distribution KS-Test": 0.8839506172839506,
+          "Membership Inference Attack": 0.9356500533455265
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9577777777777777,
+        "rra": 0.034272073560918624,
+        "parameter_rra": 0.02431087678163208,
+        "prediction_disagreement_rate": 0.013333333333333334,
+        "runtime_seconds": 0.17569949999960954
+      }
+    },
+    {
+      "case_id": "GEMINI-057",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "prism",
+        "seed": 43,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "995ac78d7df3b9b46aa47c462b81fa8c8747bfc1bfc0edac195d144bcf740798"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7784013596636452,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.5095000000000001,
+          "Confidence Analysis": 0.741450355587975,
+          "Loss Distribution KS-Test": 0.9037037037037037,
+          "Membership Inference Attack": 0.9589513793629021
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 0.038022992032757115,
+        "parameter_rra": 0.03118405218275819,
+        "prediction_disagreement_rate": 0.017777777777777778,
+        "runtime_seconds": 0.17558424999879207
+      }
+    },
+    {
+      "case_id": "GEMINI-058",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "prism",
+        "seed": 45,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "b5d7b7f92a1de0ba1e0910df0aa2b82dba63b7c2b25b6b3ed73c29b8e212a069"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.864720333976779,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.965,
+          "Confidence Analysis": 0.6121072161083054,
+          "Loss Distribution KS-Test": 0.928395061728395,
+          "Membership Inference Attack": 0.953379058070416
+        },
+        "forget_accuracy": 1.0,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9666666666666667,
+        "rra": 0.03918281887734223,
+        "parameter_rra": 0.026648949071721984,
+        "prediction_disagreement_rate": 0.02,
+        "runtime_seconds": 0.17572037499849102
+      }
+    },
+    {
+      "case_id": "GEMINI-059",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "prism",
+        "seed": 48,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "ed490b20a792a564947c4bcd2ab5d1d803dabbfc640ea216c58bbdf77989eb7e"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8287509287240302,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 1.0,
+          "Confidence Analysis": 0.6726870740635174,
+          "Loss Distribution KS-Test": 0.8382352941176471,
+          "Membership Inference Attack": 0.8897058823529411
+        },
+        "forget_accuracy": 0.7058823529411765,
+        "retain_accuracy": 0.8795934323690383,
+        "test_accuracy": 0.82,
+        "rra": 0.502726532542406,
+        "parameter_rra": 0.49980451848957214,
+        "prediction_disagreement_rate": 0.17333333333333334,
+        "runtime_seconds": 0.16550370800177916
+      }
+    },
+    {
+      "case_id": "GEMINI-060",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "prism",
+        "seed": 48,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "3a81709024920183911ab147b8ef70f81af64446d67588f85a947808f4b9baf0"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8625548617327661,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.984,
+          "Confidence Analysis": 0.5773854277266746,
+          "Loss Distribution KS-Test": 0.9037037037037037,
+          "Membership Inference Attack": 0.9851303155006859
+        },
+        "forget_accuracy": 0.9851851851851852,
+        "retain_accuracy": 1.0,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 0.14528350123556952,
+        "parameter_rra": 0.22718644909430344,
+        "prediction_disagreement_rate": 0.015555555555555555,
+        "runtime_seconds": 0.16601312499915366
+      }
+    },
+    {
+      "case_id": "GEMINI-061",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "sisa",
+        "seed": 43,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "ac3e40cc0bcc3fa65751fb175dd002ced968e7fd5fa5c0161fe885c62ea7797f"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7451357938259309,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.5585,
+          "Confidence Analysis": 0.503524656785205,
+          "Loss Distribution KS-Test": 0.9185185185185185,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9851851851851852,
+        "retain_accuracy": 0.9735973597359736,
+        "test_accuracy": 0.96,
+        "rra": 0.5073318449983832,
+        "parameter_rra": null,
+        "prediction_disagreement_rate": 0.05555555555555555,
+        "runtime_seconds": 0.5507450829973095
+      }
+    },
+    {
+      "case_id": "GEMINI-062",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "sisa",
+        "seed": 44,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "beacccb257290380cbe060b2eb5fe24634607bec08314fb0cb300012a75ec40f"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7294177991442626,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.387,
+          "Confidence Analysis": 0.6565971225029767,
+          "Loss Distribution KS-Test": 0.874074074074074,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9703703703703703,
+        "retain_accuracy": 0.9793729372937293,
+        "test_accuracy": 0.9422222222222222,
+        "rra": 0.49827598490599306,
+        "parameter_rra": null,
+        "prediction_disagreement_rate": 0.044444444444444446,
+        "runtime_seconds": 0.5541512919990055
+      }
+    },
+    {
+      "case_id": "GEMINI-063",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "sisa",
+        "seed": 49,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "c5ee39590dea150f70e64e1e09d0bd343c2b2c2b545b2233d9659d119f9cda0e"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8142841831225036,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.984,
+          "Confidence Analysis": 0.4344689124208103,
+          "Loss Distribution KS-Test": 0.8529411764705883,
+          "Membership Inference Attack": 0.9857266435986158
+        },
+        "forget_accuracy": 0.9264705882352942,
+        "retain_accuracy": 0.9773260359655981,
+        "test_accuracy": 0.9488888888888889,
+        "rra": 0.5070836212483275,
+        "parameter_rra": null,
+        "prediction_disagreement_rate": 0.044444444444444446,
+        "runtime_seconds": 0.5709622079994006
+      }
+    },
+    {
+      "case_id": "GEMINI-064",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "sisa",
+        "seed": 51,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Ambiguous",
+        "case_sha256": "eaf2908cbf40a9b0bdfacc0604b6432bdb6589eb65be65e6feda21a0a73a8da8"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.819023375610146,
+        "RENA_FULL_verdict": "Ambiguous",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.858,
+          "Confidence Analysis": 0.49957498392206556,
+          "Loss Distribution KS-Test": 0.9185185185185185,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9703703703703703,
+        "retain_accuracy": 0.9727722772277227,
+        "test_accuracy": 0.9555555555555556,
+        "rra": 0.5168998585855005,
+        "parameter_rra": null,
+        "prediction_disagreement_rate": 0.04888888888888889,
+        "runtime_seconds": 0.5567460409984051
+      }
+    },
+    {
+      "case_id": "GEMINI-065",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "sisa",
+        "seed": 45,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "69cbea3bb30d6cc2607bc7fe7f16d850c869983f314197c2998694a8b5f0557f"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.7387247273880321,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.07750000000000001,
+          "Confidence Analysis": 0.9803400860227165,
+          "Loss Distribution KS-Test": 0.8970588235294117,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9705882352941176,
+        "retain_accuracy": 0.9781078967943706,
+        "test_accuracy": 0.9622222222222222,
+        "rra": 0.4968531539353513,
+        "parameter_rra": null,
+        "prediction_disagreement_rate": 0.03111111111111111,
+        "runtime_seconds": 0.5687529169990739
+      }
+    },
+    {
+      "case_id": "GEMINI-066",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "sisa",
+        "seed": 46,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "43a32834ff76b972b66b689b0a0618434e96b9d9941338f2293674ee6446a7c7"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.5847243142793461,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.6234999999999999,
+          "Confidence Analysis": 0.008649852273094005,
+          "Loss Distribution KS-Test": 0.7794117647058824,
+          "Membership Inference Attack": 0.9273356401384083
+        },
+        "forget_accuracy": 0.9852941176470589,
+        "retain_accuracy": 0.980453479280688,
+        "test_accuracy": 0.9622222222222222,
+        "rra": 0.5014756875148693,
+        "parameter_rra": null,
+        "prediction_disagreement_rate": 0.03333333333333333,
+        "runtime_seconds": 0.5701579580018006
+      }
+    },
+    {
+      "case_id": "GEMINI-067",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "sisa",
+        "seed": 46,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "51dafbfd57861a979dffd43db26505bb03fb13a819c55e838bdb614e6d5178b9"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.4631692386831276,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.21350000000000002,
+          "Confidence Analysis": 0.0,
+          "Loss Distribution KS-Test": 0.8148148148148148,
+          "Membership Inference Attack": 0.8243621399176955
+        },
+        "forget_accuracy": 0.9629629629629629,
+        "retain_accuracy": 0.9818481848184818,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 0.5005103742399122,
+        "parameter_rra": null,
+        "prediction_disagreement_rate": 0.028888888888888888,
+        "runtime_seconds": 0.5537720829997852
+      }
+    },
+    {
+      "case_id": "GEMINI-068",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "sisa",
+        "seed": 51,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Inconclusive",
+        "case_sha256": "a06faffbf962067c9fb9578065c03943d47fe428b5a69e28835de59341399cf2"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.5159671280276816,
+        "RENA_FULL_verdict": "Inconclusive",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.42200000000000004,
+          "Confidence Analysis": 0.0,
+          "Loss Distribution KS-Test": 0.7647058823529412,
+          "Membership Inference Attack": 0.8771626297577853
+        },
+        "forget_accuracy": 0.9705882352941176,
+        "retain_accuracy": 0.9726348709929633,
+        "test_accuracy": 0.9577777777777777,
+        "rra": 0.5075323896492043,
+        "parameter_rra": null,
+        "prediction_disagreement_rate": 0.051111111111111114,
+        "runtime_seconds": 0.5728650000019115
+      }
+    },
+    {
+      "case_id": "GEMINI-069",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "sisa",
+        "seed": 43,
+        "forget_fraction": 0.2,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "074acc7ef0418ebcb85eb3fa2a6be64bce890322eec999e160874a27268b5660"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8231823886666838,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.6205,
+          "Confidence Analysis": 0.7314888139259947,
+          "Loss Distribution KS-Test": 0.9407407407407408,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9666666666666667,
+        "retain_accuracy": 0.968430826369545,
+        "test_accuracy": 0.9644444444444444,
+        "rra": 0.5035447218665869,
+        "parameter_rra": null,
+        "prediction_disagreement_rate": 0.051111111111111114,
+        "runtime_seconds": 0.5290190830019128
+      }
+    },
+    {
+      "case_id": "GEMINI-070",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "sisa",
+        "seed": 43,
+        "forget_fraction": 0.3,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "e5f2645fd488d29d9108922fd7ae5c0b52161564c71e0253969667f1a6141100"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8461833984920556,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.589,
+          "Confidence Analysis": 0.8278323594003214,
+          "Loss Distribution KS-Test": 0.9679012345679012,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9604938271604938,
+        "retain_accuracy": 0.9692144373673036,
+        "test_accuracy": 0.9688888888888889,
+        "rra": 0.50368427995186,
+        "parameter_rra": null,
+        "prediction_disagreement_rate": 0.04888888888888889,
+        "runtime_seconds": 0.49566716700064717
+      }
+    },
+    {
+      "case_id": "GEMINI-071",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "sisa",
+        "seed": 48,
+        "forget_fraction": 0.05,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "cc0d3bd4ad83f6e2c13d97faeea416598c61cbc22ec5c1e192e1e93a1a1eb1a8"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8348636546359129,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.9965,
+          "Confidence Analysis": 0.5661380095471116,
+          "Loss Distribution KS-Test": 0.8823529411764706,
+          "Membership Inference Attack": 0.8944636678200693
+        },
+        "forget_accuracy": 0.9117647058823529,
+        "retain_accuracy": 0.983580922595778,
+        "test_accuracy": 0.9533333333333334,
+        "rra": 0.5054878865522455,
+        "parameter_rra": null,
+        "prediction_disagreement_rate": 0.04888888888888889,
+        "runtime_seconds": 0.5705435830022907
+      }
+    },
+    {
+      "case_id": "GEMINI-072",
+      "provenance": {
+        "source_file": "results/rena_v2/matrix_20260907T141837Z/summary.csv",
+        "method": "sisa",
+        "seed": 49,
+        "forget_fraction": 0.1,
+        "reference_verdict": "Likely Forgotten",
+        "case_sha256": "5b52b5d31cf9fe6e5553d75d5c29c459bccce8f07475341c2b48a70200950d12"
+      },
+      "evidence": {
+        "RENA_FULL_score": 0.8746303501247783,
+        "RENA_FULL_verdict": "Likely Forgotten",
+        "witnesses": {
+          "Bootstrap Statistical Witness": 0.9905,
+          "Confidence Analysis": 0.6191325116102244,
+          "Loss Distribution KS-Test": 0.8888888888888888,
+          "Membership Inference Attack": 1.0
+        },
+        "forget_accuracy": 0.9333333333333333,
+        "retain_accuracy": 0.9785478547854786,
+        "test_accuracy": 0.9488888888888889,
+        "rra": 0.4998501972087138,
+        "parameter_rra": null,
+        "prediction_disagreement_rate": 0.05555555555555555,
+        "runtime_seconds": 0.5601575410000805
+      }
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "fine_tuning": {
+    "analysis_mode": "FALLBACK",
+    "claim": "The structured verification evidence supports forgetting only under the tested conditions.",
+    "claim_strength": "MODERATE",
+    "contradictory_evidence_ids": [],
+    "limitations": [
+      "OFFLINE FALLBACK: GEMINI_API_KEY was absent; no Gemini API call was made.",
+      "Evidence is limited to tested digits data and perturbations."
+    ],
+    "missing_evidence": [
+      "adaptive recovery attack",
+      "independent external replication"
+    ],
+    "model": null,
+    "overall_status": "SUPPORTED",
+    "provider": "Offline fallback",
+    "reasoning_summary": "Rule-based synthesis of supplied evidence IDs; no metrics were generated or altered.",
+    "supporting_evidence_ids": [
+      "E001",
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "traceability": {
+      "contradictory": [],
+      "missing": [
+        "adaptive recovery attack",
+        "independent external replication"
+      ],
+      "supporting": [
+        "E001",
+        "E002",
+        "E003",
+        "E004"
+      ]
+    }
+  },
+  "gradient_ascent": {
+    "analysis_mode": "FALLBACK",
+    "claim": "The structured verification evidence supports forgetting only under the tested conditions.",
+    "claim_strength": "WEAK",
+    "contradictory_evidence_ids": [
+      "E018"
+    ],
+    "limitations": [
+      "OFFLINE FALLBACK: GEMINI_API_KEY was absent; no Gemini API call was made.",
+      "Evidence is limited to tested digits data and perturbations."
+    ],
+    "missing_evidence": [
+      "adaptive recovery attack",
+      "independent external replication"
+    ],
+    "model": null,
+    "overall_status": "PARTIALLY_SUPPORTED",
+    "provider": "Offline fallback",
+    "reasoning_summary": "Rule-based synthesis of supplied evidence IDs; no metrics were generated or altered.",
+    "supporting_evidence_ids": [
+      "E016",
+      "E017",
+      "E019"
+    ],
+    "traceability": {
+      "contradictory": [
+        "E018"
+      ],
+      "missing": [
+        "adaptive recovery attack",
+        "independent external replication"
+      ],
+      "supporting": [
+        "E016",
+        "E017",
+        "E019"
+      ]
+    }
+  },
+  "ground_truth_retraining": {
+    "analysis_mode": "FALLBACK",
+    "claim": "The structured verification evidence supports forgetting only under the tested conditions.",
+    "claim_strength": "MODERATE",
+    "contradictory_evidence_ids": [],
+    "limitations": [
+      "OFFLINE FALLBACK: GEMINI_API_KEY was absent; no Gemini API call was made.",
+      "Evidence is limited to tested digits data and perturbations."
+    ],
+    "missing_evidence": [
+      "adaptive recovery attack",
+      "independent external replication"
+    ],
+    "model": null,
+    "overall_status": "SUPPORTED",
+    "provider": "Offline fallback",
+    "reasoning_summary": "Rule-based synthesis of supplied evidence IDs; no metrics were generated or altered.",
+    "supporting_evidence_ids": [
+      "E031",
+      "E032",
+      "E033",
+      "E034"
+    ],
+    "traceability": {
+      "contradictory": [],
+      "missing": [
+        "adaptive recovery attack",
+        "independent external replication"
+      ],
+      "supporting": [
+        "E031",
+        "E032",
+        "E033",
+        "E034"
+      ]
+    }
+  },
+  "sisa": {
+    "analysis_mode": "FALLBACK",
+    "claim": "The structured verification evidence supports forgetting only under the tested conditions.",
+    "claim_strength": "MODERATE",
+    "contradictory_evidence_ids": [],
+    "limitations": [
+      "OFFLINE FALLBACK: GEMINI_API_KEY was absent; no Gemini API call was made.",
+      "Evidence is limited to tested digits data and perturbations."
+    ],
+    "missing_evidence": [
+      "adaptive recovery attack",
+      "independent external replication"
+    ],
+    "model": null,
+    "overall_status": "SUPPORTED",
+    "provider": "Offline fallback",
+    "reasoning_summary": "Rule-based synthesis of supplied evidence IDs; no metrics were generated or altered.",
+    "supporting_evidence_ids": [
+      "E046",
+      "E047",
+      "E048",
+      "E049"
+    ],
+    "traceability": {
+      "contradictory": [],
+      "missing": [
+        "adaptive recovery attack",
+        "independent external replication"
+      ],
+      "supporting": [
+        "E046",
+        "E047",
+        "E048",
+        "E049"
+      ]
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "correlations": {
+    "FIXED_THRESHOLD_score": {
+      "n": 6,
+      "p_value": 0.01884548104956266,
+      "rho": 0.8857142857142858
+    },
+    "NAIVE_AVERAGE_score": {
+      "n": 6,
+      "p_value": 0.01884548104956266,
+      "rho": 0.8857142857142858
+    },
+    "RENA_FULL_score": {
+      "n": 6,
+      "p_value": 0.01884548104956266,
+      "rho": 0.8857142857142858
+    },
+    "WEIGHTED_NO_OVERRIDE_score": {
+      "n": 6,
+      "p_value": 0.01884548104956266,
+      "rho": 0.8857142857142858
+    },
+    "WEIGHTING_OFF_OVERRIDE_OFF_score": {
+      "n": 6,
+      "p_value": 0.01884548104956266,
+      "rho": 0.8857142857142858
+    },
+    "WEIGHTING_OFF_OVERRIDE_ON_score": {
+      "n": 6,
+      "p_value": 0.01884548104956266,
+      "rho": 0.8857142857142858
+    },
+    "WEIGHTING_ON_OVERRIDE_OFF_score": {
+      "n": 6,
+      "p_value": 0.01884548104956266,
+      "rho": 0.8857142857142858
+    },
+    "WEIGHTING_ON_OVERRIDE_ON_score": {
+      "n": 6,
+      "p_value": 0.01884548104956266,
+      "rho": 0.8857142857142858
+    },
+    "witness_Bootstrap Statistical Witness": {
+      "n": 6,
+      "p_value": 0.07239650145772594,
+      "rho": 0.7714285714285715
+    },
+    "witness_Confidence Analysis": {
+      "n": 6,
+      "p_value": 0.07239650145772594,
+      "rho": 0.7714285714285715
+    },
+    "witness_Loss Distribution KS-Test": {
+      "n": 6,
+      "p_value": 0.06570384807158905,
+      "rho": 0.7826908981308054
+    },
+    "witness_Membership Inference Attack": {
+      "n": 6,
+      "p_value": 0.04156268221574335,
+      "rho": 0.8285714285714287
+    }
+  },
+  "forget_fractions": [
+    0.1
+  ],
+  "independence_note": "RRA uses only prediction distributions of original/audited/retrained models on held-out test inputs; it does not use RENA witnesses or consensus.",
+  "methods": [
+    "fine_tuning",
+    "gradient_ascent",
+    "ground_truth_retraining",
+    "sisa",
+    "prism",
+    "echo"
+  ],
+  "n_runs": 6,
+  "rra_threshold": 0.5,
+  "seeds": [
+    42
+  ]
+}

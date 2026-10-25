@@ -1,0 +1,290 @@
+"""Structured RENA evidence analysis via the Google Gemini Developer API.
+
+FALLBACK is reserved strictly for a missing GEMINI_API_KEY. A configured-key
+provider or response failure raises ``LLMAPIError`` and is recorded as
+``API_ERROR`` by the experiment runner.
+"""
+from __future__ import annotations
+
+import json
+import os
+import re
+import socket
+import time
+from urllib import error, request
+
+STATUSES = {"SUPPORTED", "PARTIALLY_SUPPORTED", "NOT_SUPPORTED", "INSUFFICIENT_EVIDENCE"}
+STRENGTHS = {"STRONG", "MODERATE", "WEAK"}
+REQUIRED = {"overall_status", "supporting_evidence_ids", "contradictory_evidence_ids", "missing_evidence", "limitations", "claim_strength", "claim", "reasoning_summary"}
+TRANSIENT_HTTP_STATUSES = {408, 409, 429, 500, 502, 503, 504}
+DEFAULT_MODEL = "gemini-3.5-flash-lite"
+PROVIDER = "Google Gemini"
+INTERACTIONS_URL = "https://generativelanguage.googleapis.com/v1beta/interactions"
+
+
+class LLMAPIError(RuntimeError):
+    """Sanitized Gemini provider failure suitable for logs and result files."""
+
+
+def validate_analysis(value: dict) -> dict:
+    """Validate the fixed RENA claim schema independent of provider guarantees."""
+    if not isinstance(value, dict) or not REQUIRED.issubset(value) or set(value) - (REQUIRED | {"analysis_mode", "provider", "model", "witness_assessments"}):
+        raise ValueError("LLM response does not match the required JSON schema")
+    if value["overall_status"] not in STATUSES or value["claim_strength"] not in STRENGTHS:
+        raise ValueError("LLM response has an invalid status or claim strength")
+    for key in ("supporting_evidence_ids", "contradictory_evidence_ids", "missing_evidence", "limitations"):
+        if not isinstance(value[key], list):
+            raise ValueError(f"{key} must be an array")
+    if not all(isinstance(value[k], str) for k in ("claim", "reasoning_summary")):
+        raise ValueError("claim and reasoning_summary must be strings")
+
+    if "witness_assessments" in value:
+        if not isinstance(value["witness_assessments"], list):
+            raise ValueError("witness_assessments must be an array")
+
+        allowed_classifications = {"SUPPORTS", "CONTRADICTS", "NEUTRAL"}
+
+        for item in value["witness_assessments"]:
+            if not isinstance(item, dict):
+                raise ValueError("each witness assessment must be an object")
+            if set(item) != {"evidence_id", "classification", "reasoning"}:
+                raise ValueError(
+                    "each witness assessment must contain exactly "
+                    "evidence_id, classification, and reasoning"
+                )
+            if not isinstance(item["evidence_id"], str):
+                raise ValueError("witness assessment evidence_id must be a string")
+            if item["classification"] not in allowed_classifications:
+                raise ValueError("invalid witness assessment classification")
+            if not isinstance(item["reasoning"], str):
+                raise ValueError("witness assessment reasoning must be a string")
+
+    return value
+
+
+def fallback_analysis(evidence: list[dict]) -> dict:
+    supporting = [x["evidence_id"] for x in evidence if x.get("supports_forgetting") is True]
+    contradictory = [x["evidence_id"] for x in evidence if x.get("supports_forgetting") is False]
+    status = "SUPPORTED" if supporting and not contradictory else ("PARTIALLY_SUPPORTED" if supporting else "NOT_SUPPORTED")
+    return {"overall_status": status, "supporting_evidence_ids": supporting, "contradictory_evidence_ids": contradictory,
+            "missing_evidence": ["adaptive recovery attack", "independent external replication"],
+            "limitations": ["OFFLINE FALLBACK: GEMINI_API_KEY was absent; no Gemini API call was made.", "Evidence is limited to tested digits data and perturbations."],
+            "claim_strength": "MODERATE" if status == "SUPPORTED" else "WEAK",
+            "claim": "The structured verification evidence supports forgetting only under the tested conditions." if supporting else "The available evidence does not support a forgetting claim.",
+            "reasoning_summary": "Rule-based synthesis of supplied evidence IDs; no metrics were generated or altered.",
+            "analysis_mode": "FALLBACK", "provider": "Offline fallback", "model": None}
+
+
+def _schema() -> dict:
+    return {"type": "object", "additionalProperties": False, "required": sorted(REQUIRED), "properties": {
+        "overall_status": {"type": "string", "enum": sorted(STATUSES)},
+        "supporting_evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "contradictory_evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "missing_evidence": {"type": "array", "items": {"type": "string"}},
+        "limitations": {"type": "array", "items": {"type": "string"}},
+        "claim_strength": {"type": "string", "enum": sorted(STRENGTHS)},
+        "claim": {"type": "string"},
+        "reasoning_summary": {"type": "string"},
+        "witness_assessments": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": False,
+                "required": ["evidence_id", "classification", "reasoning"],
+                "properties": {
+                    "evidence_id": {"type": "string"},
+                    "classification": {
+                        "type": "string",
+                        "enum": ["SUPPORTS", "CONTRADICTS", "NEUTRAL"],
+                    },
+                    "reasoning": {"type": "string"},
+                },
+            },
+        },
+    }}
+
+
+def _provider_error(exc: error.HTTPError) -> str:
+    """Extract only public provider error fields; request credentials are never logged."""
+    detail = ""
+    try:
+        payload = json.loads(exc.read().decode("utf-8", errors="replace"))
+        item = payload.get("error", {})
+        detail = "; ".join(str(item[k]) for k in ("status", "code", "message") if item.get(k))
+    except Exception:
+        detail = str(exc.reason)
+    finally:
+        exc.close()
+    return f"Google Gemini API HTTP {exc.code}: {detail or 'request failed'}"
+
+
+def _response_text(raw: dict) -> str:
+    if isinstance(raw.get("output_text"), str):
+        return raw["output_text"]
+    # REST response format as of the Interactions API step-based schema.
+    for step in reversed(raw.get("steps", [])):
+        if step.get("type") == "model_output":
+            text = "".join(part.get("text", "") for part in step.get("content", []) if part.get("type") == "text")
+            if text:
+                return text
+    # Compatibility with the earlier Interactions response format.
+    text = "".join(part.get("text", "") for part in raw.get("outputs", []) if part.get("type") == "text")
+    if text:
+        return text
+    raise LLMAPIError("Google Gemini API returned no text output")
+
+
+def _reject_unseen_metric_numbers(result: dict, evidence: list[dict]) -> None:
+    """Reject numerical claims not present in the measured evidence payload."""
+    observed = set(re.findall(r"[-+]?\d+(?:\.\d+)?", json.dumps(evidence)))
+    narrative = " ".join(result[field] for field in ("claim", "reasoning_summary"))
+    invented = set(re.findall(r"[-+]?\d+(?:\.\d+)?", narrative)) - observed
+    if invented:
+        raise ValueError(f"response introduced numerical values not in evidence: {sorted(invented)}")
+
+
+def _post_gemini_api(key: str, body: bytes, attempts: int = 3) -> dict:
+    req = request.Request(INTERACTIONS_URL, data=body, method="POST",
+                          headers={"x-goog-api-key": key, "Content-Type": "application/json"})
+    last_error = None
+    for attempt in range(attempts):
+        try:
+            with request.urlopen(req, timeout=45) as response:
+                return json.load(response)
+        except error.HTTPError as exc:
+            message = _provider_error(exc)
+            if exc.code not in TRANSIENT_HTTP_STATUSES:
+                raise LLMAPIError(message) from exc
+            last_error = message
+        except (error.URLError, TimeoutError, socket.timeout) as exc:
+            last_error = f"Google Gemini API network error: {exc.reason if isinstance(exc, error.URLError) else exc}"
+        if attempt < attempts - 1:
+            time.sleep(0.5 * (2 ** attempt))
+    raise LLMAPIError(f"{last_error}; retries exhausted after {attempts} attempts")
+
+
+
+def analyze_evidence_constrained(
+    evidence: list[dict],
+    model: str = DEFAULT_MODEL,
+) -> dict:
+    """Run a constrained witness-level Gemini audit.
+
+    This is intentionally separate from analyze_evidence() so the original
+    baseline remains reproducible. The constrained policy requires:
+    - explicit witness-by-witness SUPPORTS/CONTRADICTS/NEUTRAL reasoning
+    - mandatory disagreement checking
+    - no majority-vote shortcut
+    - strong claims only when the primary witnesses are consistent
+    - explicit treatment of missing evidence and limitations
+    """
+
+    key = os.getenv("GEMINI_API_KEY")
+
+    if not key:
+        return fallback_analysis(evidence)
+
+    audit_instruction = (
+        "Perform a constrained independent audit of the supplied RENA evidence. "
+        "Treat each evidence item as an individual witness. "
+        "For every witness, classify it as exactly one of: "
+        "SUPPORTS, CONTRADICTS, or NEUTRAL. "
+        "Explain the classification using only the supplied evidence. "
+        "Do not assume that a numerical score has the same direction or meaning "
+        "for every metric; use the metric name and supplied context. "
+        "Do not use majority voting. "
+        "You MUST explicitly check whether the primary witnesses disagree. "
+        "If primary witnesses disagree, do not make a STRONG claim unless the "
+        "disagreement is resolved by evidence supplied in the payload. "
+        "Distinguish primary unlearning witnesses from retain-utility, recovery, "
+        "adversarial, or contextual measurements. "
+        "Missing evidence must remain missing and must not be inferred. "
+        "Return one witness_assessments entry for EVERY supplied evidence item. "
+        "Each entry must contain the exact evidence_id, exactly one classification "
+        "(SUPPORTS, CONTRADICTS, or NEUTRAL), and a concise reasoning string. "
+        "Do not omit witnesses and do not add evidence IDs that were not supplied. "
+        "Use only evidence IDs and measured values that appear in the payload. "
+        "Do not invent, estimate, calculate, round, normalize, or introduce "
+        "new numerical values. "
+        "Do not assign numerical confidence, probability, percentage, score, "
+        "threshold, or accuracy values unless that exact value appears in the "
+        "supplied evidence. "
+        "Return only the requested JSON structure."
+    )
+
+    model_input = (
+        audit_instruction
+        + "\n\nMEASURED EVIDENCE:\n"
+        + json.dumps(evidence)
+    )
+
+    body = json.dumps({
+        "model": model,
+        "input": model_input,
+        "response_format": {
+            "type": "text",
+            "mime_type": "application/json",
+            "schema": _schema(),
+        },
+    }).encode("utf-8")
+
+    raw = _post_gemini_api(key, body)
+
+    try:
+        result = validate_analysis(json.loads(_response_text(raw)))
+        _reject_unseen_metric_numbers(result, evidence)
+
+        expected_ids = [item["evidence_id"] for item in evidence]
+        assessments = result.get("witness_assessments")
+
+        if not isinstance(assessments, list):
+            raise ValueError("constrained audit omitted witness_assessments")
+
+        actual_ids = [item["evidence_id"] for item in assessments]
+
+        if actual_ids != expected_ids:
+            raise ValueError(
+                "constrained audit witness IDs do not exactly match supplied evidence"
+            )
+    except (json.JSONDecodeError, ValueError) as exc:
+        raise LLMAPIError(
+            f"Google Gemini API returned invalid structured output: {exc}"
+        ) from exc
+
+    result.update({
+        "provider": PROVIDER,
+        "analysis_mode": "REAL_API_CONSTRAINED",
+        "model": model,
+    })
+    return result
+
+def analyze_evidence(evidence: list[dict], model: str = DEFAULT_MODEL) -> dict:
+    key = os.getenv("GEMINI_API_KEY")
+    if not key:
+        return fallback_analysis(evidence)
+    # The model receives measured evidence plus a strict audit instruction.
+    # Numerical claims must be traceable to values actually present in the
+    # evidence payload; the post-response validator independently enforces this.
+    audit_instruction = (
+        "Analyze the supplied RENA evidence independently. "
+        "Use only evidence IDs and measured values that appear in the payload. "
+        "Do not invent, estimate, calculate, round, normalize, or introduce "
+        "any new numerical values in the claim or reasoning_summary. "
+        "Do not assign numerical confidence, probability, percentage, score, "
+        "threshold, or accuracy values unless that exact value appears in the "
+        "supplied evidence. "
+        "Identify supporting evidence, contradictory evidence, missing evidence, "
+        "limitations, and the strength of the claim. "
+        "Return only the requested JSON structure."
+    )
+    model_input = audit_instruction + "\n\nMEASURED EVIDENCE:\n" + json.dumps(evidence)
+    body = json.dumps({"model": model, "input": model_input, "response_format": {
+        "type": "text", "mime_type": "application/json", "schema": _schema()}}).encode("utf-8")
+    raw = _post_gemini_api(key, body)
+    try:
+        result = validate_analysis(json.loads(_response_text(raw)))
+        _reject_unseen_metric_numbers(result, evidence)
+    except (json.JSONDecodeError, ValueError) as exc:
+        raise LLMAPIError(f"Google Gemini API returned invalid structured output: {exc}") from exc
+    result.update({"provider": PROVIDER, "analysis_mode": "REAL_API", "model": model})
+    return result

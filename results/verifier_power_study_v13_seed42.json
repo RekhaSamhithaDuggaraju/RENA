@@ -1,0 +1,3151 @@
+{
+  "rows": [
+    {
+      "seed": 42,
+      "label": "good_retrained",
+      "algorithm": "independent_retrain",
+      "is_good": true,
+      "reference_count": 9,
+      "rena_x": 0.4375,
+      "axes": {
+        "behavioral_equivalence": 1.0,
+        "membership_indistinguishability": 1.0,
+        "representation_neutrality": 0.4375,
+        "retain_consistency": 1.0,
+        "irreversibility": 1.0,
+        "efficiency": 1.0,
+        "worst_case_score": 0.4375,
+        "correctness_worst_case_score": 0.4375,
+        "parameter_distance": 1.4387084314964922,
+        "jsd_to_retraining": 7.044429115413031e-05,
+        "representation_auc": 0.7219204389574759,
+        "representation_probe_auc": 0.788641975308642,
+        "forget_progress": 0.04556087751001052,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.0,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 9,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9999295557088459,
+            "membership_indistinguishability": 0.9209876543209874,
+            "representation_neutrality": 0.8973337298163608,
+            "retain_consistency": 1.0,
+            "irreversibility": 1.0,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 3,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.00011433000841525536,
+            "membership": 0.051834660527962956,
+            "representation": 0.16729428884862374,
+            "retain": 0.0,
+            "irreversibility": 4.269444014487231e-05,
+            "representation_probe": 0.033470507544581585
+          },
+          "scores": {
+            "behavioral": 1.0,
+            "membership": 1.0,
+            "representation": 0.4375,
+            "retain": 1.0,
+            "irreversibility": 1.0,
+            "representation_probe": 0.5625
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004599232095232339,
+              "mad": 0.0032832441865291197
+            },
+            "membership": {
+              "median": 0.49797309111061655,
+              "mad": 0.33298405729588876
+            },
+            "representation": {
+              "median": 0.16551698787884095,
+              "mad": 0.020259982347145877
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.008903006721389491,
+              "mad": 0.006775181463141648
+            },
+            "representation_probe": {
+              "median": 0.035610425240054866,
+              "mad": 0.016296296296296364
+            }
+          },
+          "representation_probe_auc": 0.788641975308642,
+          "representation_probe_reference_summary": {
+            "median": 0.7551714677640604,
+            "mad": 0.004005486968449823
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 0.04556087751001052,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.788641975308642,
+            "recovery_gain": 4.2906932215132804e-05,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "FAIL"
+        }
+      },
+      "forget_accuracy": 1.0,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 9,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9999295557088459,
+          "membership_indistinguishability": 0.9209876543209874,
+          "representation_neutrality": 0.8973337298163608,
+          "retain_consistency": 1.0,
+          "irreversibility": 1.0,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 3,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.00011433000841525536,
+          "membership": 0.051834660527962956,
+          "representation": 0.16729428884862374,
+          "retain": 0.0,
+          "irreversibility": 4.269444014487231e-05,
+          "representation_probe": 0.033470507544581585
+        },
+        "scores": {
+          "behavioral": 1.0,
+          "membership": 1.0,
+          "representation": 0.4375,
+          "retain": 1.0,
+          "irreversibility": 1.0,
+          "representation_probe": 0.5625
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004599232095232339,
+            "mad": 0.0032832441865291197
+          },
+          "membership": {
+            "median": 0.49797309111061655,
+            "mad": 0.33298405729588876
+          },
+          "representation": {
+            "median": 0.16551698787884095,
+            "mad": 0.020259982347145877
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.008903006721389491,
+            "mad": 0.006775181463141648
+          },
+          "representation_probe": {
+            "median": 0.035610425240054866,
+            "mad": 0.016296296296296364
+          }
+        },
+        "representation_probe_auc": 0.788641975308642,
+        "representation_probe_reference_summary": {
+          "median": 0.7551714677640604,
+          "mad": 0.004005486968449823
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 0.04556087751001052,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.788641975308642,
+          "recovery_gain": 4.2906932215132804e-05,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "FAIL"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "good_retrained",
+      "algorithm": "independent_retrain",
+      "is_good": true,
+      "reference_count": 9,
+      "rena_x": 0.8125,
+      "axes": {
+        "behavioral_equivalence": 1.0,
+        "membership_indistinguishability": 1.0,
+        "representation_neutrality": 0.8125,
+        "retain_consistency": 1.0,
+        "irreversibility": 1.0,
+        "efficiency": 1.0,
+        "worst_case_score": 0.8125,
+        "correctness_worst_case_score": 0.8125,
+        "parameter_distance": 1.4257412427475762,
+        "jsd_to_retraining": 7.044429115413031e-05,
+        "representation_auc": 0.6234293552812071,
+        "representation_probe_auc": 0.7976406035665294,
+        "forget_progress": 0.03146066335797183,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.9657013085230298,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 9,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9999295557088459,
+            "membership_indistinguishability": 0.9209876543209874,
+            "representation_neutrality": 0.8973337298163608,
+            "retain_consistency": 1.0,
+            "irreversibility": 0.03429869147697018,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 3,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 9.166220931979745e-05,
+            "membership": 0.04416350753670062,
+            "representation": 0.15001874665731418,
+            "retain": 0.0,
+            "irreversibility": 9.74733360305592e-06,
+            "representation_probe": 0.04246913580246903
+          },
+          "scores": {
+            "behavioral": 1.0,
+            "membership": 1.0,
+            "representation": 0.8125,
+            "retain": 1.0,
+            "irreversibility": 1.0,
+            "representation_probe": 0.4375
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004599232095232339,
+              "mad": 0.003239901421070589
+            },
+            "membership": {
+              "median": 0.4883845135204773,
+              "mad": 0.32714030590404675
+            },
+            "representation": {
+              "median": 0.17788098678187647,
+              "mad": 0.023102886487368912
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.008861571439838928,
+              "mad": 0.006733746181591085
+            },
+            "representation_probe": {
+              "median": 0.03615912208504801,
+              "mad": 0.017997256515774995
+            }
+          },
+          "representation_probe_auc": 0.7976406035665294,
+          "representation_probe_reference_summary": {
+            "median": 0.7551714677640604,
+            "mad": 0.004005486968449823
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 0.03146066335797183,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.7976406035665294,
+            "recovery_gain": 1.4716506645688008e-06,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "FAIL"
+        }
+      },
+      "forget_accuracy": 1.0,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 9,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9999295557088459,
+          "membership_indistinguishability": 0.9209876543209874,
+          "representation_neutrality": 0.8973337298163608,
+          "retain_consistency": 1.0,
+          "irreversibility": 0.03429869147697018,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 3,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 9.166220931979745e-05,
+          "membership": 0.04416350753670062,
+          "representation": 0.15001874665731418,
+          "retain": 0.0,
+          "irreversibility": 9.74733360305592e-06,
+          "representation_probe": 0.04246913580246903
+        },
+        "scores": {
+          "behavioral": 1.0,
+          "membership": 1.0,
+          "representation": 0.8125,
+          "retain": 1.0,
+          "irreversibility": 1.0,
+          "representation_probe": 0.4375
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004599232095232339,
+            "mad": 0.003239901421070589
+          },
+          "membership": {
+            "median": 0.4883845135204773,
+            "mad": 0.32714030590404675
+          },
+          "representation": {
+            "median": 0.17788098678187647,
+            "mad": 0.023102886487368912
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.008861571439838928,
+            "mad": 0.006733746181591085
+          },
+          "representation_probe": {
+            "median": 0.03615912208504801,
+            "mad": 0.017997256515774995
+          }
+        },
+        "representation_probe_auc": 0.7976406035665294,
+        "representation_probe_reference_summary": {
+          "median": 0.7551714677640604,
+          "mad": 0.004005486968449823
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 0.03146066335797183,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.7976406035665294,
+          "recovery_gain": 1.4716506645688008e-06,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "FAIL"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "good_retrained",
+      "algorithm": "independent_retrain",
+      "is_good": true,
+      "reference_count": 9,
+      "rena_x": 0.0625,
+      "axes": {
+        "behavioral_equivalence": 0.0625,
+        "membership_indistinguishability": 0.0625,
+        "representation_neutrality": 0.375,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.0625,
+        "efficiency": 1.0,
+        "worst_case_score": 0.0625,
+        "correctness_worst_case_score": 0.0625,
+        "parameter_distance": 1.4074995912726376,
+        "jsd_to_retraining": 0.03613247761677185,
+        "representation_auc": 0.7425514403292182,
+        "representation_probe_auc": 0.8332510288065843,
+        "forget_progress": 1.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.0,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 9,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9638675223832281,
+            "membership_indistinguishability": 0.8754458161865566,
+            "representation_neutrality": 0.8037945128889645,
+            "retain_consistency": 1.0,
+            "irreversibility": 1.0,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 3,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.0359738272860249,
+            "membership": 140.37673901044138,
+            "representation": 0.1816435607451634,
+            "retain": 0.0,
+            "irreversibility": 0.3155625424248831,
+            "representation_probe": 0.07807956104252389
+          },
+          "scores": {
+            "behavioral": 0.0625,
+            "membership": 0.0625,
+            "representation": 0.375,
+            "retain": 1.0,
+            "irreversibility": 0.0625,
+            "representation_probe": 0.0625
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.0038775304114639403,
+              "mad": 0.0014172551440956509
+            },
+            "membership": {
+              "median": 0.426699655040353,
+              "mad": 0.07127343607026354
+            },
+            "representation": {
+              "median": 0.16551698787884095,
+              "mad": 0.024276672130474575
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.006535921376376165,
+              "mad": 0.0031213781563622246
+            },
+            "representation_probe": {
+              "median": 0.02518518518518509,
+              "mad": 0.008998628257887442
+            }
+          },
+          "representation_probe_auc": 0.8332510288065843,
+          "representation_probe_reference_summary": {
+            "median": 0.7551714677640604,
+            "mad": 0.004005486968449823
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 1.0,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.8332510288065843,
+            "recovery_gain": 0.3155737614091507,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "REVIEW"
+        }
+      },
+      "forget_accuracy": 0.9629629629629629,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 9,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9638675223832281,
+          "membership_indistinguishability": 0.8754458161865566,
+          "representation_neutrality": 0.8037945128889645,
+          "retain_consistency": 1.0,
+          "irreversibility": 1.0,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 3,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.0359738272860249,
+          "membership": 140.37673901044138,
+          "representation": 0.1816435607451634,
+          "retain": 0.0,
+          "irreversibility": 0.3155625424248831,
+          "representation_probe": 0.07807956104252389
+        },
+        "scores": {
+          "behavioral": 0.0625,
+          "membership": 0.0625,
+          "representation": 0.375,
+          "retain": 1.0,
+          "irreversibility": 0.0625,
+          "representation_probe": 0.0625
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.0038775304114639403,
+            "mad": 0.0014172551440956509
+          },
+          "membership": {
+            "median": 0.426699655040353,
+            "mad": 0.07127343607026354
+          },
+          "representation": {
+            "median": 0.16551698787884095,
+            "mad": 0.024276672130474575
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.006535921376376165,
+            "mad": 0.0031213781563622246
+          },
+          "representation_probe": {
+            "median": 0.02518518518518509,
+            "mad": 0.008998628257887442
+          }
+        },
+        "representation_probe_auc": 0.8332510288065843,
+        "representation_probe_reference_summary": {
+          "median": 0.7551714677640604,
+          "mad": 0.004005486968449823
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 1.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.8332510288065843,
+          "recovery_gain": 0.3155737614091507,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "REVIEW"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "good_retrained",
+      "algorithm": "independent_retrain",
+      "is_good": true,
+      "reference_count": 9,
+      "rena_x": 0.875,
+      "axes": {
+        "behavioral_equivalence": 0.9375,
+        "membership_indistinguishability": 0.875,
+        "representation_neutrality": 0.875,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.9375,
+        "efficiency": 1.0,
+        "worst_case_score": 0.875,
+        "correctness_worst_case_score": 0.875,
+        "parameter_distance": 1.432664873202289,
+        "jsd_to_retraining": 0.0003506746926161284,
+        "representation_auc": 0.677201646090535,
+        "representation_probe_auc": 0.752482853223594,
+        "forget_progress": 0.22968959646490383,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.0,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 9,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9996493253073838,
+            "membership_indistinguishability": 0.9083676268861454,
+            "representation_neutrality": 0.7852321369061077,
+            "retain_consistency": 1.0,
+            "irreversibility": 1.0,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 3,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.0003249300804081004,
+            "membership": 0.28416093950360705,
+            "representation": 0.1372071282326498,
+            "retain": 0.0,
+            "irreversibility": 0.00024051924535979164,
+            "representation_probe": 0.003072702331961552
+          },
+          "scores": {
+            "behavioral": 0.9375,
+            "membership": 0.875,
+            "representation": 0.875,
+            "retain": 1.0,
+            "irreversibility": 0.9375,
+            "representation_probe": 0.9375
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004551678415580258,
+              "mad": 0.003192347741418507
+            },
+            "membership": {
+              "median": 0.49797309111061655,
+              "mad": 0.13162866504234677
+            },
+            "representation": {
+              "median": 0.16684092506603965,
+              "mad": 0.027995028019
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.008903006721389491,
+              "mad": 0.00657735665792673
+            },
+            "representation_probe": {
+              "median": 0.025294924554183806,
+              "mad": 0.01031550068587106
+            }
+          },
+          "representation_probe_auc": 0.752482853223594,
+          "representation_probe_reference_summary": {
+            "median": 0.7551714677640604,
+            "mad": 0.004005486968449823
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 0.22968959646490383,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.752482853223594,
+            "recovery_gain": 0.00024073173743005213,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "REVIEW"
+        }
+      },
+      "forget_accuracy": 1.0,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 9,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9996493253073838,
+          "membership_indistinguishability": 0.9083676268861454,
+          "representation_neutrality": 0.7852321369061077,
+          "retain_consistency": 1.0,
+          "irreversibility": 1.0,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 3,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.0003249300804081004,
+          "membership": 0.28416093950360705,
+          "representation": 0.1372071282326498,
+          "retain": 0.0,
+          "irreversibility": 0.00024051924535979164,
+          "representation_probe": 0.003072702331961552
+        },
+        "scores": {
+          "behavioral": 0.9375,
+          "membership": 0.875,
+          "representation": 0.875,
+          "retain": 1.0,
+          "irreversibility": 0.9375,
+          "representation_probe": 0.9375
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004551678415580258,
+            "mad": 0.003192347741418507
+          },
+          "membership": {
+            "median": 0.49797309111061655,
+            "mad": 0.13162866504234677
+          },
+          "representation": {
+            "median": 0.16684092506603965,
+            "mad": 0.027995028019
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.008903006721389491,
+            "mad": 0.00657735665792673
+          },
+          "representation_probe": {
+            "median": 0.025294924554183806,
+            "mad": 0.01031550068587106
+          }
+        },
+        "representation_probe_auc": 0.752482853223594,
+        "representation_probe_reference_summary": {
+          "median": 0.7551714677640604,
+          "mad": 0.004005486968449823
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 0.22968959646490383,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.752482853223594,
+          "recovery_gain": 0.00024073173743005213,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "REVIEW"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "good_retrained",
+      "algorithm": "independent_retrain",
+      "is_good": true,
+      "reference_count": 9,
+      "rena_x": 0.25,
+      "axes": {
+        "behavioral_equivalence": 0.625,
+        "membership_indistinguishability": 0.25,
+        "representation_neutrality": 0.6875,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.5625,
+        "efficiency": 1.0,
+        "worst_case_score": 0.25,
+        "correctness_worst_case_score": 0.25,
+        "parameter_distance": 1.3845684848418591,
+        "jsd_to_retraining": 0.004085806284438273,
+        "representation_auc": 0.7093004115226337,
+        "representation_probe_auc": 0.8139368998628258,
+        "forget_progress": 1.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.0,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 9,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9959141937155618,
+            "membership_indistinguishability": 0.9709190672153636,
+            "representation_neutrality": 0.7821487608131804,
+            "retain_consistency": 1.0,
+            "irreversibility": 1.0,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 3,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.00404550682307823,
+            "membership": 4.038934369281021,
+            "representation": 0.14414965679662273,
+            "retain": 0.0,
+            "irreversibility": 0.008893259387786435,
+            "representation_probe": 0.05876543209876539
+          },
+          "scores": {
+            "behavioral": 0.625,
+            "membership": 0.25,
+            "representation": 0.6875,
+            "retain": 1.0,
+            "irreversibility": 0.5625,
+            "representation_probe": 0.25
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004551678415580258,
+              "mad": 0.0042010037229641296
+            },
+            "membership": {
+              "median": 0.4883845135204773,
+              "mad": 0.19534999572255002
+            },
+            "representation": {
+              "median": 0.1572606033566435,
+              "mad": 0.03253305665267203
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.009418039445972906,
+              "mad": 0.009178779359207422
+            },
+            "representation_probe": {
+              "median": 0.02716049382716046,
+              "mad": 0.010973936899862813
+            }
+          },
+          "representation_probe_auc": 0.8139368998628258,
+          "representation_probe_reference_summary": {
+            "median": 0.7551714677640604,
+            "mad": 0.004005486968449823
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 1.0,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.8139368998628258,
+            "recovery_gain": 0.00890447837205406,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "PASS"
+        }
+      },
+      "forget_accuracy": 0.9925925925925926,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 9,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9959141937155618,
+          "membership_indistinguishability": 0.9709190672153636,
+          "representation_neutrality": 0.7821487608131804,
+          "retain_consistency": 1.0,
+          "irreversibility": 1.0,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 3,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.00404550682307823,
+          "membership": 4.038934369281021,
+          "representation": 0.14414965679662273,
+          "retain": 0.0,
+          "irreversibility": 0.008893259387786435,
+          "representation_probe": 0.05876543209876539
+        },
+        "scores": {
+          "behavioral": 0.625,
+          "membership": 0.25,
+          "representation": 0.6875,
+          "retain": 1.0,
+          "irreversibility": 0.5625,
+          "representation_probe": 0.25
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004551678415580258,
+            "mad": 0.0042010037229641296
+          },
+          "membership": {
+            "median": 0.4883845135204773,
+            "mad": 0.19534999572255002
+          },
+          "representation": {
+            "median": 0.1572606033566435,
+            "mad": 0.03253305665267203
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.009418039445972906,
+            "mad": 0.009178779359207422
+          },
+          "representation_probe": {
+            "median": 0.02716049382716046,
+            "mad": 0.010973936899862813
+          }
+        },
+        "representation_probe_auc": 0.8139368998628258,
+        "representation_probe_reference_summary": {
+          "median": 0.7551714677640604,
+          "mad": 0.004005486968449823
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 1.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.8139368998628258,
+          "recovery_gain": 0.00890447837205406,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "PASS"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "good_retrained",
+      "algorithm": "independent_retrain",
+      "is_good": true,
+      "reference_count": 9,
+      "rena_x": 0.25,
+      "axes": {
+        "behavioral_equivalence": 0.375,
+        "membership_indistinguishability": 0.25,
+        "representation_neutrality": 0.625,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.375,
+        "efficiency": 1.0,
+        "worst_case_score": 0.25,
+        "correctness_worst_case_score": 0.25,
+        "parameter_distance": 1.4052839401994148,
+        "jsd_to_retraining": 0.004551678415580258,
+        "representation_auc": 0.6655692729766804,
+        "representation_probe_auc": 0.770480109739369,
+        "forget_progress": 1.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.0,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 9,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9954483215844198,
+            "membership_indistinguishability": 0.6120713305898492,
+            "representation_neutrality": 0.7667217438711134,
+            "retain_consistency": 1.0,
+            "irreversibility": 1.0,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 3,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.004510186701815067,
+            "membership": 4.523201774084668,
+            "representation": 0.16008952496113793,
+            "retain": 0.0,
+            "irreversibility": 0.009647552199135333,
+            "representation_probe": 0.015308641975308568
+          },
+          "scores": {
+            "behavioral": 0.375,
+            "membership": 0.25,
+            "representation": 0.625,
+            "retain": 1.0,
+            "irreversibility": 0.375,
+            "representation_probe": 0.9375
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.0038775304114639403,
+              "mad": 0.0035268557188478118
+            },
+            "membership": {
+              "median": 0.4475503562040592,
+              "mad": 0.15451583840613192
+            },
+            "representation": {
+              "median": 0.1726762393387401,
+              "mad": 0.02718665660865649
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.008663746634624008,
+              "mad": 0.008424486547858524
+            },
+            "representation_probe": {
+              "median": 0.035610425240054866,
+              "mad": 0.0156378600823045
+            }
+          },
+          "representation_probe_auc": 0.770480109739369,
+          "representation_probe_reference_summary": {
+            "median": 0.7551714677640604,
+            "mad": 0.004005486968449823
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 1.0,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.770480109739369,
+            "recovery_gain": 0.009658771183402958,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "PASS"
+        }
+      },
+      "forget_accuracy": 0.9925925925925926,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 9,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9954483215844198,
+          "membership_indistinguishability": 0.6120713305898492,
+          "representation_neutrality": 0.7667217438711134,
+          "retain_consistency": 1.0,
+          "irreversibility": 1.0,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 3,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.004510186701815067,
+          "membership": 4.523201774084668,
+          "representation": 0.16008952496113793,
+          "retain": 0.0,
+          "irreversibility": 0.009647552199135333,
+          "representation_probe": 0.015308641975308568
+        },
+        "scores": {
+          "behavioral": 0.375,
+          "membership": 0.25,
+          "representation": 0.625,
+          "retain": 1.0,
+          "irreversibility": 0.375,
+          "representation_probe": 0.9375
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.0038775304114639403,
+            "mad": 0.0035268557188478118
+          },
+          "membership": {
+            "median": 0.4475503562040592,
+            "mad": 0.15451583840613192
+          },
+          "representation": {
+            "median": 0.1726762393387401,
+            "mad": 0.02718665660865649
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.008663746634624008,
+            "mad": 0.008424486547858524
+          },
+          "representation_probe": {
+            "median": 0.035610425240054866,
+            "mad": 0.0156378600823045
+          }
+        },
+        "representation_probe_auc": 0.770480109739369,
+        "representation_probe_reference_summary": {
+          "median": 0.7551714677640604,
+          "mad": 0.004005486968449823
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 1.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.770480109739369,
+          "recovery_gain": 0.009658771183402958,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "PASS"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "good_retrained",
+      "algorithm": "independent_retrain",
+      "is_good": true,
+      "reference_count": 9,
+      "rena_x": 0.25,
+      "axes": {
+        "behavioral_equivalence": 0.8125,
+        "membership_indistinguishability": 0.25,
+        "representation_neutrality": 0.9375,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.75,
+        "efficiency": 1.0,
+        "worst_case_score": 0.25,
+        "correctness_worst_case_score": 0.25,
+        "parameter_distance": 1.3898322189463044,
+        "jsd_to_retraining": 0.0013593306741617507,
+        "representation_auc": 0.7010699588477367,
+        "representation_probe_auc": 0.7724554183813443,
+        "forget_progress": 1.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.0,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 9,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9986406693258383,
+            "membership_indistinguishability": 0.7777777777777775,
+            "representation_neutrality": 0.8535524280863384,
+            "retain_consistency": 1.0,
+            "irreversibility": 1.0,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 3,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.001312426915876283,
+            "membership": 1.1419613030803575,
+            "representation": 0.112859648066997,
+            "retain": 0.0,
+            "irreversibility": 0.0023683445036076344,
+            "representation_probe": 0.01728395061728394
+          },
+          "scores": {
+            "behavioral": 0.8125,
+            "membership": 0.25,
+            "representation": 0.9375,
+            "retain": 1.0,
+            "irreversibility": 0.75,
+            "representation_probe": 0.875
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004551678415580258,
+              "mad": 0.0042010037229641296
+            },
+            "membership": {
+              "median": 0.47551345363806896,
+              "mad": 0.04881379859771595
+            },
+            "representation": {
+              "median": 0.1726762393387401,
+              "mad": 0.02352924777229537
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.009418039445972906,
+              "mad": 0.009178779359207422
+            },
+            "representation_probe": {
+              "median": 0.035610425240054866,
+              "mad": 0.016296296296296364
+            }
+          },
+          "representation_probe_auc": 0.7724554183813443,
+          "representation_probe_reference_summary": {
+            "median": 0.7551714677640604,
+            "mad": 0.004005486968449823
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 1.0,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.7724554183813443,
+            "recovery_gain": 0.0023685569956778947,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "PASS"
+        }
+      },
+      "forget_accuracy": 1.0,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 9,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9986406693258383,
+          "membership_indistinguishability": 0.7777777777777775,
+          "representation_neutrality": 0.8535524280863384,
+          "retain_consistency": 1.0,
+          "irreversibility": 1.0,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 3,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.001312426915876283,
+          "membership": 1.1419613030803575,
+          "representation": 0.112859648066997,
+          "retain": 0.0,
+          "irreversibility": 0.0023683445036076344,
+          "representation_probe": 0.01728395061728394
+        },
+        "scores": {
+          "behavioral": 0.8125,
+          "membership": 0.25,
+          "representation": 0.9375,
+          "retain": 1.0,
+          "irreversibility": 0.75,
+          "representation_probe": 0.875
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004551678415580258,
+            "mad": 0.0042010037229641296
+          },
+          "membership": {
+            "median": 0.47551345363806896,
+            "mad": 0.04881379859771595
+          },
+          "representation": {
+            "median": 0.1726762393387401,
+            "mad": 0.02352924777229537
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.009418039445972906,
+            "mad": 0.009178779359207422
+          },
+          "representation_probe": {
+            "median": 0.035610425240054866,
+            "mad": 0.016296296296296364
+          }
+        },
+        "representation_probe_auc": 0.7724554183813443,
+        "representation_probe_reference_summary": {
+          "median": 0.7551714677640604,
+          "mad": 0.004005486968449823
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 1.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.7724554183813443,
+          "recovery_gain": 0.0023685569956778947,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "PASS"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "good_retrained",
+      "algorithm": "independent_retrain",
+      "is_good": true,
+      "reference_count": 9,
+      "rena_x": 0.75,
+      "axes": {
+        "behavioral_equivalence": 0.8125,
+        "membership_indistinguishability": 0.75,
+        "representation_neutrality": 0.9375,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.75,
+        "efficiency": 1.0,
+        "worst_case_score": 0.75,
+        "correctness_worst_case_score": 0.75,
+        "parameter_distance": 1.4075601996322868,
+        "jsd_to_retraining": 6.527204486944245e-05,
+        "representation_auc": 0.6941015089163238,
+        "representation_probe_auc": 0.7494101508916324,
+        "forget_progress": 0.011186531405703899,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.9950475819561593,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 9,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9999347279551306,
+            "membership_indistinguishability": 0.9259259259259258,
+            "representation_neutrality": 0.8441009390027703,
+            "retain_consistency": 1.0,
+            "irreversibility": 0.004952418043840723,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 3,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.001312426915876283,
+            "membership": 0.37420705010741145,
+            "representation": 0.1255330874721916,
+            "retain": 0.0,
+            "irreversibility": 0.0023683445036076344,
+            "representation_probe": 0.009766803840877802
+          },
+          "scores": {
+            "behavioral": 0.8125,
+            "membership": 0.75,
+            "representation": 0.9375,
+            "retain": 1.0,
+            "irreversibility": 0.75,
+            "representation_probe": 0.9375
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004551678415580258,
+              "mad": 0.0042010037229641296
+            },
+            "membership": {
+              "median": 0.47551345363806896,
+              "mad": 0.04881379859771595
+            },
+            "representation": {
+              "median": 0.1726762393387401,
+              "mad": 0.02352924777229537
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.009418039445972906,
+              "mad": 0.009178779359207422
+            },
+            "representation_probe": {
+              "median": 0.035610425240054866,
+              "mad": 0.016296296296296364
+            }
+          },
+          "representation_probe_auc": 0.7494101508916324,
+          "representation_probe_reference_summary": {
+            "median": 0.7591769547325102,
+            "mad": 0.004005486968449823
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 0.011186531405703899,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.7494101508916324,
+            "recovery_gain": 2.1249207026048837e-07,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "FAIL"
+        }
+      },
+      "forget_accuracy": 1.0,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 9,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9999347279551306,
+          "membership_indistinguishability": 0.9259259259259258,
+          "representation_neutrality": 0.8441009390027703,
+          "retain_consistency": 1.0,
+          "irreversibility": 0.004952418043840723,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 3,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.001312426915876283,
+          "membership": 0.37420705010741145,
+          "representation": 0.1255330874721916,
+          "retain": 0.0,
+          "irreversibility": 0.0023683445036076344,
+          "representation_probe": 0.009766803840877802
+        },
+        "scores": {
+          "behavioral": 0.8125,
+          "membership": 0.75,
+          "representation": 0.9375,
+          "retain": 1.0,
+          "irreversibility": 0.75,
+          "representation_probe": 0.9375
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004551678415580258,
+            "mad": 0.0042010037229641296
+          },
+          "membership": {
+            "median": 0.47551345363806896,
+            "mad": 0.04881379859771595
+          },
+          "representation": {
+            "median": 0.1726762393387401,
+            "mad": 0.02352924777229537
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.009418039445972906,
+            "mad": 0.009178779359207422
+          },
+          "representation_probe": {
+            "median": 0.035610425240054866,
+            "mad": 0.016296296296296364
+          }
+        },
+        "representation_probe_auc": 0.7494101508916324,
+        "representation_probe_reference_summary": {
+          "median": 0.7591769547325102,
+          "mad": 0.004005486968449823
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 0.011186531405703899,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.7494101508916324,
+          "recovery_gain": 2.1249207026048837e-07,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "FAIL"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "good_retrained",
+      "algorithm": "independent_retrain",
+      "is_good": true,
+      "reference_count": 9,
+      "rena_x": 0.25,
+      "axes": {
+        "behavioral_equivalence": 0.8125,
+        "membership_indistinguishability": 0.25,
+        "representation_neutrality": 0.9375,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.75,
+        "efficiency": 1.0,
+        "worst_case_score": 0.25,
+        "correctness_worst_case_score": 0.25,
+        "parameter_distance": 1.4086941167712048,
+        "jsd_to_retraining": 0.003232105603362115,
+        "representation_auc": 0.6204115226337449,
+        "representation_probe_auc": 0.7591769547325102,
+        "forget_progress": 1.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.0,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 9,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9967678943966379,
+            "membership_indistinguishability": 0.9149519890260629,
+            "representation_neutrality": 0.8327057111513763,
+            "retain_consistency": 1.0,
+            "irreversibility": 1.0,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 3,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.0031609832395399083,
+            "membership": 3.2042003231102534,
+            "representation": 0.1255330874721916,
+            "retain": 0.0,
+            "irreversibility": 0.006470096814200194,
+            "representation_probe": 0.009766803840877802
+          },
+          "scores": {
+            "behavioral": 0.8125,
+            "membership": 0.25,
+            "representation": 0.9375,
+            "retain": 1.0,
+            "irreversibility": 0.75,
+            "representation_probe": 0.9375
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004551678415580258,
+              "mad": 0.0042010037229641296
+            },
+            "membership": {
+              "median": 0.47551345363806896,
+              "mad": 0.04881379859771595
+            },
+            "representation": {
+              "median": 0.1726762393387401,
+              "mad": 0.02352924777229537
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.009418039445972906,
+              "mad": 0.009178779359207422
+            },
+            "representation_probe": {
+              "median": 0.035610425240054866,
+              "mad": 0.016296296296296364
+            }
+          },
+          "representation_probe_auc": 0.7591769547325102,
+          "representation_probe_reference_summary": {
+            "median": 0.7551714677640604,
+            "mad": 0.0057613168724279795
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 1.0,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.7591769547325102,
+            "recovery_gain": 0.006481315798467818,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "PASS"
+        }
+      },
+      "forget_accuracy": 0.9925925925925926,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 9,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9967678943966379,
+          "membership_indistinguishability": 0.9149519890260629,
+          "representation_neutrality": 0.8327057111513763,
+          "retain_consistency": 1.0,
+          "irreversibility": 1.0,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 3,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.0031609832395399083,
+          "membership": 3.2042003231102534,
+          "representation": 0.1255330874721916,
+          "retain": 0.0,
+          "irreversibility": 0.006470096814200194,
+          "representation_probe": 0.009766803840877802
+        },
+        "scores": {
+          "behavioral": 0.8125,
+          "membership": 0.25,
+          "representation": 0.9375,
+          "retain": 1.0,
+          "irreversibility": 0.75,
+          "representation_probe": 0.9375
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004551678415580258,
+            "mad": 0.0042010037229641296
+          },
+          "membership": {
+            "median": 0.47551345363806896,
+            "mad": 0.04881379859771595
+          },
+          "representation": {
+            "median": 0.1726762393387401,
+            "mad": 0.02352924777229537
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.009418039445972906,
+            "mad": 0.009178779359207422
+          },
+          "representation_probe": {
+            "median": 0.035610425240054866,
+            "mad": 0.016296296296296364
+          }
+        },
+        "representation_probe_auc": 0.7591769547325102,
+        "representation_probe_reference_summary": {
+          "median": 0.7551714677640604,
+          "mad": 0.0057613168724279795
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 1.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.7591769547325102,
+          "recovery_gain": 0.006481315798467818,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "PASS"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "good_retrained",
+      "algorithm": "independent_retrain",
+      "is_good": true,
+      "reference_count": 9,
+      "rena_x": 0.625,
+      "axes": {
+        "behavioral_equivalence": 0.8125,
+        "membership_indistinguishability": 0.75,
+        "representation_neutrality": 0.625,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.75,
+        "efficiency": 1.0,
+        "worst_case_score": 0.625,
+        "correctness_worst_case_score": 0.625,
+        "parameter_distance": 1.4431187441836502,
+        "jsd_to_retraining": 0.00011433000841525536,
+        "representation_auc": 0.6605761316872427,
+        "representation_probe_auc": 0.7551714677640604,
+        "forget_progress": 0.046368444072089905,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.7385274493664369,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 9,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9998856699915848,
+            "membership_indistinguishability": 0.6559670781893009,
+            "representation_neutrality": 0.7831412726301888,
+            "retain_consistency": 1.0,
+            "irreversibility": 0.2614725506335631,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 3,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.0012637975332330494,
+            "membership": 0.3587861551603191,
+            "representation": 0.16527507925180496,
+            "retain": 0.0,
+            "irreversibility": 0.00235733801141027,
+            "representation_probe": 0.0057613168724279795
+          },
+          "scores": {
+            "behavioral": 0.8125,
+            "membership": 0.75,
+            "representation": 0.625,
+            "retain": 1.0,
+            "irreversibility": 0.75,
+            "representation_probe": 1.0
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004551678415580258,
+              "mad": 0.0042010037229641296
+            },
+            "membership": {
+              "median": 0.47551345363806896,
+              "mad": 0.04881379859771595
+            },
+            "representation": {
+              "median": 0.1726762393387401,
+              "mad": 0.02352924777229537
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.009418039445972906,
+              "mad": 0.009178779359207422
+            },
+            "representation_probe": {
+              "median": 0.035610425240054866,
+              "mad": 0.016296296296296364
+            }
+          },
+          "representation_probe_auc": 0.7551714677640604,
+          "representation_probe_reference_summary": {
+            "median": 0.7591769547325102,
+            "mad": 0.009766803840877802
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 0.046368444072089905,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.7551714677640604,
+            "recovery_gain": 1.121898426762472e-05,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "FAIL"
+        }
+      },
+      "forget_accuracy": 1.0,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 9,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9998856699915848,
+          "membership_indistinguishability": 0.6559670781893009,
+          "representation_neutrality": 0.7831412726301888,
+          "retain_consistency": 1.0,
+          "irreversibility": 0.2614725506335631,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 3,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.0012637975332330494,
+          "membership": 0.3587861551603191,
+          "representation": 0.16527507925180496,
+          "retain": 0.0,
+          "irreversibility": 0.00235733801141027,
+          "representation_probe": 0.0057613168724279795
+        },
+        "scores": {
+          "behavioral": 0.8125,
+          "membership": 0.75,
+          "representation": 0.625,
+          "retain": 1.0,
+          "irreversibility": 0.75,
+          "representation_probe": 1.0
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004551678415580258,
+            "mad": 0.0042010037229641296
+          },
+          "membership": {
+            "median": 0.47551345363806896,
+            "mad": 0.04881379859771595
+          },
+          "representation": {
+            "median": 0.1726762393387401,
+            "mad": 0.02352924777229537
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.009418039445972906,
+            "mad": 0.009178779359207422
+          },
+          "representation_probe": {
+            "median": 0.035610425240054866,
+            "mad": 0.016296296296296364
+          }
+        },
+        "representation_probe_auc": 0.7551714677640604,
+        "representation_probe_reference_summary": {
+          "median": 0.7591769547325102,
+          "mad": 0.009766803840877802
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 0.046368444072089905,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.7551714677640604,
+          "recovery_gain": 1.121898426762472e-05,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "FAIL"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "bad_no_op",
+      "algorithm": "no_op",
+      "is_good": false,
+      "reference_count": 10,
+      "rena_x": 0.75,
+      "axes": {
+        "behavioral_equivalence": 0.8125,
+        "membership_indistinguishability": 0.75,
+        "representation_neutrality": 0.9375,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.75,
+        "efficiency": 1.0,
+        "worst_case_score": 0.75,
+        "correctness_worst_case_score": 0.75,
+        "parameter_distance": 1.4009872879673106,
+        "jsd_to_retraining": 6.041261769129097e-05,
+        "representation_auc": 0.681920438957476,
+        "representation_probe_auc": 0.7811796982167353,
+        "forget_progress": 0.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.9999999766937432,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 10,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9999395873823087,
+            "membership_indistinguishability": 0.4502057613168722,
+            "representation_neutrality": 0.8860695015383777,
+            "retain_consistency": 1.0,
+            "irreversibility": 2.330625681334908e-08,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 4,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.0006839876072944044,
+            "membership": 0.23586236403769661,
+            "representation": 0.128299443970956,
+            "retain": 0.0,
+            "irreversibility": 0.0011898879899727597,
+            "representation_probe": 0.02400548696844995
+          },
+          "scores": {
+            "behavioral": 0.8125,
+            "membership": 0.75,
+            "representation": 0.9375,
+            "retain": 1.0,
+            "irreversibility": 0.75,
+            "representation_probe": 0.6875
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004551678415580258,
+              "mad": 0.0042010037229641296
+            },
+            "membership": {
+              "median": 0.47551345363806896,
+              "mad": 0.04881379859771595
+            },
+            "representation": {
+              "median": 0.1726762393387401,
+              "mad": 0.02352924777229537
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.009418039445972906,
+              "mad": 0.009178779359207422
+            },
+            "representation_probe": {
+              "median": 0.035610425240054866,
+              "mad": 0.016296296296296364
+            }
+          },
+          "representation_probe_auc": 0.7811796982167353,
+          "representation_probe_reference_summary": {
+            "median": 0.7571742112482853,
+            "mad": 0.004883401920438901
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 0.0,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.7811796982167353,
+            "recovery_gain": 0.0,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "FAIL"
+        }
+      },
+      "forget_accuracy": 1.0,
+      "forget_loss": 6.185656306249915e-07,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 10,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9999395873823087,
+          "membership_indistinguishability": 0.4502057613168722,
+          "representation_neutrality": 0.8860695015383777,
+          "retain_consistency": 1.0,
+          "irreversibility": 2.330625681334908e-08,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 4,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.0006839876072944044,
+          "membership": 0.23586236403769661,
+          "representation": 0.128299443970956,
+          "retain": 0.0,
+          "irreversibility": 0.0011898879899727597,
+          "representation_probe": 0.02400548696844995
+        },
+        "scores": {
+          "behavioral": 0.8125,
+          "membership": 0.75,
+          "representation": 0.9375,
+          "retain": 1.0,
+          "irreversibility": 0.75,
+          "representation_probe": 0.6875
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004551678415580258,
+            "mad": 0.0042010037229641296
+          },
+          "membership": {
+            "median": 0.47551345363806896,
+            "mad": 0.04881379859771595
+          },
+          "representation": {
+            "median": 0.1726762393387401,
+            "mad": 0.02352924777229537
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.009418039445972906,
+            "mad": 0.009178779359207422
+          },
+          "representation_probe": {
+            "median": 0.035610425240054866,
+            "mad": 0.016296296296296364
+          }
+        },
+        "representation_probe_auc": 0.7811796982167353,
+        "representation_probe_reference_summary": {
+          "median": 0.7571742112482853,
+          "mad": 0.004883401920438901
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 0.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.7811796982167353,
+          "recovery_gain": 0.0,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "FAIL"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "bad_partial_25pct",
+      "algorithm": "partial_unlearning",
+      "is_good": false,
+      "reference_count": 10,
+      "rena_x": 0.75,
+      "axes": {
+        "behavioral_equivalence": 0.8125,
+        "membership_indistinguishability": 0.75,
+        "representation_neutrality": 0.9375,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.75,
+        "efficiency": 1.0,
+        "worst_case_score": 0.75,
+        "correctness_worst_case_score": 0.75,
+        "parameter_distance": 1.4009872879673106,
+        "jsd_to_retraining": 6.041261769129097e-05,
+        "representation_auc": 0.681920438957476,
+        "representation_probe_auc": 0.7811796982167353,
+        "forget_progress": 0.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.9999999766937432,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 10,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9999395873823087,
+            "membership_indistinguishability": 0.4502057613168722,
+            "representation_neutrality": 0.8860695015383777,
+            "retain_consistency": 1.0,
+            "irreversibility": 2.330625681334908e-08,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 4,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.0006839876072944044,
+            "membership": 0.23586236403769661,
+            "representation": 0.128299443970956,
+            "retain": 0.0,
+            "irreversibility": 0.0011898879899727597,
+            "representation_probe": 0.02400548696844995
+          },
+          "scores": {
+            "behavioral": 0.8125,
+            "membership": 0.75,
+            "representation": 0.9375,
+            "retain": 1.0,
+            "irreversibility": 0.75,
+            "representation_probe": 0.6875
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004551678415580258,
+              "mad": 0.0042010037229641296
+            },
+            "membership": {
+              "median": 0.47551345363806896,
+              "mad": 0.04881379859771595
+            },
+            "representation": {
+              "median": 0.1726762393387401,
+              "mad": 0.02352924777229537
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.009418039445972906,
+              "mad": 0.009178779359207422
+            },
+            "representation_probe": {
+              "median": 0.035610425240054866,
+              "mad": 0.016296296296296364
+            }
+          },
+          "representation_probe_auc": 0.7811796982167353,
+          "representation_probe_reference_summary": {
+            "median": 0.7571742112482853,
+            "mad": 0.004883401920438901
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 0.0,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.7811796982167353,
+            "recovery_gain": 0.0,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "FAIL"
+        }
+      },
+      "forget_accuracy": 1.0,
+      "forget_loss": 6.185656306249915e-07,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 10,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9999395873823087,
+          "membership_indistinguishability": 0.4502057613168722,
+          "representation_neutrality": 0.8860695015383777,
+          "retain_consistency": 1.0,
+          "irreversibility": 2.330625681334908e-08,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 4,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.0006839876072944044,
+          "membership": 0.23586236403769661,
+          "representation": 0.128299443970956,
+          "retain": 0.0,
+          "irreversibility": 0.0011898879899727597,
+          "representation_probe": 0.02400548696844995
+        },
+        "scores": {
+          "behavioral": 0.8125,
+          "membership": 0.75,
+          "representation": 0.9375,
+          "retain": 1.0,
+          "irreversibility": 0.75,
+          "representation_probe": 0.6875
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004551678415580258,
+            "mad": 0.0042010037229641296
+          },
+          "membership": {
+            "median": 0.47551345363806896,
+            "mad": 0.04881379859771595
+          },
+          "representation": {
+            "median": 0.1726762393387401,
+            "mad": 0.02352924777229537
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.009418039445972906,
+            "mad": 0.009178779359207422
+          },
+          "representation_probe": {
+            "median": 0.035610425240054866,
+            "mad": 0.016296296296296364
+          }
+        },
+        "representation_probe_auc": 0.7811796982167353,
+        "representation_probe_reference_summary": {
+          "median": 0.7571742112482853,
+          "mad": 0.004883401920438901
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 0.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.7811796982167353,
+          "recovery_gain": 0.0,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "FAIL"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "bad_partial_50pct",
+      "algorithm": "partial_unlearning",
+      "is_good": false,
+      "reference_count": 10,
+      "rena_x": 0.75,
+      "axes": {
+        "behavioral_equivalence": 0.8125,
+        "membership_indistinguishability": 0.75,
+        "representation_neutrality": 0.9375,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.75,
+        "efficiency": 1.0,
+        "worst_case_score": 0.75,
+        "correctness_worst_case_score": 0.75,
+        "parameter_distance": 1.4009872879673106,
+        "jsd_to_retraining": 6.041261769129097e-05,
+        "representation_auc": 0.681920438957476,
+        "representation_probe_auc": 0.7811796982167353,
+        "forget_progress": 0.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.9999999766937432,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 10,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9999395873823087,
+            "membership_indistinguishability": 0.4502057613168722,
+            "representation_neutrality": 0.8860695015383777,
+            "retain_consistency": 1.0,
+            "irreversibility": 2.330625681334908e-08,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 4,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.0006839876072944044,
+            "membership": 0.23586236403769661,
+            "representation": 0.128299443970956,
+            "retain": 0.0,
+            "irreversibility": 0.0011898879899727597,
+            "representation_probe": 0.02400548696844995
+          },
+          "scores": {
+            "behavioral": 0.8125,
+            "membership": 0.75,
+            "representation": 0.9375,
+            "retain": 1.0,
+            "irreversibility": 0.75,
+            "representation_probe": 0.6875
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004551678415580258,
+              "mad": 0.0042010037229641296
+            },
+            "membership": {
+              "median": 0.47551345363806896,
+              "mad": 0.04881379859771595
+            },
+            "representation": {
+              "median": 0.1726762393387401,
+              "mad": 0.02352924777229537
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.009418039445972906,
+              "mad": 0.009178779359207422
+            },
+            "representation_probe": {
+              "median": 0.035610425240054866,
+              "mad": 0.016296296296296364
+            }
+          },
+          "representation_probe_auc": 0.7811796982167353,
+          "representation_probe_reference_summary": {
+            "median": 0.7571742112482853,
+            "mad": 0.004883401920438901
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 0.0,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.7811796982167353,
+            "recovery_gain": 0.0,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "FAIL"
+        }
+      },
+      "forget_accuracy": 1.0,
+      "forget_loss": 6.185656306249915e-07,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 10,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9999395873823087,
+          "membership_indistinguishability": 0.4502057613168722,
+          "representation_neutrality": 0.8860695015383777,
+          "retain_consistency": 1.0,
+          "irreversibility": 2.330625681334908e-08,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 4,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.0006839876072944044,
+          "membership": 0.23586236403769661,
+          "representation": 0.128299443970956,
+          "retain": 0.0,
+          "irreversibility": 0.0011898879899727597,
+          "representation_probe": 0.02400548696844995
+        },
+        "scores": {
+          "behavioral": 0.8125,
+          "membership": 0.75,
+          "representation": 0.9375,
+          "retain": 1.0,
+          "irreversibility": 0.75,
+          "representation_probe": 0.6875
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004551678415580258,
+            "mad": 0.0042010037229641296
+          },
+          "membership": {
+            "median": 0.47551345363806896,
+            "mad": 0.04881379859771595
+          },
+          "representation": {
+            "median": 0.1726762393387401,
+            "mad": 0.02352924777229537
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.009418039445972906,
+            "mad": 0.009178779359207422
+          },
+          "representation_probe": {
+            "median": 0.035610425240054866,
+            "mad": 0.016296296296296364
+          }
+        },
+        "representation_probe_auc": 0.7811796982167353,
+        "representation_probe_reference_summary": {
+          "median": 0.7571742112482853,
+          "mad": 0.004883401920438901
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 0.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.7811796982167353,
+          "recovery_gain": 0.0,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "FAIL"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "bad_partial_75pct",
+      "algorithm": "partial_unlearning",
+      "is_good": false,
+      "reference_count": 10,
+      "rena_x": 0.75,
+      "axes": {
+        "behavioral_equivalence": 0.8125,
+        "membership_indistinguishability": 0.75,
+        "representation_neutrality": 0.9375,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.75,
+        "efficiency": 1.0,
+        "worst_case_score": 0.75,
+        "correctness_worst_case_score": 0.75,
+        "parameter_distance": 1.4009872879673106,
+        "jsd_to_retraining": 6.041261769129097e-05,
+        "representation_auc": 0.681920438957476,
+        "representation_probe_auc": 0.7811796982167353,
+        "forget_progress": 0.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.9999999766937432,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 10,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9999395873823087,
+            "membership_indistinguishability": 0.4502057613168722,
+            "representation_neutrality": 0.8860695015383777,
+            "retain_consistency": 1.0,
+            "irreversibility": 2.330625681334908e-08,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 4,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.0006839876072944044,
+            "membership": 0.23586236403769661,
+            "representation": 0.128299443970956,
+            "retain": 0.0,
+            "irreversibility": 0.0011898879899727597,
+            "representation_probe": 0.02400548696844995
+          },
+          "scores": {
+            "behavioral": 0.8125,
+            "membership": 0.75,
+            "representation": 0.9375,
+            "retain": 1.0,
+            "irreversibility": 0.75,
+            "representation_probe": 0.6875
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004551678415580258,
+              "mad": 0.0042010037229641296
+            },
+            "membership": {
+              "median": 0.47551345363806896,
+              "mad": 0.04881379859771595
+            },
+            "representation": {
+              "median": 0.1726762393387401,
+              "mad": 0.02352924777229537
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.009418039445972906,
+              "mad": 0.009178779359207422
+            },
+            "representation_probe": {
+              "median": 0.035610425240054866,
+              "mad": 0.016296296296296364
+            }
+          },
+          "representation_probe_auc": 0.7811796982167353,
+          "representation_probe_reference_summary": {
+            "median": 0.7571742112482853,
+            "mad": 0.004883401920438901
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 0.0,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.7811796982167353,
+            "recovery_gain": 0.0,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "FAIL"
+        }
+      },
+      "forget_accuracy": 1.0,
+      "forget_loss": 6.185656306249915e-07,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 10,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9999395873823087,
+          "membership_indistinguishability": 0.4502057613168722,
+          "representation_neutrality": 0.8860695015383777,
+          "retain_consistency": 1.0,
+          "irreversibility": 2.330625681334908e-08,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 4,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.0006839876072944044,
+          "membership": 0.23586236403769661,
+          "representation": 0.128299443970956,
+          "retain": 0.0,
+          "irreversibility": 0.0011898879899727597,
+          "representation_probe": 0.02400548696844995
+        },
+        "scores": {
+          "behavioral": 0.8125,
+          "membership": 0.75,
+          "representation": 0.9375,
+          "retain": 1.0,
+          "irreversibility": 0.75,
+          "representation_probe": 0.6875
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004551678415580258,
+            "mad": 0.0042010037229641296
+          },
+          "membership": {
+            "median": 0.47551345363806896,
+            "mad": 0.04881379859771595
+          },
+          "representation": {
+            "median": 0.1726762393387401,
+            "mad": 0.02352924777229537
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.009418039445972906,
+            "mad": 0.009178779359207422
+          },
+          "representation_probe": {
+            "median": 0.035610425240054866,
+            "mad": 0.016296296296296364
+          }
+        },
+        "representation_probe_auc": 0.7811796982167353,
+        "representation_probe_reference_summary": {
+          "median": 0.7571742112482853,
+          "mad": 0.004883401920438901
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 0.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.7811796982167353,
+          "recovery_gain": 0.0,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "FAIL"
+      }
+    },
+    {
+      "seed": 42,
+      "label": "bad_over_unlearned",
+      "algorithm": "over_unlearning",
+      "is_good": false,
+      "reference_count": 10,
+      "rena_x": 0.75,
+      "axes": {
+        "behavioral_equivalence": 0.8125,
+        "membership_indistinguishability": 0.75,
+        "representation_neutrality": 0.9375,
+        "retain_consistency": 1.0,
+        "irreversibility": 0.75,
+        "efficiency": 1.0,
+        "worst_case_score": 0.75,
+        "correctness_worst_case_score": 0.75,
+        "parameter_distance": 1.4023848771595886,
+        "jsd_to_retraining": 6.0433492166311885e-05,
+        "representation_auc": 0.6820301783264745,
+        "representation_probe_auc": 0.7812345679012346,
+        "forget_progress": 0.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "intervention_leakage": 0.9999999766937432,
+        "utility_drop": 0.0,
+        "runtime_seconds": 1.0,
+        "gold_runtime_seconds": 1.0,
+        "efficiency_included_in_verdict": false,
+        "scoring_basis": "reference-distribution calibrated",
+        "caveat": "Research audit only; not a formal proof of physical erasure, privacy, or differential privacy.",
+        "calibration": {
+          "mode": "held_out_empirical_retrain_null",
+          "n_references": 10,
+          "uncalibrated_evidence_profile": {
+            "behavioral_equivalence": 0.9999395665078337,
+            "membership_indistinguishability": 0.45102880658436173,
+            "representation_neutrality": 0.8860647205306924,
+            "retain_consistency": 1.0,
+            "irreversibility": 2.330625681334908e-08,
+            "efficiency": 1.0
+          },
+          "calibration_reference_count": 6,
+          "evaluation_reference_count": 4,
+          "null_pair_count": 15,
+          "median_distances": {
+            "behavioral": 0.0006840033299365094,
+            "membership": 0.23579472177733055,
+            "representation": 0.12831291589819205,
+            "retain": 0.0,
+            "irreversibility": 0.0011898879899727597,
+            "representation_probe": 0.024060356652949255
+          },
+          "scores": {
+            "behavioral": 0.8125,
+            "membership": 0.75,
+            "representation": 0.9375,
+            "retain": 1.0,
+            "irreversibility": 0.75,
+            "representation_probe": 0.6875
+          },
+          "raw_null_summary": {
+            "behavioral": {
+              "median": 0.004551678415580258,
+              "mad": 0.0042010037229641296
+            },
+            "membership": {
+              "median": 0.47551345363806896,
+              "mad": 0.04881379859771595
+            },
+            "representation": {
+              "median": 0.1726762393387401,
+              "mad": 0.02352924777229537
+            },
+            "retain": {
+              "median": 0.0,
+              "mad": 0.0
+            },
+            "irreversibility": {
+              "median": 0.009418039445972906,
+              "mad": 0.009178779359207422
+            },
+            "representation_probe": {
+              "median": 0.035610425240054866,
+              "mad": 0.016296296296296364
+            }
+          },
+          "representation_probe_auc": 0.7812345679012346,
+          "representation_probe_reference_summary": {
+            "median": 0.7571742112482853,
+            "mad": 0.004883401920438901
+          },
+          "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_progress": 0.0,
+          "retain_utility_ratio": 0.9999999999989999,
+          "forget_progress_thresholds": {
+            "pass": 0.4,
+            "review": 0.2
+          },
+          "security_diagnostics": {
+            "representation_probe_auc": 0.7812345679012346,
+            "recovery_gain": 0.0,
+            "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+          },
+          "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+          "decision_thresholds": {
+            "certification_alpha": 0.1,
+            "review_alpha": 0.05,
+            "forget_pass": 0.4,
+            "forget_review": 0.2,
+            "retain_pass": 0.9,
+            "retain_review": 0.8
+          },
+          "threshold_source": "engineering_default",
+          "certification_verdict": "FAIL"
+        }
+      },
+      "forget_accuracy": 1.0,
+      "forget_loss": 5.681147403721985e-07,
+      "calibration": {
+        "mode": "held_out_empirical_retrain_null",
+        "n_references": 10,
+        "uncalibrated_evidence_profile": {
+          "behavioral_equivalence": 0.9999395665078337,
+          "membership_indistinguishability": 0.45102880658436173,
+          "representation_neutrality": 0.8860647205306924,
+          "retain_consistency": 1.0,
+          "irreversibility": 2.330625681334908e-08,
+          "efficiency": 1.0
+        },
+        "calibration_reference_count": 6,
+        "evaluation_reference_count": 4,
+        "null_pair_count": 15,
+        "median_distances": {
+          "behavioral": 0.0006840033299365094,
+          "membership": 0.23579472177733055,
+          "representation": 0.12831291589819205,
+          "retain": 0.0,
+          "irreversibility": 0.0011898879899727597,
+          "representation_probe": 0.024060356652949255
+        },
+        "scores": {
+          "behavioral": 0.8125,
+          "membership": 0.75,
+          "representation": 0.9375,
+          "retain": 1.0,
+          "irreversibility": 0.75,
+          "representation_probe": 0.6875
+        },
+        "raw_null_summary": {
+          "behavioral": {
+            "median": 0.004551678415580258,
+            "mad": 0.0042010037229641296
+          },
+          "membership": {
+            "median": 0.47551345363806896,
+            "mad": 0.04881379859771595
+          },
+          "representation": {
+            "median": 0.1726762393387401,
+            "mad": 0.02352924777229537
+          },
+          "retain": {
+            "median": 0.0,
+            "mad": 0.0
+          },
+          "irreversibility": {
+            "median": 0.009418039445972906,
+            "mad": 0.009178779359207422
+          },
+          "representation_probe": {
+            "median": 0.035610425240054866,
+            "mad": 0.016296296296296364
+          }
+        },
+        "representation_probe_auc": 0.7812345679012346,
+        "representation_probe_reference_summary": {
+          "median": 0.7571742112482853,
+          "mad": 0.004883401920438901
+        },
+        "separation_rule": "first 60% of references calibrate the empirical null; disjoint remaining references evaluate candidate distance",
+        "certification_alpha": 0.1,
+        "review_alpha": 0.05,
+        "forget_progress": 0.0,
+        "retain_utility_ratio": 0.9999999999989999,
+        "forget_progress_thresholds": {
+          "pass": 0.4,
+          "review": 0.2
+        },
+        "security_diagnostics": {
+          "representation_probe_auc": 0.7812345679012346,
+          "recovery_gain": 0.0,
+          "interpretation": "Diagnostics are adversarial/security evidence; they are not silently converted into proof of erasure."
+        },
+        "decision_rule": "PASS requires every mandatory retrain-consistency p-value >= 0.100, forget-progress >= 0.400, and retain utility >= 0.900; REVIEW otherwise when forget-progress >= 0.200 and retain utility >= 0.800; FAIL below either safety floor.",
+        "decision_thresholds": {
+          "certification_alpha": 0.1,
+          "review_alpha": 0.05,
+          "forget_pass": 0.4,
+          "forget_review": 0.2,
+          "retain_pass": 0.9,
+          "retain_review": 0.8
+        },
+        "threshold_source": "engineering_default",
+        "certification_verdict": "FAIL"
+      }
+    }
+  ],
+  "n": 15,
+  "n_retrains": 10,
+  "true_positive_rate": null,
+  "true_negative_rate": null,
+  "false_positive_rate": null,
+  "roc_auc": {
+    "auc": 0.25,
+    "ci_low": 0.0,
+    "ci_high": 0.5,
+    "n": 15
+  },
+  "single_axis_auc": {
+    "behavioral_equivalence": {
+      "auc": 0.5,
+      "ci_low": 0.2692307692307693,
+      "ci_high": 0.75,
+      "n": 15
+    },
+    "membership_indistinguishability": {
+      "auc": 0.4,
+      "ci_low": 0.125,
+      "ci_high": 0.6678030303030293,
+      "n": 15
+    },
+    "representation_neutrality": {
+      "auc": 0.15,
+      "ci_low": 0.0,
+      "ci_high": 0.2922916666666661,
+      "n": 15
+    },
+    "retain_consistency": {
+      "auc": 0.5,
+      "ci_low": 0.5,
+      "ci_high": 0.5,
+      "n": 15
+    },
+    "irreversibility": {
+      "auc": 0.5,
+      "ci_low": 0.25,
+      "ci_high": 0.75,
+      "n": 15
+    }
+  },
+  "plain_mia_auc": {
+    "auc": 0.6,
+    "ci_low": 0.27159090909090916,
+    "ci_high": 0.8894444444444439,
+    "n": 15
+  },
+  "threshold_policy": "No fixed 0.70 threshold is used for the power claim; ROC/AUC is primary.",
+  "hard_forget_set": true,
+  "note": "Good labels are independent retain-only retrains evaluated leave-one-out against the other retrains. Bad labels are constructed controls. The hard forget set is selected by original-model training loss to stress membership sensitivity. This validates discrimination on this workload only; it is not an erasure certificate."
+}

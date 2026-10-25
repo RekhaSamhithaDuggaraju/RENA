@@ -1,0 +1,12 @@
+{
+  "audit_version": "v2",
+  "input_file": "experiments/gsm8k_contamination/data/pilot/baseline_qwen_0.5b_100_800tokens_manual_audit_v1.jsonl",
+  "output_file": "experiments/gsm8k_contamination/data/pilot/baseline_qwen_0.5b_100_800tokens_manual_audit_v2.jsonl",
+  "total_rows": 100,
+  "pass2_provisional_correct": 33,
+  "pass2_provisional_incorrect": 29,
+  "needs_question_reference_check": 2,
+  "unscorable_token_limit": 1,
+  "not_reviewed_in_pass2": 35,
+  "note": "Pass 2 labels are provisional and based on the supplied response endings and reference answers. They are not a substitute for checking full questions or independently verifying the answer key. Pass 1 fields are preserved."
+}

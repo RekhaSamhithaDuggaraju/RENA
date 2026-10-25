@@ -1,0 +1,14 @@
+{
+  "n_total": 100,
+  "n_parseable": 58,
+  "n_unparseable": 42,
+  "n_correct_parseable": 31,
+  "n_incorrect_parseable": 27,
+  "n_token_limit_reached": 10,
+  "accuracy_all_examples_unparseable_counted_incorrect": 0.31,
+  "accuracy_among_parseable": 0.5344827586206896,
+  "n_not_at_token_limit": 90,
+  "n_parseable_not_at_token_limit": 58,
+  "scored_file": "experiments/gsm8k_contamination/data/pilot/baseline_qwen_0.5b_100_scored_v2.jsonl",
+  "warning": "Heuristic scoring requires manual validation before research use. Token-limit responses are flagged separately."
+}

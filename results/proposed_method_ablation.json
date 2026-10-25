@@ -1,0 +1,1806 @@
+{
+  "full_prism": {
+    "agreement": 0.8613528073718443,
+    "conformal_exclusion_gap": 0.04831316464979829,
+    "consensus": 0.8687860870340509,
+    "direct_recoverability": 0.08960219478737996,
+    "forget_accuracy": 0.9925925925925926,
+    "method": "full_prism",
+    "recovery_by_condition": {
+      "contrast_brightness": 0.10123456790123453,
+      "direct": 0.08960219478737996,
+      "gaussian_noise": 0.038792866941015136,
+      "random_mask": 0.090150891632373,
+      "spatial_shift": 0.005322359396433551
+    },
+    "retain_accuracy": 1.0,
+    "runtime_seconds": 0.17393207550048828,
+    "seed": 42,
+    "test_accuracy": 0.96,
+    "trace": {
+      "candidate_evaluations": 54,
+      "config": {
+        "candidate_scales": [
+          0.5,
+          1.0,
+          1.5
+        ],
+        "epsilon": 1e-12,
+        "iterations": 18,
+        "learning_rate": 0.3,
+        "max_retain_drop": 0.015,
+        "min_retain_accuracy": 0.97,
+        "retain_correction": 0.012,
+        "use_disagreement_selection": true,
+        "use_recovery_selection": true,
+        "use_retain_utility": true
+      },
+      "final_fast_evidence": {
+        "confidence_signal": 0.6535339228961492,
+        "forget_loss_signal": 0.13711767776984568,
+        "membership_auc_proxy": 0.54480109739369,
+        "membership_signal": 0.91039780521262,
+        "recoverability_signal": 0.08960219478737996,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0020514112584091647,
+        "statistical_signal": 0.13711767776984568,
+        "test_accuracy": 0.96
+      },
+      "iterations": 18,
+      "runtime_seconds": 0.17433786392211914,
+      "trajectory": [
+        {
+          "iteration": 1,
+          "projection": {
+            "projected_retain_dot": -2.326975973869182e-05,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -2.326975973869182e-05
+          },
+          "proxy_dispersion": 0.36829162850761504,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5537009723314914,
+            "forget_loss_signal": 0.00034227461236216385,
+            "membership_auc_proxy": 0.5529766803840878,
+            "membership_signal": 0.8940466392318245,
+            "recoverability_signal": 0.10595336076817552,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018571648579479153,
+            "statistical_signal": 0.00034227461236216385,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 2,
+          "projection": {
+            "projected_retain_dot": -1.828890904226981e-05,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -1.828890904226981e-05
+          },
+          "proxy_dispersion": 0.3690293935155273,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5565037078826687,
+            "forget_loss_signal": 0.0005640983005655502,
+            "membership_auc_proxy": 0.5520987654320988,
+            "membership_signal": 0.8958024691358024,
+            "recoverability_signal": 0.10419753086419759,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018519396786370406,
+            "statistical_signal": 0.0005640983005655502,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 3,
+          "projection": {
+            "projected_retain_dot": -6.60391371523645e-06,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -6.60391371523645e-06
+          },
+          "proxy_dispersion": 0.36946873160920585,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5610712802107622,
+            "forget_loss_signal": 0.0009045670750667618,
+            "membership_auc_proxy": 0.5517146776406036,
+            "membership_signal": 0.8965706447187929,
+            "recoverability_signal": 0.10342935528120711,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001853662323875094,
+            "statistical_signal": 0.0009045670750667618,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 4,
+          "projection": {
+            "projected_retain_dot": 1.207103856057258e-12,
+            "projection_coefficient": 1.2071038655151398,
+            "raw_gradient_dot": 1.9471321878055632e-05
+          },
+          "proxy_dispersion": 0.37036989321025543,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5701436060131462,
+            "forget_loss_signal": 0.001495282918799623,
+            "membership_auc_proxy": 0.5510013717421125,
+            "membership_signal": 0.897997256515775,
+            "recoverability_signal": 0.102002743484225,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018606363995946151,
+            "statistical_signal": 0.001495282918799623,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 5,
+          "projection": {
+            "projected_retain_dot": 3.181707022925639e-12,
+            "projection_coefficient": 3.181707020061797,
+            "raw_gradient_dot": 7.695241762871237e-05
+          },
+          "proxy_dispersion": 0.37065472302420127,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5759096610799377,
+            "forget_loss_signal": 0.0018161639335341892,
+            "membership_auc_proxy": 0.5510013717421125,
+            "membership_signal": 0.897997256515775,
+            "recoverability_signal": 0.102002743484225,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018612800811485712,
+            "statistical_signal": 0.0018161639335341892,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 6,
+          "projection": {
+            "projected_retain_dot": 3.914725778682286e-12,
+            "projection_coefficient": 3.91472577095591,
+            "raw_gradient_dot": 0.00010896048617568254
+          },
+          "proxy_dispersion": 0.3704785725996243,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5831406175462219,
+            "forget_loss_signal": 0.0022253582941589396,
+            "membership_auc_proxy": 0.551769547325103,
+            "membership_signal": 0.8964609053497941,
+            "recoverability_signal": 0.10353909465020594,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018619236926400223,
+            "statistical_signal": 0.0022253582941589396,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 7,
+          "projection": {
+            "projected_retain_dot": 4.667442304712043e-12,
+            "projection_coefficient": 4.667442297651297,
+            "raw_gradient_dot": 0.000148863916262475
+          },
+          "proxy_dispersion": 0.37127838597660967,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6016638648715324,
+            "forget_loss_signal": 0.003376580243068617,
+            "membership_auc_proxy": 0.5521536351165981,
+            "membership_signal": 0.8956927297668038,
+            "recoverability_signal": 0.10430727023319619,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018659921850158066,
+            "statistical_signal": 0.003376580243068617,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 8,
+          "projection": {
+            "projected_retain_dot": 6.329178766180278e-12,
+            "projection_coefficient": 6.329178746076573,
+            "raw_gradient_dot": 0.00026398135077946065
+          },
+          "proxy_dispersion": 0.37363318293485215,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6407178728119813,
+            "forget_loss_signal": 0.006495581815761695,
+            "membership_auc_proxy": 0.5524828532235939,
+            "membership_signal": 0.8950342935528122,
+            "recoverability_signal": 0.10496570644718783,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018777511478168323,
+            "statistical_signal": 0.006495581815761695,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 9,
+          "projection": {
+            "projected_retain_dot": 9.16048626582083e-12,
+            "projection_coefficient": 9.160486164371084,
+            "raw_gradient_dot": 0.0005576986451336263
+          },
+          "proxy_dispersion": 0.37129863983021866,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.640501998231763,
+            "forget_loss_signal": 0.012838893317344563,
+            "membership_auc_proxy": 0.5516598079561044,
+            "membership_signal": 0.8966803840877913,
+            "recoverability_signal": 0.10331961591220873,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001893548013141661,
+            "statistical_signal": 0.012838893317344563,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 10,
+          "projection": {
+            "projected_retain_dot": 1.1608005349510516e-11,
+            "projection_coefficient": 11.608005710594343,
+            "raw_gradient_dot": 0.0009821750419002609
+          },
+          "proxy_dispersion": 0.3669746580301535,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6257826551416703,
+            "forget_loss_signal": 0.01980259664212262,
+            "membership_auc_proxy": 0.5511111111111111,
+            "membership_signal": 0.8977777777777778,
+            "recoverability_signal": 0.10222222222222221,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0019030266203361383,
+            "statistical_signal": 0.01980259664212262,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 11,
+          "projection": {
+            "projected_retain_dot": 1.2621826107782265e-11,
+            "projection_coefficient": 12.62182624471284,
+            "raw_gradient_dot": 0.0012532256395861386
+          },
+          "proxy_dispersion": 0.3588534005090488,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6051015229496617,
+            "forget_loss_signal": 0.033632997322020936,
+            "membership_auc_proxy": 0.5511111111111111,
+            "membership_signal": 0.8977777777777778,
+            "recoverability_signal": 0.10222222222222221,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001935740345800793,
+            "statistical_signal": 0.033632997322020936,
+            "test_accuracy": 0.9644444444444444
+          }
+        },
+        {
+          "iteration": 12,
+          "projection": {
+            "projected_retain_dot": 1.3386582102705688e-11,
+            "projection_coefficient": 13.38658206622767,
+            "raw_gradient_dot": 0.0016751911729229294
+          },
+          "proxy_dispersion": 0.35426352851219145,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6047081372937892,
+            "forget_loss_signal": 0.04513957716568504,
+            "membership_auc_proxy": 0.5503429355281206,
+            "membership_signal": 0.8993141289437587,
+            "recoverability_signal": 0.10068587105624127,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0019587844002025606,
+            "statistical_signal": 0.04513957716568504,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 13,
+          "projection": {
+            "projected_retain_dot": 1.4298135323080521e-11,
+            "projection_coefficient": 14.298135462103179,
+            "raw_gradient_dot": 0.0020177160922823026
+          },
+          "proxy_dispersion": 0.34922519878799774,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6065530510074915,
+            "forget_loss_signal": 0.05738866777764163,
+            "membership_auc_proxy": 0.5500137174211248,
+            "membership_signal": 0.8999725651577504,
+            "recoverability_signal": 0.10002743484224963,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0019767391809482077,
+            "statistical_signal": 0.05738866777764163,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 14,
+          "projection": {
+            "projected_retain_dot": 1.464824294158016e-11,
+            "projection_coefficient": 14.648243028365677,
+            "raw_gradient_dot": 0.0023093382900794598
+          },
+          "proxy_dispersion": 0.3441498338672259,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6040142528888439,
+            "forget_loss_signal": 0.06977201850890952,
+            "membership_auc_proxy": 0.549190672153635,
+            "membership_signal": 0.9016186556927299,
+            "recoverability_signal": 0.09838134430727008,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0019861401829924124,
+            "statistical_signal": 0.06977201850890952,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 15,
+          "projection": {
+            "projected_retain_dot": 1.4772791493219164e-11,
+            "projection_coefficient": 14.772791245142148,
+            "raw_gradient_dot": 0.002494934617110392
+          },
+          "proxy_dispersion": 0.3385868465285645,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.5996622505197338,
+            "forget_loss_signal": 0.08232946237217513,
+            "membership_auc_proxy": 0.5488065843621399,
+            "membership_signal": 0.9023868312757202,
+            "recoverability_signal": 0.09761316872427983,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001995152474884748,
+            "statistical_signal": 0.08232946237217513,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 16,
+          "projection": {
+            "projected_retain_dot": 1.4941674407197363e-11,
+            "projection_coefficient": 14.941674419810354,
+            "raw_gradient_dot": 0.0026363401957539318
+          },
+          "proxy_dispersion": 0.3302120556309503,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5951359631695099,
+            "forget_loss_signal": 0.10162742421776409,
+            "membership_auc_proxy": 0.5483127572016462,
+            "membership_signal": 0.9033744855967076,
+            "recoverability_signal": 0.09662551440329237,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0020151538270221296,
+            "statistical_signal": 0.10162742421776409,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 17,
+          "projection": {
+            "projected_retain_dot": 1.4286841022660705e-11,
+            "projection_coefficient": 14.286841385111515,
+            "raw_gradient_dot": 0.002823099107522596
+          },
+          "proxy_dispersion": 0.32551406523263,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.5974837002865132,
+            "forget_loss_signal": 0.11491989061816907,
+            "membership_auc_proxy": 0.5470507544581619,
+            "membership_signal": 0.9058984910836763,
+            "recoverability_signal": 0.09410150891632374,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.002024030451458633,
+            "statistical_signal": 0.11491989061816907,
+            "test_accuracy": 0.96
+          }
+        },
+        {
+          "iteration": 18,
+          "projection": {
+            "projected_retain_dot": 1.4864399342550485e-11,
+            "projection_coefficient": 14.864399022210003,
+            "raw_gradient_dot": 0.002975977790497651
+          },
+          "proxy_dispersion": 0.32156335953638776,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6535339228961492,
+            "forget_loss_signal": 0.13711767776984568,
+            "membership_auc_proxy": 0.54480109739369,
+            "membership_signal": 0.91039780521262,
+            "recoverability_signal": 0.08960219478737996,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0020514112584091647,
+            "statistical_signal": 0.13711767776984568,
+            "test_accuracy": 0.96
+          }
+        }
+      ]
+    },
+    "verdict": "Likely Forgotten"
+  },
+  "without_recovery_aware_selection": {
+    "agreement": 0.8432293102460111,
+    "conformal_exclusion_gap": 0.018683535020168618,
+    "consensus": 0.8390863412743476,
+    "direct_recoverability": 0.09925925925925938,
+    "forget_accuracy": 0.9925925925925926,
+    "method": "without_recovery_aware_selection",
+    "recovery_by_condition": {
+      "contrast_brightness": 0.1081481481481481,
+      "direct": 0.09925925925925938,
+      "gaussian_noise": 0.05174211248285321,
+      "random_mask": 0.10946502057613161,
+      "spatial_shift": 0.006529492455418451
+    },
+    "retain_accuracy": 1.0,
+    "runtime_seconds": 0.17386627197265625,
+    "seed": 42,
+    "test_accuracy": 0.9622222222222222,
+    "trace": {
+      "candidate_evaluations": 54,
+      "config": {
+        "candidate_scales": [
+          0.5,
+          1.0,
+          1.5
+        ],
+        "epsilon": 1e-12,
+        "iterations": 18,
+        "learning_rate": 0.3,
+        "max_retain_drop": 0.015,
+        "min_retain_accuracy": 0.97,
+        "retain_correction": 0.012,
+        "use_disagreement_selection": true,
+        "use_recovery_selection": false,
+        "use_retain_utility": true
+      },
+      "final_fast_evidence": {
+        "confidence_signal": 0.6058446792263341,
+        "forget_loss_signal": 0.0679010032505484,
+        "membership_auc_proxy": 0.5496296296296297,
+        "membership_signal": 0.9007407407407406,
+        "recoverability_signal": 0.09925925925925938,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.002017392943748913,
+        "statistical_signal": 0.0679010032505484,
+        "test_accuracy": 0.9622222222222222
+      },
+      "iterations": 18,
+      "runtime_seconds": 0.17386627197265625,
+      "trajectory": [
+        {
+          "iteration": 1,
+          "projection": {
+            "projected_retain_dot": -2.326975973869182e-05,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -2.326975973869182e-05
+          },
+          "proxy_dispersion": 0.3680933238374262,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5524202647051082,
+            "forget_loss_signal": 0.0002342781806756809,
+            "membership_auc_proxy": 0.5531961591220851,
+            "membership_signal": 0.8936076817558298,
+            "recoverability_signal": 0.10639231824417017,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.00186233722096396,
+            "statistical_signal": 0.0002342781806756809,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 2,
+          "projection": {
+            "projected_retain_dot": -2.2055036622145303e-05,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -2.2055036622145303e-05
+          },
+          "proxy_dispersion": 0.36815497067348407,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5531320187038582,
+            "forget_loss_signal": 0.00029087429136182463,
+            "membership_auc_proxy": 0.5531412894375858,
+            "membership_signal": 0.8937174211248284,
+            "recoverability_signal": 0.10628257887517156,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018591691347649424,
+            "statistical_signal": 0.00029087429136182463,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 3,
+          "projection": {
+            "projected_retain_dot": -2.0115673294033736e-05,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -2.0115673294033736e-05
+          },
+          "proxy_dispersion": 0.36826123389306353,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5539450483963639,
+            "forget_loss_signal": 0.0003543038196083179,
+            "membership_auc_proxy": 0.5530315500685872,
+            "membership_signal": 0.8939368998628257,
+            "recoverability_signal": 0.10606310013717435,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018563308560794899,
+            "statistical_signal": 0.0003543038196083179,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 4,
+          "projection": {
+            "projected_retain_dot": -1.760104127574877e-05,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -1.760104127574877e-05
+          },
+          "proxy_dispersion": 0.3682906278979792,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5548841344791202,
+            "forget_loss_signal": 0.0004261551831318119,
+            "membership_auc_proxy": 0.5530315500685872,
+            "membership_signal": 0.8939368998628257,
+            "recoverability_signal": 0.10606310013717435,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018539370929234389,
+            "statistical_signal": 0.0004261551831318119,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 5,
+          "projection": {
+            "projected_retain_dot": -1.4084650266758662e-05,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -1.4084650266758662e-05
+          },
+          "proxy_dispersion": 0.3686930826857791,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5559786233904753,
+            "forget_loss_signal": 0.0005085610321900926,
+            "membership_auc_proxy": 0.5525377229080932,
+            "membership_signal": 0.8949245541838136,
+            "recoverability_signal": 0.10507544581618644,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001852119623817017,
+            "statistical_signal": 0.0005085610321900926,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 6,
+          "projection": {
+            "projected_retain_dot": -9.483682799862293e-06,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -9.483682799862293e-06
+          },
+          "proxy_dispersion": 0.36906176438042243,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.557267453800451,
+            "forget_loss_signal": 0.0006044074768533738,
+            "membership_auc_proxy": 0.5520987654320988,
+            "membership_signal": 0.8958024691358024,
+            "recoverability_signal": 0.10419753086419759,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018510557017739763,
+            "statistical_signal": 0.0006044074768533738,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 7,
+          "projection": {
+            "projected_retain_dot": -3.526558409133268e-06,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -3.526558409133268e-06
+          },
+          "proxy_dispersion": 0.3693592144457674,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5622987375179869,
+            "forget_loss_signal": 0.0009743847069514722,
+            "membership_auc_proxy": 0.5519341563786009,
+            "membership_signal": 0.8961316872427982,
+            "recoverability_signal": 0.10386831275720176,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001854624325544904,
+            "statistical_signal": 0.0009743847069514722,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 8,
+          "projection": {
+            "projected_retain_dot": 1.5671364078996416e-12,
+            "projection_coefficient": 1.5671364074845548,
+            "raw_gradient_dot": 2.6914797212183648e-05
+          },
+          "proxy_dispersion": 0.3701052720320244,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5655295080739378,
+            "forget_loss_signal": 0.0011682418426822256,
+            "membership_auc_proxy": 0.5511111111111111,
+            "membership_signal": 0.8977777777777778,
+            "recoverability_signal": 0.10222222222222221,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018552466341040675,
+            "statistical_signal": 0.0011682418426822256,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 9,
+          "projection": {
+            "projected_retain_dot": 2.2791013201838134e-12,
+            "projection_coefficient": 2.2791013153786888,
+            "raw_gradient_dot": 4.447941805607251e-05
+          },
+          "proxy_dispersion": 0.3702211272848572,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.5741413014501431,
+            "forget_loss_signal": 0.0016792608138076726,
+            "membership_auc_proxy": 0.5514951989026062,
+            "membership_signal": 0.8970096021947875,
+            "recoverability_signal": 0.10299039780521246,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018584071215872885,
+            "statistical_signal": 0.0016792608138076726,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 10,
+          "projection": {
+            "projected_retain_dot": 3.62749994992243e-12,
+            "projection_coefficient": 3.6274999518485043,
+            "raw_gradient_dot": 9.44131893178636e-05
+          },
+          "proxy_dispersion": 0.37054705228370693,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.587801441795909,
+            "forget_loss_signal": 0.002482868764824256,
+            "membership_auc_proxy": 0.5520438957475994,
+            "membership_signal": 0.8959122085048012,
+            "recoverability_signal": 0.10408779149519876,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001862206176801941,
+            "statistical_signal": 0.002482868764824256,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 11,
+          "projection": {
+            "projected_retain_dot": 5.115141066057491e-12,
+            "projection_coefficient": 5.115141023387547,
+            "raw_gradient_dot": 0.00017670597789125193
+          },
+          "proxy_dispersion": 0.37110500465337626,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5979220144200772,
+            "forget_loss_signal": 0.0030977722190040184,
+            "membership_auc_proxy": 0.5520987654320987,
+            "membership_signal": 0.8958024691358026,
+            "recoverability_signal": 0.10419753086419736,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018629590978490613,
+            "statistical_signal": 0.0030977722190040184,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 12,
+          "projection": {
+            "projected_retain_dot": 6.010716729041617e-12,
+            "projection_coefficient": 6.010716677725347,
+            "raw_gradient_dot": 0.00023643929505740523
+          },
+          "proxy_dispersion": 0.37187464959902466,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.6101899823540271,
+            "forget_loss_signal": 0.003911765813635819,
+            "membership_auc_proxy": 0.5520987654320988,
+            "membership_signal": 0.8958024691358024,
+            "recoverability_signal": 0.10419753086419759,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018637144112613184,
+            "statistical_signal": 0.003911765813635819,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 13,
+          "projection": {
+            "projected_retain_dot": 7.032307109415569e-12,
+            "projection_coefficient": 7.032307033552178,
+            "raw_gradient_dot": 0.00031373895585764573
+          },
+          "proxy_dispersion": 0.3723566424342483,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.6239710368741016,
+            "forget_loss_signal": 0.004965960268302726,
+            "membership_auc_proxy": 0.5527023319615912,
+            "membership_signal": 0.8945953360768175,
+            "recoverability_signal": 0.10540466392318248,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018646524299037277,
+            "statistical_signal": 0.004965960268302726,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 14,
+          "projection": {
+            "projected_retain_dot": 8.140240254847904e-12,
+            "projection_coefficient": 8.14024025469474,
+            "raw_gradient_dot": 0.00041051422663800205
+          },
+          "proxy_dispersion": 0.3728801035854121,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6465809026000837,
+            "forget_loss_signal": 0.009800115636454032,
+            "membership_auc_proxy": 0.5523731138545953,
+            "membership_signal": 0.8952537722908094,
+            "recoverability_signal": 0.10474622770919062,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018784994609480892,
+            "statistical_signal": 0.009800115636454032,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 15,
+          "projection": {
+            "projected_retain_dot": 1.0929235807559978e-11,
+            "projection_coefficient": 10.929235804368082,
+            "raw_gradient_dot": 0.0007917822581334627
+          },
+          "proxy_dispersion": 0.36744664736725546,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6290659140439416,
+            "forget_loss_signal": 0.018822014774871568,
+            "membership_auc_proxy": 0.5515500685871056,
+            "membership_signal": 0.8968998628257887,
+            "recoverability_signal": 0.10310013717421129,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018983510889271503,
+            "statistical_signal": 0.018822014774871568,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 16,
+          "projection": {
+            "projected_retain_dot": 1.2533682526696399e-11,
+            "projection_coefficient": 12.533682551664784,
+            "raw_gradient_dot": 0.0012221196709999527
+          },
+          "proxy_dispersion": 0.35985043514944776,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6067584435785536,
+            "forget_loss_signal": 0.03215605375811289,
+            "membership_auc_proxy": 0.5508367626886146,
+            "membership_signal": 0.8983264746227708,
+            "recoverability_signal": 0.10167352537722918,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001928518556266743,
+            "statistical_signal": 0.03215605375811289,
+            "test_accuracy": 0.9644444444444444
+          }
+        },
+        {
+          "iteration": 17,
+          "projection": {
+            "projected_retain_dot": 1.3226346899287045e-11,
+            "projection_coefficient": 13.226346945016441,
+            "raw_gradient_dot": 0.0016241072621494676
+          },
+          "proxy_dispersion": 0.3523146872595962,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6060056585535336,
+            "forget_loss_signal": 0.04933208995448971,
+            "membership_auc_proxy": 0.5506172839506174,
+            "membership_signal": 0.8987654320987652,
+            "recoverability_signal": 0.10123456790123475,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001982031602148458,
+            "statistical_signal": 0.04933208995448971,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 18,
+          "projection": {
+            "projected_retain_dot": 1.3967623360611749e-11,
+            "projection_coefficient": 13.967623364310178,
+            "raw_gradient_dot": 0.002196183686108588
+          },
+          "proxy_dispersion": 0.3447977046136831,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6058446792263341,
+            "forget_loss_signal": 0.0679010032505484,
+            "membership_auc_proxy": 0.5496296296296297,
+            "membership_signal": 0.9007407407407406,
+            "recoverability_signal": 0.09925925925925938,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.002017392943748913,
+            "statistical_signal": 0.0679010032505484,
+            "test_accuracy": 0.9622222222222222
+          }
+        }
+      ]
+    },
+    "verdict": "Likely Forgotten"
+  },
+  "without_retain_utility_constraint": {
+    "agreement": 0.8670685408554013,
+    "conformal_exclusion_gap": 0.04831316464979829,
+    "consensus": 0.8685948655302702,
+    "direct_recoverability": 0.08982167352537718,
+    "forget_accuracy": 0.9925925925925926,
+    "method": "without_retain_utility_constraint",
+    "recovery_by_condition": {
+      "contrast_brightness": 0.10167352537722918,
+      "direct": 0.08982167352537718,
+      "gaussian_noise": 0.03813443072702327,
+      "random_mask": 0.08938271604938275,
+      "spatial_shift": 0.004334705075445866
+    },
+    "retain_accuracy": 1.0,
+    "runtime_seconds": 0.15967535972595215,
+    "seed": 42,
+    "test_accuracy": 0.96,
+    "trace": {
+      "candidate_evaluations": 54,
+      "config": {
+        "candidate_scales": [
+          0.5,
+          1.0,
+          1.5
+        ],
+        "epsilon": 1e-12,
+        "iterations": 18,
+        "learning_rate": 0.3,
+        "max_retain_drop": 0.015,
+        "min_retain_accuracy": 0.97,
+        "retain_correction": 0.012,
+        "use_disagreement_selection": true,
+        "use_recovery_selection": true,
+        "use_retain_utility": false
+      },
+      "final_fast_evidence": {
+        "confidence_signal": 0.65962774744344,
+        "forget_loss_signal": 0.1387305548333929,
+        "membership_auc_proxy": 0.5449108367626886,
+        "membership_signal": 0.9101783264746228,
+        "recoverability_signal": 0.08982167352537718,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0020998922992967353,
+        "statistical_signal": 0.1387305548333929,
+        "test_accuracy": 0.96
+      },
+      "iterations": 18,
+      "runtime_seconds": 0.15967535972595215,
+      "trajectory": [
+        {
+          "iteration": 1,
+          "projection": {
+            "projected_retain_dot": -2.326975973869182e-05,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -2.326975973869182e-05
+          },
+          "proxy_dispersion": 0.3682909318856883,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5536875374392682,
+            "forget_loss_signal": 0.0003418927398764304,
+            "membership_auc_proxy": 0.5529766803840878,
+            "membership_signal": 0.8940466392318245,
+            "recoverability_signal": 0.10595336076817552,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001857291739416162,
+            "statistical_signal": 0.0003418927398764304,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 2,
+          "projection": {
+            "projected_retain_dot": -1.8296712820512888e-05,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -1.8296712820512888e-05
+          },
+          "proxy_dispersion": 0.36902763125516447,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.556471535560831,
+            "forget_loss_signal": 0.0005633293326517657,
+            "membership_auc_proxy": 0.5520987654320988,
+            "membership_signal": 0.8958024691358024,
+            "recoverability_signal": 0.10419753086419759,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.00185218301627285,
+            "statistical_signal": 0.0005633293326517657,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 3,
+          "projection": {
+            "projected_retain_dot": -6.606645290859201e-06,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -6.606645290859201e-06
+          },
+          "proxy_dispersion": 0.3694244678286337,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5610102613064241,
+            "forget_loss_signal": 0.0009034478083332236,
+            "membership_auc_proxy": 0.5517695473251029,
+            "membership_signal": 0.8964609053497943,
+            "recoverability_signal": 0.10353909465020572,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001854057706272322,
+            "statistical_signal": 0.0009034478083332236,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 4,
+          "projection": {
+            "projected_retain_dot": 1.2090355845869245e-12,
+            "projection_coefficient": 1.2090355891295803,
+            "raw_gradient_dot": 1.9530883314868404e-05
+          },
+          "proxy_dispersion": 0.3703634648960909,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5700469722842119,
+            "forget_loss_signal": 0.0014940324204706019,
+            "membership_auc_proxy": 0.5510013717421125,
+            "membership_signal": 0.897997256515775,
+            "recoverability_signal": 0.102002743484225,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018612747303595426,
+            "statistical_signal": 0.0014940324204706019,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 5,
+          "projection": {
+            "projected_retain_dot": 3.181794741869415e-12,
+            "projection_coefficient": 3.1817947337957975,
+            "raw_gradient_dot": 7.724599163692124e-05
+          },
+          "proxy_dispersion": 0.3706457386911736,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5757868033424609,
+            "forget_loss_signal": 0.0018155004819783301,
+            "membership_auc_proxy": 0.5510013717421125,
+            "membership_signal": 0.897997256515775,
+            "recoverability_signal": 0.102002743484225,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018622162964297177,
+            "statistical_signal": 0.0018155004819783301,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 6,
+          "projection": {
+            "projected_retain_dot": 3.9001046725588064e-12,
+            "projection_coefficient": 3.900104683297063,
+            "raw_gradient_dot": 0.00010943264083518099
+          },
+          "proxy_dispersion": 0.3704673549398441,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5830047078861247,
+            "forget_loss_signal": 0.0022260717020857234,
+            "membership_auc_proxy": 0.551769547325103,
+            "membership_signal": 0.8964609053497941,
+            "recoverability_signal": 0.10353909465020594,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001863288319737935,
+            "statistical_signal": 0.0022260717020857234,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 7,
+          "projection": {
+            "projected_retain_dot": 4.677634888594425e-12,
+            "projection_coefficient": 4.677634910664579,
+            "raw_gradient_dot": 0.00015038525164061018
+          },
+          "proxy_dispersion": 0.37122518877080213,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6015179817347573,
+            "forget_loss_signal": 0.003378719618685205,
+            "membership_auc_proxy": 0.5522085048010974,
+            "membership_signal": 0.8955829903978052,
+            "recoverability_signal": 0.1044170096021948,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001867581560684826,
+            "statistical_signal": 0.003378719618685205,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 8,
+          "projection": {
+            "projected_retain_dot": 6.312370591340835e-12,
+            "projection_coefficient": 6.312370565305877,
+            "raw_gradient_dot": 0.00026617563563588193
+          },
+          "proxy_dispersion": 0.3718314073362693,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.614607537393689,
+            "forget_loss_signal": 0.004279232286387741,
+            "membership_auc_proxy": 0.5525377229080932,
+            "membership_signal": 0.8949245541838136,
+            "recoverability_signal": 0.10507544581618644,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018689190270908748,
+            "statistical_signal": 0.004279232286387741,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 9,
+          "projection": {
+            "projected_retain_dot": 7.368447870834279e-12,
+            "projection_coefficient": 7.368447875336635,
+            "raw_gradient_dot": 0.0003523593681463508
+          },
+          "proxy_dispersion": 0.3739648154419779,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6496349298305129,
+            "forget_loss_signal": 0.008357640410889936,
+            "membership_auc_proxy": 0.5522633744855967,
+            "membership_signal": 0.8954732510288066,
+            "recoverability_signal": 0.1045267489711934,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018828670622249523,
+            "statistical_signal": 0.008357640410889936,
+            "test_accuracy": 0.96
+          }
+        },
+        {
+          "iteration": 10,
+          "projection": {
+            "projected_retain_dot": 1.0202126414746938e-11,
+            "projection_coefficient": 10.202126615269114,
+            "raw_gradient_dot": 0.0007050647934793738
+          },
+          "proxy_dispersion": 0.3710016057791132,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6387959400252821,
+            "forget_loss_signal": 0.013410341500947897,
+            "membership_auc_proxy": 0.5514403292181069,
+            "membership_signal": 0.8971193415637861,
+            "recoverability_signal": 0.10288065843621386,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001891201012389151,
+            "statistical_signal": 0.013410341500947897,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 11,
+          "projection": {
+            "projected_retain_dot": 1.1817745345674075e-11,
+            "projection_coefficient": 11.817745353862907,
+            "raw_gradient_dot": 0.0009989244267799749
+          },
+          "proxy_dispersion": 0.36638832194289483,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6238869162338636,
+            "forget_loss_signal": 0.020598624672808177,
+            "membership_auc_proxy": 0.5511659807956104,
+            "membership_signal": 0.8976680384087792,
+            "recoverability_signal": 0.10233196159122082,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0019026623817955952,
+            "statistical_signal": 0.020598624672808177,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 12,
+          "projection": {
+            "projected_retain_dot": 1.2741727233320478e-11,
+            "projection_coefficient": 12.741727398051738,
+            "raw_gradient_dot": 0.0012724305905740196
+          },
+          "proxy_dispersion": 0.35845027688967707,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6056163306193754,
+            "forget_loss_signal": 0.03472830526602742,
+            "membership_auc_proxy": 0.5510562414266118,
+            "membership_signal": 0.8978875171467764,
+            "recoverability_signal": 0.10211248285322361,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001937813171071357,
+            "statistical_signal": 0.03472830526602742,
+            "test_accuracy": 0.9644444444444444
+          }
+        },
+        {
+          "iteration": 13,
+          "projection": {
+            "projected_retain_dot": 1.3478161897088186e-11,
+            "projection_coefficient": 13.478161959922813,
+            "raw_gradient_dot": 0.001705483602346793
+          },
+          "proxy_dispersion": 0.356556196200518,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.6047619811543106,
+            "forget_loss_signal": 0.04042613211742662,
+            "membership_auc_proxy": 0.5500685871056241,
+            "membership_signal": 0.8998628257887518,
+            "recoverability_signal": 0.10013717421124824,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0019437935596734982,
+            "statistical_signal": 0.04042613211742662,
+            "test_accuracy": 0.9644444444444444
+          }
+        },
+        {
+          "iteration": 14,
+          "projection": {
+            "projected_retain_dot": 1.4125934414394196e-11,
+            "projection_coefficient": 14.125934498104096,
+            "raw_gradient_dot": 0.001858264934307313
+          },
+          "proxy_dispersion": 0.3488665269356683,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.608698286824926,
+            "forget_loss_signal": 0.05886299468488467,
+            "membership_auc_proxy": 0.5498491083676268,
+            "membership_signal": 0.9003017832647464,
+            "recoverability_signal": 0.09969821673525359,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001999385647181187,
+            "statistical_signal": 0.05886299468488467,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 15,
+          "projection": {
+            "projected_retain_dot": 1.4110199039816735e-11,
+            "projection_coefficient": 14.110199266939771,
+            "raw_gradient_dot": 0.0024364759300417116
+          },
+          "proxy_dispersion": 0.34026727583063626,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5997954186465551,
+            "forget_loss_signal": 0.07760543038653764,
+            "membership_auc_proxy": 0.5493552812071331,
+            "membership_signal": 0.9012894375857339,
+            "recoverability_signal": 0.09871056241426612,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0020253048193349227,
+            "statistical_signal": 0.07760543038653764,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 16,
+          "projection": {
+            "projected_retain_dot": 1.4323075283278916e-11,
+            "projection_coefficient": 14.323075190217455,
+            "raw_gradient_dot": 0.002699856194880419
+          },
+          "proxy_dispersion": 0.3319174418719574,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5953271571778265,
+            "forget_loss_signal": 0.09671338467284767,
+            "membership_auc_proxy": 0.5489163237311385,
+            "membership_signal": 0.902167352537723,
+            "recoverability_signal": 0.09783264746227704,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0020489790974116376,
+            "statistical_signal": 0.09671338467284767,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 17,
+          "projection": {
+            "projected_retain_dot": 1.4200067154201646e-11,
+            "projection_coefficient": 14.20006657891539,
+            "raw_gradient_dot": 0.0029682610808935673
+          },
+          "proxy_dispersion": 0.32536288187911333,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5976094890099506,
+            "forget_loss_signal": 0.1161381690899027,
+            "membership_auc_proxy": 0.546556927297668,
+            "membership_signal": 0.906886145404664,
+            "recoverability_signal": 0.09311385459533605,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.002065572577229783,
+            "statistical_signal": 0.1161381690899027,
+            "test_accuracy": 0.96
+          }
+        },
+        {
+          "iteration": 18,
+          "projection": {
+            "projected_retain_dot": 1.3922640499789623e-11,
+            "projection_coefficient": 13.922639966171309,
+            "raw_gradient_dot": 0.0030779682057192506
+          },
+          "proxy_dispersion": 0.3213238488040287,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.65962774744344,
+            "forget_loss_signal": 0.1387305548333929,
+            "membership_auc_proxy": 0.5449108367626886,
+            "membership_signal": 0.9101783264746228,
+            "recoverability_signal": 0.08982167352537718,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0020998922992967353,
+            "statistical_signal": 0.1387305548333929,
+            "test_accuracy": 0.96
+          }
+        }
+      ]
+    },
+    "verdict": "Likely Forgotten"
+  },
+  "without_verifier_disagreement_selection": {
+    "agreement": 0.8613528073718443,
+    "conformal_exclusion_gap": 0.04831316464979829,
+    "consensus": 0.8687860870340509,
+    "direct_recoverability": 0.08960219478737996,
+    "forget_accuracy": 0.9925925925925926,
+    "method": "without_verifier_disagreement_selection",
+    "recovery_by_condition": {
+      "contrast_brightness": 0.10123456790123453,
+      "direct": 0.08960219478737996,
+      "gaussian_noise": 0.038792866941015136,
+      "random_mask": 0.090150891632373,
+      "spatial_shift": 0.005322359396433551
+    },
+    "retain_accuracy": 1.0,
+    "runtime_seconds": 0.17395496368408203,
+    "seed": 42,
+    "test_accuracy": 0.96,
+    "trace": {
+      "candidate_evaluations": 54,
+      "config": {
+        "candidate_scales": [
+          0.5,
+          1.0,
+          1.5
+        ],
+        "epsilon": 1e-12,
+        "iterations": 18,
+        "learning_rate": 0.3,
+        "max_retain_drop": 0.015,
+        "min_retain_accuracy": 0.97,
+        "retain_correction": 0.012,
+        "use_disagreement_selection": false,
+        "use_recovery_selection": true,
+        "use_retain_utility": true
+      },
+      "final_fast_evidence": {
+        "confidence_signal": 0.6535339228961492,
+        "forget_loss_signal": 0.13711767776984568,
+        "membership_auc_proxy": 0.54480109739369,
+        "membership_signal": 0.91039780521262,
+        "recoverability_signal": 0.08960219478737996,
+        "retain_accuracy": 1.0,
+        "retain_degradation": 0.0,
+        "retain_loss_signal": 0.0020514112584091647,
+        "statistical_signal": 0.13711767776984568,
+        "test_accuracy": 0.96
+      },
+      "iterations": 18,
+      "runtime_seconds": 0.17395496368408203,
+      "trajectory": [
+        {
+          "iteration": 1,
+          "projection": {
+            "projected_retain_dot": -2.326975973869182e-05,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -2.326975973869182e-05
+          },
+          "proxy_dispersion": 0.36829162850761504,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5537009723314914,
+            "forget_loss_signal": 0.00034227461236216385,
+            "membership_auc_proxy": 0.5529766803840878,
+            "membership_signal": 0.8940466392318245,
+            "recoverability_signal": 0.10595336076817552,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018571648579479153,
+            "statistical_signal": 0.00034227461236216385,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 2,
+          "projection": {
+            "projected_retain_dot": -1.828890904226981e-05,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -1.828890904226981e-05
+          },
+          "proxy_dispersion": 0.3690293935155273,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5565037078826687,
+            "forget_loss_signal": 0.0005640983005655502,
+            "membership_auc_proxy": 0.5520987654320988,
+            "membership_signal": 0.8958024691358024,
+            "recoverability_signal": 0.10419753086419759,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018519396786370406,
+            "statistical_signal": 0.0005640983005655502,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 3,
+          "projection": {
+            "projected_retain_dot": -6.60391371523645e-06,
+            "projection_coefficient": 0.0,
+            "raw_gradient_dot": -6.60391371523645e-06
+          },
+          "proxy_dispersion": 0.36946873160920585,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5610712802107622,
+            "forget_loss_signal": 0.0009045670750667618,
+            "membership_auc_proxy": 0.5517146776406036,
+            "membership_signal": 0.8965706447187929,
+            "recoverability_signal": 0.10342935528120711,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001853662323875094,
+            "statistical_signal": 0.0009045670750667618,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 4,
+          "projection": {
+            "projected_retain_dot": 1.207103856057258e-12,
+            "projection_coefficient": 1.2071038655151398,
+            "raw_gradient_dot": 1.9471321878055632e-05
+          },
+          "proxy_dispersion": 0.37036989321025543,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5701436060131462,
+            "forget_loss_signal": 0.001495282918799623,
+            "membership_auc_proxy": 0.5510013717421125,
+            "membership_signal": 0.897997256515775,
+            "recoverability_signal": 0.102002743484225,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018606363995946151,
+            "statistical_signal": 0.001495282918799623,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 5,
+          "projection": {
+            "projected_retain_dot": 3.181707022925639e-12,
+            "projection_coefficient": 3.181707020061797,
+            "raw_gradient_dot": 7.695241762871237e-05
+          },
+          "proxy_dispersion": 0.37065472302420127,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5759096610799377,
+            "forget_loss_signal": 0.0018161639335341892,
+            "membership_auc_proxy": 0.5510013717421125,
+            "membership_signal": 0.897997256515775,
+            "recoverability_signal": 0.102002743484225,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018612800811485712,
+            "statistical_signal": 0.0018161639335341892,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 6,
+          "projection": {
+            "projected_retain_dot": 3.914725778682286e-12,
+            "projection_coefficient": 3.91472577095591,
+            "raw_gradient_dot": 0.00010896048617568254
+          },
+          "proxy_dispersion": 0.3704785725996243,
+          "selected_scale": 0.5,
+          "state": {
+            "confidence_signal": 0.5831406175462219,
+            "forget_loss_signal": 0.0022253582941589396,
+            "membership_auc_proxy": 0.551769547325103,
+            "membership_signal": 0.8964609053497941,
+            "recoverability_signal": 0.10353909465020594,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018619236926400223,
+            "statistical_signal": 0.0022253582941589396,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 7,
+          "projection": {
+            "projected_retain_dot": 4.667442304712043e-12,
+            "projection_coefficient": 4.667442297651297,
+            "raw_gradient_dot": 0.000148863916262475
+          },
+          "proxy_dispersion": 0.37127838597660967,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6016638648715324,
+            "forget_loss_signal": 0.003376580243068617,
+            "membership_auc_proxy": 0.5521536351165981,
+            "membership_signal": 0.8956927297668038,
+            "recoverability_signal": 0.10430727023319619,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018659921850158066,
+            "statistical_signal": 0.003376580243068617,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 8,
+          "projection": {
+            "projected_retain_dot": 6.329178766180278e-12,
+            "projection_coefficient": 6.329178746076573,
+            "raw_gradient_dot": 0.00026398135077946065
+          },
+          "proxy_dispersion": 0.37363318293485215,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6407178728119813,
+            "forget_loss_signal": 0.006495581815761695,
+            "membership_auc_proxy": 0.5524828532235939,
+            "membership_signal": 0.8950342935528122,
+            "recoverability_signal": 0.10496570644718783,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0018777511478168323,
+            "statistical_signal": 0.006495581815761695,
+            "test_accuracy": 0.9577777777777777
+          }
+        },
+        {
+          "iteration": 9,
+          "projection": {
+            "projected_retain_dot": 9.16048626582083e-12,
+            "projection_coefficient": 9.160486164371084,
+            "raw_gradient_dot": 0.0005576986451336263
+          },
+          "proxy_dispersion": 0.37129863983021866,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.640501998231763,
+            "forget_loss_signal": 0.012838893317344563,
+            "membership_auc_proxy": 0.5516598079561044,
+            "membership_signal": 0.8966803840877913,
+            "recoverability_signal": 0.10331961591220873,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001893548013141661,
+            "statistical_signal": 0.012838893317344563,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 10,
+          "projection": {
+            "projected_retain_dot": 1.1608005349510516e-11,
+            "projection_coefficient": 11.608005710594343,
+            "raw_gradient_dot": 0.0009821750419002609
+          },
+          "proxy_dispersion": 0.3669746580301535,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6257826551416703,
+            "forget_loss_signal": 0.01980259664212262,
+            "membership_auc_proxy": 0.5511111111111111,
+            "membership_signal": 0.8977777777777778,
+            "recoverability_signal": 0.10222222222222221,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0019030266203361383,
+            "statistical_signal": 0.01980259664212262,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 11,
+          "projection": {
+            "projected_retain_dot": 1.2621826107782265e-11,
+            "projection_coefficient": 12.62182624471284,
+            "raw_gradient_dot": 0.0012532256395861386
+          },
+          "proxy_dispersion": 0.3588534005090488,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6051015229496617,
+            "forget_loss_signal": 0.033632997322020936,
+            "membership_auc_proxy": 0.5511111111111111,
+            "membership_signal": 0.8977777777777778,
+            "recoverability_signal": 0.10222222222222221,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001935740345800793,
+            "statistical_signal": 0.033632997322020936,
+            "test_accuracy": 0.9644444444444444
+          }
+        },
+        {
+          "iteration": 12,
+          "projection": {
+            "projected_retain_dot": 1.3386582102705688e-11,
+            "projection_coefficient": 13.38658206622767,
+            "raw_gradient_dot": 0.0016751911729229294
+          },
+          "proxy_dispersion": 0.35426352851219145,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6047081372937892,
+            "forget_loss_signal": 0.04513957716568504,
+            "membership_auc_proxy": 0.5503429355281206,
+            "membership_signal": 0.8993141289437587,
+            "recoverability_signal": 0.10068587105624127,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0019587844002025606,
+            "statistical_signal": 0.04513957716568504,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 13,
+          "projection": {
+            "projected_retain_dot": 1.4298135323080521e-11,
+            "projection_coefficient": 14.298135462103179,
+            "raw_gradient_dot": 0.0020177160922823026
+          },
+          "proxy_dispersion": 0.34922519878799774,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6065530510074915,
+            "forget_loss_signal": 0.05738866777764163,
+            "membership_auc_proxy": 0.5500137174211248,
+            "membership_signal": 0.8999725651577504,
+            "recoverability_signal": 0.10002743484224963,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0019767391809482077,
+            "statistical_signal": 0.05738866777764163,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 14,
+          "projection": {
+            "projected_retain_dot": 1.464824294158016e-11,
+            "projection_coefficient": 14.648243028365677,
+            "raw_gradient_dot": 0.0023093382900794598
+          },
+          "proxy_dispersion": 0.3441498338672259,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.6040142528888439,
+            "forget_loss_signal": 0.06977201850890952,
+            "membership_auc_proxy": 0.549190672153635,
+            "membership_signal": 0.9016186556927299,
+            "recoverability_signal": 0.09838134430727008,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0019861401829924124,
+            "statistical_signal": 0.06977201850890952,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 15,
+          "projection": {
+            "projected_retain_dot": 1.4772791493219164e-11,
+            "projection_coefficient": 14.772791245142148,
+            "raw_gradient_dot": 0.002494934617110392
+          },
+          "proxy_dispersion": 0.3385868465285645,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.5996622505197338,
+            "forget_loss_signal": 0.08232946237217513,
+            "membership_auc_proxy": 0.5488065843621399,
+            "membership_signal": 0.9023868312757202,
+            "recoverability_signal": 0.09761316872427983,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.001995152474884748,
+            "statistical_signal": 0.08232946237217513,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 16,
+          "projection": {
+            "projected_retain_dot": 1.4941674407197363e-11,
+            "projection_coefficient": 14.941674419810354,
+            "raw_gradient_dot": 0.0026363401957539318
+          },
+          "proxy_dispersion": 0.3302120556309503,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.5951359631695099,
+            "forget_loss_signal": 0.10162742421776409,
+            "membership_auc_proxy": 0.5483127572016462,
+            "membership_signal": 0.9033744855967076,
+            "recoverability_signal": 0.09662551440329237,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0020151538270221296,
+            "statistical_signal": 0.10162742421776409,
+            "test_accuracy": 0.9622222222222222
+          }
+        },
+        {
+          "iteration": 17,
+          "projection": {
+            "projected_retain_dot": 1.4286841022660705e-11,
+            "projection_coefficient": 14.286841385111515,
+            "raw_gradient_dot": 0.002823099107522596
+          },
+          "proxy_dispersion": 0.32551406523263,
+          "selected_scale": 1.0,
+          "state": {
+            "confidence_signal": 0.5974837002865132,
+            "forget_loss_signal": 0.11491989061816907,
+            "membership_auc_proxy": 0.5470507544581619,
+            "membership_signal": 0.9058984910836763,
+            "recoverability_signal": 0.09410150891632374,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.002024030451458633,
+            "statistical_signal": 0.11491989061816907,
+            "test_accuracy": 0.96
+          }
+        },
+        {
+          "iteration": 18,
+          "projection": {
+            "projected_retain_dot": 1.4864399342550485e-11,
+            "projection_coefficient": 14.864399022210003,
+            "raw_gradient_dot": 0.002975977790497651
+          },
+          "proxy_dispersion": 0.32156335953638776,
+          "selected_scale": 1.5,
+          "state": {
+            "confidence_signal": 0.6535339228961492,
+            "forget_loss_signal": 0.13711767776984568,
+            "membership_auc_proxy": 0.54480109739369,
+            "membership_signal": 0.91039780521262,
+            "recoverability_signal": 0.08960219478737996,
+            "retain_accuracy": 1.0,
+            "retain_degradation": 0.0,
+            "retain_loss_signal": 0.0020514112584091647,
+            "statistical_signal": 0.13711767776984568,
+            "test_accuracy": 0.96
+          }
+        }
+      ]
+    },
+    "verdict": "Likely Forgotten"
+  }
+}

@@ -1,0 +1,204 @@
+"""
+RENA core — pipeline orchestrator. Runs a full audit: trains base model,
+applies an unlearning algorithm, runs all 4 verification modules, computes
+consensus, and produces a diagnosis. This is the function the backend API
+and the test suite both call.
+"""
+from __future__ import annotations
+
+import time
+import numpy as np
+
+from core.dataset import build_split, UnlearningSplit
+from core.model import train_base_model, evaluate
+from core.unlearning import (
+    fine_tuning_unlearn, gradient_ascent_unlearn, ground_truth_retrain, sisa_unlearn,
+)
+from core.prism_unlearning import prism_unlearn
+from core.echo_controller import echo_unlearn
+from core.modern_unlearning import (negative_gradient_unlearn, salun_unlearn, unsir_style_unlearn, scrub_style_unlearn)
+from core.advanced_audit import run_advanced_audit
+from core.verification import (
+    membership_inference_attack, loss_distribution_test,
+    confidence_analysis, bootstrap_statistical_witness,
+)
+from core.consensus import compute_consensus
+from core.diagnosis import diagnose
+from core.provenance import build_manifest
+
+ALGORITHMS = ["fine_tuning", "gradient_ascent", "ground_truth_retraining", "sisa", "prism", "echo", "neggrad", "salun", "unsir", "scrub"]
+CONTROL_ALGORITHMS = ["no_op", "partial_unlearning", "over_unlearning"]
+
+
+def _build_reference_ensemble(split: UnlearningSplit, count: int, seed_base: int = 50000):
+    """Train independently initialized retain-only references for calibration."""
+    refs=[]; runtimes=[]
+    for i in range(max(0, int(count))):
+        t_ref=time.time()
+        refs.append(ground_truth_retrain(split.X_retain, split.y_retain, random_state=seed_base + i))
+        runtimes.append(time.time()-t_ref)
+    return refs, runtimes
+
+
+def run_audit(algorithm: str, split: UnlearningSplit, original_model,
+              sample_ids: np.ndarray | None = None, reference_count: int = 10,
+              reference_seed: int = 50000, split_seed: int = 42,
+              reference_models=None, decision_thresholds=None) -> dict:
+    if algorithm not in ALGORITHMS + CONTROL_ALGORITHMS:
+        raise ValueError(f"Unknown algorithm '{algorithm}', expected one of {ALGORITHMS + CONTROL_ALGORITHMS}")
+
+    t0 = time.time()
+    sisa_shards_retrained = None
+    method_trace = None
+
+    if algorithm == "no_op":
+        model = original_model
+    elif algorithm == "partial_unlearning":
+        model = __import__("core.model", fromlist=["clone_model"]).clone_model(original_model)
+        model.gradient_step(split.X_forget, split.y_forget, lr=0.006, ascent=True)
+    elif algorithm == "over_unlearning":
+        model = __import__("core.model", fromlist=["clone_model"]).clone_model(original_model)
+        for _ in range(35):
+            model.gradient_step(split.X_forget, split.y_forget, lr=0.04, ascent=True)
+    elif algorithm == "fine_tuning":
+        model = fine_tuning_unlearn(original_model, split.X_retain, split.y_retain)
+    elif algorithm == "gradient_ascent":
+        model = gradient_ascent_unlearn(original_model, split.X_forget, split.y_forget,
+                                         split.X_retain, split.y_retain)
+    elif algorithm == "ground_truth_retraining":
+        model = ground_truth_retrain(split.X_retain, split.y_retain)
+    elif algorithm == "sisa":
+        assert sample_ids is not None, "sisa requires sample_ids"
+        X_train_full = np.vstack([split.X_retain, split.X_forget])
+        y_train_full = np.concatenate([split.y_retain, split.y_forget])
+        n_retain = len(split.X_retain)
+        forget_ids = sample_ids[n_retain:]
+        model, sisa_shards_retrained = sisa_unlearn(X_train_full, y_train_full, forget_ids, sample_ids)
+    elif algorithm == "prism":
+        model, method_trace = prism_unlearn(original_model, split)
+    elif algorithm == "echo":
+        model, method_trace = echo_unlearn(original_model, split)
+    elif algorithm == "neggrad":
+        model, method_trace = negative_gradient_unlearn(original_model, split.X_forget, split.y_forget, split.X_retain, split.y_retain)
+    elif algorithm == "salun":
+        model, method_trace = salun_unlearn(original_model, split.X_forget, split.y_forget, split.X_retain, split.y_retain)
+    elif algorithm == "unsir":
+        model, method_trace = unsir_style_unlearn(original_model, split.X_forget, split.y_forget, split.X_retain, split.y_retain)
+    elif algorithm == "scrub":
+        model, method_trace = scrub_style_unlearn(original_model, split.X_forget, split.y_forget, split.X_retain, split.y_retain)
+
+    runtime_seconds = time.time() - t0
+
+    acc_retain = evaluate(model, split.X_retain, split.y_retain)
+    acc_test = evaluate(model, split.X_test, split.y_test)
+    acc_forget = evaluate(model, split.X_forget, split.y_forget)
+
+    original_test_acc = evaluate(original_model, split.X_test, split.y_test)["accuracy"]
+
+    mia = membership_inference_attack(model, split.X_forget, split.y_forget,
+                                       split.X_test, split.y_test, acc_test["accuracy"])
+    loss_test = loss_distribution_test(model, split.X_forget, split.y_forget,
+                                        split.X_test, split.y_test)
+    conf = confidence_analysis(model, original_model, split.X_forget, split.y_forget,
+                                split.X_test, split.y_test)
+    witness = bootstrap_statistical_witness(model, split.X_forget, split.y_forget,
+                                             split.X_retain, split.y_retain)
+
+    module_results = [mia, loss_test, conf, witness]
+    consensus = compute_consensus(module_results)
+    diagnosis = diagnose(consensus, module_results, acc_retain["accuracy"], acc_test["accuracy"])
+
+    # RENA-X now uses the same calibrated reference-distribution path in the
+    # application as in research experiments. A candidate is compared with
+    # independently initialized retain-only retrains, not a single oracle.
+    if reference_models is None:
+        reference_models, reference_runtimes = _build_reference_ensemble(split, reference_count, reference_seed)
+    else:
+        reference_models = list(reference_models)
+        reference_runtimes = []
+    gold_model = reference_models[0] if reference_models else ground_truth_retrain(split.X_retain, split.y_retain, random_state=reference_seed)
+    gold_runtime = float(np.median(reference_runtimes)) if reference_runtimes else runtime_seconds
+    advanced = run_advanced_audit(
+        model, gold_model, original_model, split, runtime_seconds, gold_runtime,
+        reference_models=reference_models if len(reference_models) >= 3 else None,
+        decision_thresholds=decision_thresholds,
+    )
+    calibration = advanced.calibration or {}
+    if calibration.get("certification_verdict"):
+        advanced_verdict = calibration["certification_verdict"]
+    else:
+        advanced_verdict = "PASS" if advanced.worst_case_score >= 0.70 else ("REVIEW" if advanced.worst_case_score >= 0.45 else "FAIL")
+    diagnosis["advanced_audit"] = {
+        "verdict": advanced_verdict,
+        "worst_case_score": advanced.worst_case_score,
+        "certification_score": advanced.correctness_worst_case_score,
+        "evidence_profile": {
+            "behavioral_equivalence": advanced.behavioral_equivalence,
+            "membership_indistinguishability": advanced.membership_indistinguishability,
+            "representation_neutrality": advanced.representation_neutrality,
+            "retain_consistency": advanced.retain_consistency,
+            "irreversibility": advanced.irreversibility,
+            "discontinuity_consistency": advanced.discontinuity_consistency,
+            "efficiency": advanced.efficiency,
+        },
+        "axes": advanced.to_dict(),
+        "reference_alignment": {
+            "calibrated": bool(calibration),
+            "reference_count": len(reference_models),
+            "reference_runtime_median_seconds": gold_runtime,
+        },
+        "interpretation": "RENA-X is a calibrated, reference-relative research audit. Correctness dimensions are compared with an empirical distribution of independently retrained retain-only models; efficiency is reported separately and is not part of the certification gate. The result is evidence of behavioral consistency, not proof of physical erasure."
+    }
+
+    return {
+        "algorithm": algorithm,
+        "runtime_seconds": runtime_seconds,
+        "sisa_shards_retrained": sisa_shards_retrained,
+        "method_trace": method_trace,
+        "reference_calibration": {"enabled": bool(advanced.calibration), "reference_count": len(reference_models), "reference_seed": reference_seed, "reference_runtime_median_seconds": gold_runtime, "calibration": advanced.calibration},
+        "provenance": build_manifest(split, algorithm=algorithm, split_seed=split_seed, reference_seed=reference_seed, reference_retrains=len(reference_models), model_seed=42),
+        "accuracy": {
+            "retain": acc_retain["accuracy"],
+            "test": acc_test["accuracy"],
+            "forget": acc_forget["accuracy"],
+            "original_model_test": original_test_acc,
+        },
+        "module_results": [m.to_dict() for m in module_results],
+        "consensus": consensus.to_dict(),
+        "diagnosis": diagnosis,
+    }
+
+
+def run_full_comparison(forget_fraction: float = 0.1, random_state: int = 42,
+                        reference_count: int = 10, reference_seed: int = 50000,
+                        decision_thresholds=None) -> dict:
+    """Runs every registered algorithm against one shared calibrated reference ensemble.
+
+    Using one ensemble for every method prevents the comparison from silently
+    switching between calibrated and uncalibrated RENA-X regimes and avoids
+    retraining the same reference models once per candidate method.
+    """
+    split = build_split(forget_fraction=forget_fraction, random_state=random_state)
+    X_train_full = np.vstack([split.X_retain, split.X_forget])
+    y_train_full = np.concatenate([split.y_retain, split.y_forget])
+    sample_ids = np.arange(len(X_train_full))  # retain ids [0..n_retain), forget ids after
+
+    original_model = train_base_model(X_train_full, y_train_full)
+
+    shared_refs, shared_ref_runtimes = _build_reference_ensemble(
+        split, reference_count, reference_seed
+    )
+    results = {}
+    for algo in ALGORITHMS:
+        results[algo] = run_audit(
+            algo, split, original_model, sample_ids=sample_ids,
+            reference_count=reference_count, reference_seed=reference_seed,
+            split_seed=random_state, reference_models=shared_refs,
+            decision_thresholds=decision_thresholds,
+        )
+
+    return {
+        "dataset_summary": split.summary(),
+        "reference_ensemble": {"count": len(shared_refs), "seed": reference_seed},
+        "results": results,
+    }

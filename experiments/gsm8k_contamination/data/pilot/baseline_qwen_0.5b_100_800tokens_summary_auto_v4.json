@@ -1,0 +1,22 @@
+{
+  "scorer_version": "auto_v4",
+  "input_file": "experiments/gsm8k_contamination/data/pilot/baseline_qwen_0.5b_100_800tokens.jsonl",
+  "output_file": "experiments/gsm8k_contamination/data/pilot/baseline_qwen_0.5b_100_800tokens_scored_auto_v4.jsonl",
+  "total_rows": 100,
+  "correct_auto": 32,
+  "incorrect_auto": 32,
+  "needs_manual_review": 35,
+  "unscorable_token_limit": 1,
+  "scorable_rows": 64,
+  "accuracy_among_automatically_scorable": 0.5,
+  "accuracy_over_all_100_using_auto_correct_only": 0.32,
+  "parse_methods": {
+    "boxed_after_final_marker_v4": 19,
+    "immediate_final_number_v4": 19,
+    "no_reliable_final_answer_review": 26,
+    "number_near_final_marker_v4": 15,
+    "boxed_answer_v4": 11,
+    "final_marker_ambiguous_review": 10
+  },
+  "caveat": "Provisional numeric-match scores only. Unit equivalence, reference quality, and reasoning correctness require manual validation."
+}

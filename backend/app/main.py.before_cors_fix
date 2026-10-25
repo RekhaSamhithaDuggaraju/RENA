@@ -1,0 +1,76 @@
+"""
+RENA backend — FastAPI entrypoint.
+
+Run locally (with network access to install dependencies):
+    pip install -r backend/requirements.txt
+    createdb rena   # or point RENA_DATABASE_URL at your own postgres
+    uvicorn app.main:app --reload --app-dir backend
+"""
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Request
+from fastapi.responses import JSONResponse
+import os
+
+from app.database import Base, engine
+from app.routers import audits
+from app.routers import llm_jobs
+from app.routers import research
+from app.routers import workspace, compare, production, application, forgetting_audits
+
+app = FastAPI(
+    title="RENA API",
+    description="Reliable Evaluation for Neural Unlearning Audits",
+    version="0.7.0",
+)
+
+app.add_middleware(CORSMiddleware, allow_origins=os.environ.get("RENA_CORS_ORIGINS","http://localhost:3000,http://127.0.0.1:3000").split(","), allow_credentials=True, allow_methods=["GET","POST","PUT","DELETE","OPTIONS"], allow_headers=["*"])
+
+RENA_API_KEY = os.environ.get("RENA_API_KEY")
+if os.environ.get('RENA_PRODUCTION','0').lower() in {'1','true','yes'} and os.environ.get('RENA_AUTH_SECRET','change-me-in-production') == 'change-me-in-production':
+    raise RuntimeError('RENA_AUTH_SECRET must be configured when RENA_PRODUCTION=1')
+@app.middleware("http")
+async def api_key_guard(request: Request, call_next):
+    if RENA_API_KEY and request.url.path not in {"/health","/docs","/openapi.json","/redoc"}:
+        if request.headers.get("X-RENA-API-Key") != RENA_API_KEY:
+            return JSONResponse(status_code=401, content={"detail":"Missing or invalid RENA API key"})
+    production = os.environ.get('RENA_PRODUCTION','0').lower() in {'1','true','yes'}
+    auth_required = os.environ.get('RENA_AUTH_REQUIRED','0').lower() in {'1','true','yes'} or production
+    public_paths = {'/health','/docs','/openapi.json','/redoc','/production/auth/login','/production/auth/register'}
+    public_prefixes = ('/production/certificates/verify/','/production/verify/','/application/shares/')
+    if auth_required and request.url.path not in public_paths and not request.url.path.startswith(public_prefixes):
+        if not request.headers.get('Authorization','').startswith('Bearer '):
+            return JSONResponse(status_code=401, content={"detail":"Authentication required"})
+    return await call_next(request)
+
+app.include_router(audits.router)
+app.include_router(llm_jobs.router)
+app.include_router(research.router)
+app.include_router(workspace.router)
+app.include_router(compare.router)
+app.include_router(production.router)
+app.include_router(application.router)
+app.include_router(forgetting_audits.router)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    production = os.environ.get("RENA_PRODUCTION", "0").lower() in {"1", "true", "yes"}
+    if production:
+        required = ["RENA_AUTH_SECRET", "RENA_CERTIFICATE_SECRET", "RENA_DATABASE_URL"]
+        missing = [k for k in required if not os.environ.get(k)]
+        if missing:
+            raise RuntimeError("Missing required production settings: " + ", ".join(missing))
+        # Production schema changes are managed by Alembic, never implicitly at startup.
+    else:
+        Base.metadata.create_all(bind=engine)
+    yield
+
+
+app.router.lifespan_context = lifespan
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}

@@ -1,0 +1,312 @@
+[
+  {
+    "contradictions": [],
+    "evidence_id": "E1001",
+    "limitations": [
+      "forget-set size (135) meets the reliability threshold"
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "attack_auc": 0.5603292181069959,
+      "n_forget": 135,
+      "p_value": null
+    },
+    "metric": "forget_score",
+    "reliability": 1.0,
+    "result": 0.5603292181069959,
+    "score": 0.8793415637860083,
+    "supports_forgetting": true,
+    "verifier": "Membership Inference Attack"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1002",
+    "limitations": [
+      "forget-set size (135) meets the reliability threshold"
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "forget_loss_mean": 0.00211070531553872,
+      "p_value": 0.07618026411369071,
+      "test_loss_mean": 0.12659996811382884
+    },
+    "metric": "forget_score",
+    "reliability": 1.0,
+    "result": 0.15555555555555556,
+    "score": 0.8444444444444444,
+    "supports_forgetting": true,
+    "verifier": "Loss Distribution KS-Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1003",
+    "limitations": [
+      "forget-set size (135) meets the reliability threshold"
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "gap_baseline_original_model": 0.05,
+      "gap_unlearned": 0.022363564397735125,
+      "p_value": null
+    },
+    "metric": "forget_score",
+    "reliability": 1.0,
+    "result": 0.022363564397735125,
+    "score": 0.5527287120452975,
+    "supports_forgetting": true,
+    "verifier": "Confidence Analysis"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1004",
+    "limitations": [
+      "forget-set size (135) meets the reliability threshold"
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "bootstrap_se": 0.0005137410392887817,
+      "n_bootstrap": 2000,
+      "observed_diff": 0.0003821287365914875,
+      "p_value": 0.45
+    },
+    "metric": "forget_score",
+    "reliability": 1.0,
+    "result": 0.0003821287365914875,
+    "score": 0.55,
+    "supports_forgetting": true,
+    "verifier": "Bootstrap Statistical Witness"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1005",
+    "limitations": [
+      "Supplementary fixed-transform loss proxy."
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "auc": 0.5531412894375858,
+      "comparison": "forget_vs_held_out",
+      "condition": "direct",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.10628257887517156
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.10628257887517156,
+    "score": 0.10628257887517156,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1006",
+    "limitations": [
+      "Supplementary fixed-transform loss proxy."
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "auc": 0.521837037037037,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "direct",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.043674074074073976
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.043674074074073976,
+    "score": 0.043674074074073976,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1007",
+    "limitations": [
+      "Supplementary fixed-transform loss proxy."
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "auc": 0.5341015089163238,
+      "comparison": "forget_vs_held_out",
+      "condition": "gaussian_noise",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.0682030178326476
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.0682030178326476,
+    "score": 0.0682030178326476,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1008",
+    "limitations": [
+      "Supplementary fixed-transform loss proxy."
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "auc": 0.5094320987654322,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "gaussian_noise",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.018864197530864324
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.018864197530864324,
+    "score": 0.018864197530864324,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1009",
+    "limitations": [
+      "Supplementary fixed-transform loss proxy."
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "auc": 0.5540192043895747,
+      "comparison": "forget_vs_held_out",
+      "condition": "random_mask",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.1080384087791495
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.1080384087791495,
+    "score": 0.1080384087791495,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1010",
+    "limitations": [
+      "Supplementary fixed-transform loss proxy."
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "auc": 0.5146962962962962,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "random_mask",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.029392592592592415
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.029392592592592415,
+    "score": 0.029392592592592415,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1011",
+    "limitations": [
+      "Supplementary fixed-transform loss proxy."
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "auc": 0.5054595336076818,
+      "comparison": "forget_vs_held_out",
+      "condition": "spatial_shift",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.01091906721536362
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.01091906721536362,
+    "score": 0.01091906721536362,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1012",
+    "limitations": [
+      "Supplementary fixed-transform loss proxy."
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "auc": 0.5306962962962962,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "spatial_shift",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.06139259259259244
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.06139259259259244,
+    "score": 0.06139259259259244,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1013",
+    "limitations": [
+      "Supplementary fixed-transform loss proxy."
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "auc": 0.5565980795610426,
+      "comparison": "forget_vs_held_out",
+      "condition": "contrast_brightness",
+      "n_per_group": 135,
+      "normalized_recoverability": 0.11319615912208514
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.11319615912208514,
+    "score": 0.11319615912208514,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1014",
+    "limitations": [
+      "Supplementary fixed-transform loss proxy."
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "auc": 0.5235407407407406,
+      "comparison": "retain_vs_held_out_control",
+      "condition": "contrast_brightness",
+      "n_per_group": 450,
+      "normalized_recoverability": 0.04708148148148128
+    },
+    "metric": "normalized_recoverability",
+    "reliability": 1.0,
+    "result": 0.04708148148148128,
+    "score": 0.04708148148148128,
+    "supports_forgetting": null,
+    "verifier": "Recovery Stress Test"
+  },
+  {
+    "contradictions": [],
+    "evidence_id": "E1015",
+    "limitations": [
+      "Supplementary empirical prediction-set diagnostic; it does not prove machine unlearning."
+    ],
+    "metadata": {
+      "algorithm": "echo",
+      "alpha": 0.1,
+      "calibration_source": "retain_set",
+      "calibration_threshold": 0.0054088714219612255,
+      "exclusion_gap": -0.010946094609460943,
+      "forget_label_exclusion": 0.0888888888888889,
+      "limitation": "Supplementary empirical prediction-set diagnostic; it does not prove machine unlearning.",
+      "retain_label_exclusion": 0.09983498349834985
+    },
+    "metric": "exclusion_gap",
+    "reliability": null,
+    "result": -0.010946094609460943,
+    "score": null,
+    "supports_forgetting": null,
+    "verifier": "Conformal-style diagnostic"
+  }
+]

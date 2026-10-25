@@ -1,0 +1,190 @@
+{
+  "cases": [
+    {
+      "RENA_FULL_agreement": 0.9856657941183915,
+      "RENA_FULL_score": 0.9674631872467543,
+      "forget_fraction": 0.05,
+      "method": "prism",
+      "rra": 0.46015533601117065,
+      "seed": 47
+    },
+    {
+      "RENA_FULL_agreement": 0.9310137325739763,
+      "RENA_FULL_score": 0.9018557769584075,
+      "forget_fraction": 0.1,
+      "method": "prism",
+      "rra": 0.3837040684783569,
+      "seed": 47
+    },
+    {
+      "RENA_FULL_agreement": 0.9709491365064431,
+      "RENA_FULL_score": 0.9471906212032329,
+      "forget_fraction": 0.05,
+      "method": "gradient_ascent",
+      "rra": 0.49145681656668627,
+      "seed": 48
+    },
+    {
+      "RENA_FULL_agreement": 0.990347118748715,
+      "RENA_FULL_score": 0.9660135913454484,
+      "forget_fraction": 0.1,
+      "method": "gradient_ascent",
+      "rra": 0.46520618066550085,
+      "seed": 48
+    },
+    {
+      "RENA_FULL_agreement": 0.9299353511516908,
+      "RENA_FULL_score": 0.9229946782100253,
+      "forget_fraction": 0.2,
+      "method": "prism",
+      "rra": 0.16538109632382342,
+      "seed": 48
+    },
+    {
+      "RENA_FULL_agreement": 0.9561107210692301,
+      "RENA_FULL_score": 0.9383538389922021,
+      "forget_fraction": 0.3,
+      "method": "sisa",
+      "rra": 0.49276583799517976,
+      "seed": 48
+    },
+    {
+      "RENA_FULL_agreement": 0.9016220097255117,
+      "RENA_FULL_score": 0.9074639765177905,
+      "forget_fraction": 0.3,
+      "method": "prism",
+      "rra": 0.0198218580151017,
+      "seed": 48
+    },
+    {
+      "RENA_FULL_agreement": 0.9132235493008348,
+      "RENA_FULL_score": 0.875606918937331,
+      "forget_fraction": 0.3,
+      "method": "echo",
+      "rra": 3.659711203679314e-05,
+      "seed": 48
+    },
+    {
+      "RENA_FULL_agreement": 0.9722906158254007,
+      "RENA_FULL_score": 0.911504776907102,
+      "forget_fraction": 0.1,
+      "method": "gradient_ascent",
+      "rra": 0.4988225810019978,
+      "seed": 49
+    },
+    {
+      "RENA_FULL_agreement": 0.9159179177053207,
+      "RENA_FULL_score": 0.8755105352557668,
+      "forget_fraction": 0.2,
+      "method": "fine_tuning",
+      "rra": 0.005433694701057834,
+      "seed": 49
+    },
+    {
+      "RENA_FULL_agreement": 0.9440611360316784,
+      "RENA_FULL_score": 0.9130456639876273,
+      "forget_fraction": 0.2,
+      "method": "prism",
+      "rra": 0.14258518923380173,
+      "seed": 49
+    },
+    {
+      "RENA_FULL_agreement": 0.9104160651131507,
+      "RENA_FULL_score": 0.8765030830871563,
+      "forget_fraction": 0.3,
+      "method": "prism",
+      "rra": 0.00527254428038053,
+      "seed": 49
+    },
+    {
+      "RENA_FULL_agreement": 0.9477170350103722,
+      "RENA_FULL_score": 0.8800662156901131,
+      "forget_fraction": 0.05,
+      "method": "sisa",
+      "rra": 0.49638891737867824,
+      "seed": 50
+    },
+    {
+      "RENA_FULL_agreement": 0.9903031141130704,
+      "RENA_FULL_score": 0.960458382158054,
+      "forget_fraction": 0.1,
+      "method": "sisa",
+      "rra": 0.4949972306248007,
+      "seed": 50
+    },
+    {
+      "RENA_FULL_agreement": 0.9443982018138142,
+      "RENA_FULL_score": 0.9063213142868404,
+      "forget_fraction": 0.1,
+      "method": "prism",
+      "rra": 0.4643749945641607,
+      "seed": 50
+    },
+    {
+      "RENA_FULL_agreement": 0.9140996634056384,
+      "RENA_FULL_score": 0.9097045986830912,
+      "forget_fraction": 0.2,
+      "method": "prism",
+      "rra": 0.17910836119778592,
+      "seed": 50
+    },
+    {
+      "RENA_FULL_agreement": 0.914181163183591,
+      "RENA_FULL_score": 0.9052268473447427,
+      "forget_fraction": 0.3,
+      "method": "fine_tuning",
+      "rra": 0.0048915760683544696,
+      "seed": 50
+    },
+    {
+      "RENA_FULL_agreement": 0.9505536577142583,
+      "RENA_FULL_score": 0.9085547199030537,
+      "forget_fraction": 0.3,
+      "method": "prism",
+      "rra": 0.10019320315100083,
+      "seed": 50
+    },
+    {
+      "RENA_FULL_agreement": 0.9065470540891396,
+      "RENA_FULL_score": 0.8973830204545792,
+      "forget_fraction": 0.3,
+      "method": "echo",
+      "rra": 2.9086296562904875e-05,
+      "seed": 50
+    },
+    {
+      "RENA_FULL_agreement": 0.9849544395311527,
+      "RENA_FULL_score": 0.9596916287604876,
+      "forget_fraction": 0.2,
+      "method": "sisa",
+      "rra": 0.49632907109608493,
+      "seed": 51
+    },
+    {
+      "RENA_FULL_agreement": 0.9909436730076816,
+      "RENA_FULL_score": 0.9720711953793294,
+      "forget_fraction": 0.3,
+      "method": "sisa",
+      "rra": 0.4983452569621861,
+      "seed": 51
+    }
+  ],
+  "metrics": {
+    "NAIVE_AVERAGE": {
+      "abstention_rate": 0.0,
+      "false_negative_rate": 0.08333333333333333,
+      "false_positive_rate": 0.6805555555555556
+    },
+    "RENA_FULL": {
+      "abstention_rate": 0.23333333333333334,
+      "false_negative_rate": 0.14583333333333334,
+      "false_positive_rate": 0.6805555555555556
+    },
+    "WEIGHTED_NO_OVERRIDE": {
+      "abstention_rate": 0.0,
+      "false_negative_rate": 0.14583333333333334,
+      "false_positive_rate": 0.6805555555555556
+    }
+  },
+  "rra_threshold": 0.5
+}

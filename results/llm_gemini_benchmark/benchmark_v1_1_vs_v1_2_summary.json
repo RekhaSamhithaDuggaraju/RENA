@@ -1,0 +1,160 @@
+{
+  "benchmark": {
+    "total_cases": 72,
+    "frozen_input": "benchmark_v1_1.json",
+    "v1_1": {
+      "successful": 71,
+      "api_errors": 1,
+      "supported": 59,
+      "partially_supported": 12
+    },
+    "v1_2": {
+      "successful": 69,
+      "policy_rejected": 3,
+      "supported": 13,
+      "partially_supported": 56,
+      "strong": 9,
+      "moderate": 56,
+      "weak": 4
+    }
+  },
+  "status_transitions": {
+    "PARTIALLY_SUPPORTED -> PARTIALLY_SUPPORTED": 11,
+    "SUPPORTED -> PARTIALLY_SUPPORTED": 44,
+    "SUPPORTED -> SUPPORTED": 13
+  },
+  "strength_transitions": {
+    "MODERATE -> MODERATE": 37,
+    "MODERATE -> WEAK": 3,
+    "STRONG -> MODERATE": 18,
+    "STRONG -> STRONG": 9,
+    "STRONG -> WEAK": 1
+  },
+  "method_comparison": {
+    "echo": {
+      "v1_1": {
+        "SUPPORTED": 11,
+        "PARTIALLY_SUPPORTED": 1
+      },
+      "v1_2": {
+        "PARTIALLY_SUPPORTED": 10,
+        "SUPPORTED": 2
+      }
+    },
+    "fine_tuning": {
+      "v1_1": {
+        "SUPPORTED": 12
+      },
+      "v1_2": {
+        "PARTIALLY_SUPPORTED": 11
+      }
+    },
+    "gradient_ascent": {
+      "v1_1": {
+        "PARTIALLY_SUPPORTED": 5,
+        "SUPPORTED": 6
+      },
+      "v1_2": {
+        "PARTIALLY_SUPPORTED": 10,
+        "SUPPORTED": 1
+      }
+    },
+    "ground_truth_retraining": {
+      "v1_1": {
+        "SUPPORTED": 12
+      },
+      "v1_2": {
+        "PARTIALLY_SUPPORTED": 3,
+        "SUPPORTED": 9
+      }
+    },
+    "prism": {
+      "v1_1": {
+        "SUPPORTED": 11,
+        "PARTIALLY_SUPPORTED": 1
+      },
+      "v1_2": {
+        "PARTIALLY_SUPPORTED": 12
+      }
+    },
+    "sisa": {
+      "v1_1": {
+        "PARTIALLY_SUPPORTED": 5,
+        "SUPPORTED": 7
+      },
+      "v1_2": {
+        "PARTIALLY_SUPPORTED": 10,
+        "SUPPORTED": 1
+      }
+    }
+  },
+  "reference_verdict_comparison": {
+    "Ambiguous": {
+      "v1_1": {
+        "SUPPORTED": 13,
+        "PARTIALLY_SUPPORTED": 3
+      },
+      "v1_2": {
+        "PARTIALLY_SUPPORTED": 15
+      }
+    },
+    "Inconclusive": {
+      "v1_1": {
+        "SUPPORTED": 13,
+        "PARTIALLY_SUPPORTED": 9
+      },
+      "v1_2": {
+        "PARTIALLY_SUPPORTED": 21
+      }
+    },
+    "Likely Forgotten": {
+      "v1_1": {
+        "SUPPORTED": 33
+      },
+      "v1_2": {
+        "PARTIALLY_SUPPORTED": 20,
+        "SUPPORTED": 13
+      }
+    }
+  },
+  "witness_disagreement": {
+    "successful_v1_2_cases": 69,
+    "disagreement_cases": 39,
+    "no_disagreement_cases": 30,
+    "disagreement_supported": 0,
+    "disagreement_partially_supported": 39,
+    "no_disagreement_supported": 13,
+    "no_disagreement_partially_supported": 17,
+    "disagreement_supported_rate": 0.0,
+    "no_disagreement_supported_rate": 0.43333333333333335
+  },
+  "policy_rejections": [
+    {
+      "case_id": "GEMINI-018",
+      "method": "fine_tuning",
+      "seed": 44,
+      "forget_fraction": 0.05,
+      "error": "Google Gemini API returned invalid structured output: constrained audit violates policy: majority-vote reasoning is not permitted"
+    },
+    {
+      "case_id": "GEMINI-032",
+      "method": "gradient_ascent",
+      "seed": 50,
+      "forget_fraction": 0.2,
+      "error": "Google Gemini API returned invalid structured output: constrained audit violates policy: majority-vote reasoning is not permitted"
+    },
+    {
+      "case_id": "GEMINI-063",
+      "method": "sisa",
+      "seed": 49,
+      "forget_fraction": 0.05,
+      "error": "Google Gemini API returned invalid structured output: constrained audit violates policy: majority-vote reasoning is not permitted"
+    }
+  ],
+  "validation": {
+    "accepted_v1_2_outputs_checked_for_majority_terms": 69,
+    "accepted_outputs_with_majority_terms": 0,
+    "post_run_majority_policy_check": "PASS",
+    "unexpected_errors": 0
+  }
+}

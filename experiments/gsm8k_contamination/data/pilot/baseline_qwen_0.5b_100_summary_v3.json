@@ -1,0 +1,12 @@
+{
+  "n_total": 100,
+  "n_parseable": 79,
+  "n_needs_manual_review": 21,
+  "n_correct_extracted": 38,
+  "n_incorrect_extracted": 41,
+  "n_token_limit_reached": 10,
+  "accuracy_over_all_examples_with_unparsed_not_counted_correct": 0.38,
+  "accuracy_among_extracted_answers": 0.4810126582278481,
+  "warning": "Heuristic extraction only. Manually validate extracted answers, especially ambiguous answers and token-limited generations, before using these results in research.",
+  "scored_file": "experiments/gsm8k_contamination/data/pilot/baseline_qwen_0.5b_100_scored_v3.jsonl"
+}

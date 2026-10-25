@@ -1,0 +1,16 @@
+fastapi>=0.110
+uvicorn[standard]>=0.27
+sqlalchemy>=2.0
+psycopg2-binary>=2.9
+pydantic>=2.5
+numpy
+pandas
+scipy
+scikit-learn
+reportlab
+
+python-multipart>=0.0.9
+httpx>=0.27
+psycopg[binary]>=3.2
+
+alembic>=1.13,<2.0
