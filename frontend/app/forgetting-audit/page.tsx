@@ -18,6 +18,7 @@ type Audit = {
   phases?: any;
   reference_target?: any;
   counterfactual_target?: any;
+  track_metadata?: any;
 };
 
 const PROVIDERS = [
@@ -88,12 +89,23 @@ const OPERATION_CATEGORIES = [
 
 export default function ForgettingAuditPage() {
   const [audit, setAudit] = useState<Audit | null>(null);
-  const [name, setName] = useState("Controlled LLM Forgetting Audit");
+  const [name, setName] = useState("Controlled AI Forgetting Audit");
+  const [auditTrack, setAuditTrack] = useState<"track_a_model_unlearning" | "track_b_memory_deletion">("track_a_model_unlearning");
+  
+  // Track A parameters
+  const [unlearningMethod, setUnlearningMethod] = useState("Gradient Ascent (GA) with SCRUB regularization");
+  const [preCheckpoint, setPreCheckpoint] = useState("base-model-v1");
+  const [postCheckpoint, setPostCheckpoint] = useState("unlearned-model-v1");
+
+  // Track B parameters
+  const [storageComponent, setStorageComponent] = useState("vector_database");
+  const [storageVerificationStatus, setStorageVerificationStatus] = useState("verified_deleted");
+
   const [target, setTarget] = useState("gemini");
   const [model, setModel] = useState("gemini-3.5-flash-lite");
   const [baseUrl, setBaseUrl] = useState("https://generativelanguage.googleapis.com");
   const [apiKeyEnv, setApiKeyEnv] = useState("GEMINI_API_KEY");
-  const [operationCategory, setOperationCategory] = useState("blackbox_disclosure_test");
+  const [operationCategory, setOperationCategory] = useState("model_weight_unlearning");
   const [tier, setTier] = useState("production");
 
   // Paired control reference (Group B)
@@ -111,7 +123,7 @@ export default function ForgettingAuditPage() {
 
   const [method, setMethod] = useState("conversation");
   const [forgetNotes, setForgetNotes] = useState(
-    "Documented forgetting operation: Testing isolated prompt disclosure behavior."
+    "Documented operation: Verified unlearning / deletion procedure executed on target system."
   );
 
   // Fact configuration
@@ -190,12 +202,18 @@ export default function ForgettingAuditPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
+          audit_track: auditTrack,
+          unlearning_method: unlearningMethod,
+          pre_unlearn_checkpoint: preCheckpoint,
+          post_unlearn_checkpoint: postCheckpoint,
+          storage_component: storageComponent,
+          storage_verification_status: storageVerificationStatus,
           target_type: target,
           model,
           base_url: baseUrl,
           api_key_env: apiKeyEnv,
           tier_label: tier,
-          operation_category: operationCategory,
+          operation_category: auditTrack === "track_b_memory_deletion" ? "external_memory_deletion" : operationCategory,
           reference_target_type: referenceType,
           reference_model: referenceModel,
           reference_base_url: referenceBaseUrl,
@@ -312,7 +330,10 @@ export default function ForgettingAuditPage() {
         req(`/forgetting-audits/${audit.id}/mark-forgotten`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ operation_notes: forgetNotes }),
+          body: JSON.stringify({
+            operation_notes: forgetNotes,
+            storage_verification_status: storageVerificationStatus,
+          }),
         })
       );
   }
@@ -393,7 +414,7 @@ export default function ForgettingAuditPage() {
       <div className="mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-6">
         <div>
           <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-300/30 bg-amber-400/10 px-3 py-1 text-xs font-semibold text-amber-200">
-            INDEPENDENT EVALUATION OF UNLEARNING CLAIMS
+            TWO-TRACK SCIENTIFIC AUDIT FRAMEWORK
           </span>
           <h1 className="mt-3 text-3xl font-bold sm:text-4xl">
             Reliable Evaluation for Neural Unlearning Audits<span className="text-amber-300">.</span>
@@ -401,24 +422,69 @@ export default function ForgettingAuditPage() {
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-violet-100/75">
             Test whether designated target information remains accessible after a documented forgetting operation.
             Evaluate live models with controlled reference comparisons (Groups A, B, C), multi-angle probing (direct, paraphrase, indirect, multi-turn),
-            Wilson 95% confidence intervals, and causal efficacy attribution.
+            Wilson 95% confidence intervals, and causal attribution without conflating model weights and application storage.
           </p>
         </div>
 
         {error && <div className="rounded-xl border border-rose-400/30 bg-rose-500/10 p-4 text-sm text-rose-200">{error}</div>}
         {message && <div className="rounded-xl border border-emerald-400/20 bg-emerald-500/5 p-4 text-sm text-emerald-200">{message}</div>}
 
-        {/* STEP 1: TARGET MODEL CONFIGURATION */}
+        {/* STEP 1: TARGET MODEL & TRACK CONFIGURATION */}
         {!audit ? (
           <section className="rounded-2xl border border-violet-300/15 bg-white/[.03] p-6 shadow-xl">
             <div className="flex items-center justify-between">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-amber-300">Step 1 of 6</span>
-                <h2 className="text-xl font-semibold">Select AI Model & Define 3-Group Experimental Architecture</h2>
+                <h2 className="text-xl font-semibold">Select Evaluation Track & AI Architecture</h2>
               </div>
             </div>
 
-            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {/* TRACK SELECTOR TILES */}
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <div
+                onClick={() => {
+                  setAuditTrack("track_a_model_unlearning");
+                  setOperationCategory("model_weight_unlearning");
+                }}
+                className={`cursor-pointer rounded-xl border p-4 transition ${
+                  auditTrack === "track_a_model_unlearning"
+                    ? "border-violet-400 bg-violet-600/15 shadow-lg shadow-violet-950/40"
+                    : "border-violet-300/15 bg-black/40 hover:border-violet-300/30"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-violet-200">Track A</span>
+                  <span className="rounded bg-violet-600/30 px-2 py-0.5 text-[10px] font-semibold text-violet-200">Parameter Layer</span>
+                </div>
+                <h3 className="mt-2 text-base font-bold text-white">Model-Level Weight Unlearning</h3>
+                <p className="mt-1 text-xs text-violet-100/70">
+                  Audit checkpoints or models subjected to parameter modification algorithms (e.g. Gradient Ascent, SCRUB, NPO, LoRA fine-tuning).
+                </p>
+              </div>
+
+              <div
+                onClick={() => {
+                  setAuditTrack("track_b_memory_deletion");
+                  setOperationCategory("external_memory_deletion");
+                }}
+                className={`cursor-pointer rounded-xl border p-4 transition ${
+                  auditTrack === "track_b_memory_deletion"
+                    ? "border-amber-400 bg-amber-400/10 shadow-lg shadow-amber-950/40"
+                    : "border-violet-300/15 bg-black/40 hover:border-violet-300/30"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-amber-300">Track B</span>
+                  <span className="rounded bg-amber-400/20 px-2 py-0.5 text-[10px] font-semibold text-amber-200">Application Storage</span>
+                </div>
+                <h3 className="mt-2 text-base font-bold text-white">Application Memory & Retrieval Deletion</h3>
+                <p className="mt-1 text-xs text-violet-100/70">
+                  Audit data purged from vector stores, RAG indices, conversation memory buffers, or prompt caches without claiming weight modification.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <label className="text-xs text-violet-200">
                 Audit / Experiment Name
                 <input className={`${inputStyle} mt-2`} value={name} onChange={(e) => setName(e.target.value)} />
@@ -445,23 +511,67 @@ export default function ForgettingAuditPage() {
                 />
               </label>
 
-              <label className="text-xs text-violet-200">
-                Operational Category
-                <select
-                  className={`${inputStyle} mt-2`}
-                  value={operationCategory}
-                  onChange={(e) => setOperationCategory(e.target.value)}
-                >
-                  {OPERATION_CATEGORIES.map((op) => (
-                    <option key={op.id} value={op.id}>
-                      {op.label}
-                    </option>
-                  ))}
-                </select>
-                <small className="mt-1 block text-violet-300/60">
-                  {OPERATION_CATEGORIES.find((o) => o.id === operationCategory)?.desc}
-                </small>
-              </label>
+              {/* TRACK-SPECIFIC INPUTS */}
+              {auditTrack === "track_a_model_unlearning" ? (
+                <>
+                  <label className="text-xs text-violet-200">
+                    Unlearning Method
+                    <input
+                      className={`${inputStyle} mt-2`}
+                      value={unlearningMethod}
+                      onChange={(e) => setUnlearningMethod(e.target.value)}
+                      placeholder="e.g. Gradient Ascent (GA), SCRUB, NPO"
+                    />
+                  </label>
+                  <label className="text-xs text-violet-200">
+                    Pre-Unlearn Model Checkpoint
+                    <input
+                      className={`${inputStyle} mt-2`}
+                      value={preCheckpoint}
+                      onChange={(e) => setPreCheckpoint(e.target.value)}
+                      placeholder="e.g. llama3.2-base"
+                    />
+                  </label>
+                  <label className="text-xs text-violet-200">
+                    Post-Unlearn Model Checkpoint
+                    <input
+                      className={`${inputStyle} mt-2`}
+                      value={postCheckpoint}
+                      onChange={(e) => setPostCheckpoint(e.target.value)}
+                      placeholder="e.g. llama3.2-unlearned-ckpt-v2"
+                    />
+                  </label>
+                </>
+              ) : (
+                <>
+                  <label className="text-xs text-violet-200">
+                    Target Storage Component
+                    <select
+                      className={`${inputStyle} mt-2`}
+                      value={storageComponent}
+                      onChange={(e) => setStorageComponent(e.target.value)}
+                    >
+                      <option value="vector_database">Vector Database (Milvus / Chroma / Pinecone)</option>
+                      <option value="rag_document_index">RAG Document Index</option>
+                      <option value="memory_store">Persistent Memory Store (Redis / SQL)</option>
+                      <option value="session_context">Conversation Session Context</option>
+                    </select>
+                  </label>
+                  <label className="text-xs text-violet-200">
+                    Store Deletion Verification
+                    <select
+                      className={`${inputStyle} mt-2`}
+                      value={storageVerificationStatus}
+                      onChange={(e) => setStorageVerificationStatus(e.target.value)}
+                    >
+                      <option value="verified_deleted">Verified Deleted at Source of Truth</option>
+                      <option value="record_soft_deleted">Soft-Deleted / Flagged Invisible</option>
+                      <option value="store_unmodified">Store Unmodified (Control Test)</option>
+                      <option value="unverified">Unverified Storage State</option>
+                    </select>
+                  </label>
+                </>
+              )}
 
               <label className="text-xs text-violet-200">
                 API Key Environment Variable
@@ -519,7 +629,9 @@ export default function ForgettingAuditPage() {
           <section className="rounded-2xl border border-violet-300/20 bg-violet-950/20 p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <span className="text-xs font-semibold text-amber-300">ACTIVE AUDIT WORKSPACE</span>
+                <span className="text-xs font-semibold text-amber-300">
+                  ACTIVE AUDIT WORKSPACE · {audit.track_metadata?.track === "track_b_memory_deletion" ? "TRACK B (STORAGE DELETION)" : "TRACK A (MODEL UNLEARNING)"}
+                </span>
                 <h2 className="text-xl font-bold">{audit.name}</h2>
                 <p className="mt-1 text-xs text-violet-200/70">
                   ID: <code className="text-violet-300">{audit.id}</code> · Model:{" "}
@@ -768,7 +880,7 @@ export default function ForgettingAuditPage() {
                   onClick={() => void mark()}
                   className="rounded-xl border border-amber-300/40 bg-amber-400/10 px-4 py-2.5 text-xs font-semibold text-amber-200 hover:bg-amber-400/20 disabled:opacity-40"
                 >
-                  2. Record Forgetting Operation
+                  2. Record Operation & Deletion
                 </button>
 
                 <button
@@ -848,10 +960,12 @@ export default function ForgettingAuditPage() {
               <section className="rounded-2xl border border-violet-400/30 bg-gradient-to-b from-violet-950/40 via-purple-950/20 to-black/80 p-6 shadow-2xl">
                 <div className="flex flex-wrap items-center justify-between gap-4 border-b border-violet-300/10 pb-4">
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-amber-300">Step 6 of 6 · Scientific Evidence Report</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                      Step 6 of 6 · {report.audit_track === "track_b_memory_deletion" ? "Track B (Storage Deletion)" : "Track A (Model Unlearning)"} Evidence Report
+                    </span>
                     <h2 className="mt-1 text-2xl font-bold">{report.name || "Audit Results"}</h2>
                     <p className="mt-0.5 text-xs text-violet-200/70">
-                      ID: {report.audit_id} · Model: {report.target?.model || report.target?.type}
+                      ID: {report.audit_id} · Model: {report.target?.model || report.target?.type} · Track: <code className="text-violet-300">{report.audit_track}</code>
                     </p>
                   </div>
 
@@ -883,9 +997,53 @@ export default function ForgettingAuditPage() {
                   </div>
                 </div>
 
+                {/* SCIENTIFIC VALIDITY GATES WIDGET */}
+                {report.validity_gates && (
+                  <div
+                    className={`mt-5 rounded-xl border p-4 ${
+                      report.validity_gates.status === "PASS"
+                        ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-200"
+                        : report.validity_gates.status === "WARNING"
+                        ? "border-amber-400/30 bg-amber-500/10 text-amber-200"
+                        : "border-rose-400/40 bg-rose-500/15 text-rose-200"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-widest">
+                        Scientific Validity Gate Status: <b>{report.validity_gates.status}</b>
+                      </span>
+                      <span className="text-xs font-medium opacity-80">{report.validity_gates.summary}</span>
+                    </div>
+                    <details className="mt-2.5">
+                      <summary className="cursor-pointer text-xs font-semibold opacity-90">
+                        View Gate-by-Gate Verification Breakdown (5 Gates)
+                      </summary>
+                      <div className="mt-2 space-y-1.5 text-xs opacity-90">
+                        {report.validity_gates.checks?.map((c: any) => (
+                          <div key={c.gate} className="flex items-start gap-2">
+                            <span
+                              className={`rounded px-1.5 py-0.2 text-[9px] font-bold ${
+                                c.status === "PASS"
+                                  ? "bg-emerald-400/20 text-emerald-200"
+                                  : c.status === "WARNING"
+                                  ? "bg-amber-400/20 text-amber-200"
+                                  : "bg-rose-400/20 text-rose-200"
+                              }`}
+                            >
+                              {c.status}
+                            </span>
+                            <span className="font-semibold capitalize">{c.gate.replace(/_/g, " ")}:</span>
+                            <span>{c.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </details>
+                  </div>
+                )}
+
                 {/* Verdict Badge */}
                 <div
-                  className={`mt-5 rounded-xl border p-4 ${
+                  className={`mt-4 rounded-xl border p-4 ${
                     report.verdict?.includes("RESIDUAL RETRIEVAL SIGNAL DETECTED")
                       ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
                       : report.verdict?.includes("NO RESIDUAL DISCLOSURE")
@@ -897,6 +1055,60 @@ export default function ForgettingAuditPage() {
                   <div className="mt-1 text-lg font-bold">{report.verdict}</div>
                   <p className="mt-1 text-xs opacity-80">{report.verdict_scope}</p>
                 </div>
+
+                {/* TRACK-SPECIFIC METRICS */}
+                {report.audit_track === "track_b_memory_deletion" && report.track_b_metrics && (
+                  <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-400/5 p-4">
+                    <span className="text-xs font-semibold text-amber-200">Track B: Authoritative Storage Deletion & Boundary Verification</span>
+                    <div className="mt-3 grid gap-3 sm:grid-cols-3 text-xs">
+                      <div className="rounded-lg border border-amber-300/15 bg-black/40 p-3">
+                        <small className="text-amber-300/70">Authoritative Store Status</small>
+                        <b className="mt-1 block text-base text-amber-200 capitalize">
+                          {report.track_b_metrics.authoritative_store_status?.replace(/_/g, " ")}
+                        </b>
+                        <span className="text-[10px] text-amber-300/60">Component: {report.track_b_metrics.storage_component}</span>
+                      </div>
+                      <div className="rounded-lg border border-amber-300/15 bg-black/40 p-3">
+                        <small className="text-amber-300/70">Boundary Integrity</small>
+                        <b className="mt-1 block text-base text-emerald-300">
+                          {report.track_b_metrics.boundary_integrity?.intact ? "Intact" : "Degraded"}
+                        </b>
+                        <span className="text-[10px] text-violet-300/60">{report.track_b_metrics.boundary_integrity?.status}</span>
+                      </div>
+                      <div className="rounded-lg border border-amber-300/15 bg-black/40 p-3">
+                        <small className="text-amber-300/70">Cache & Retrieval Consistency</small>
+                        <p className="mt-1 text-[11px] text-violet-200">{report.track_b_metrics.cache_consistency_assessment}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {report.audit_track === "track_a_model_unlearning" && report.track_a_metrics && (
+                  <div className="mt-5 rounded-xl border border-violet-300/20 bg-violet-900/10 p-4">
+                    <span className="text-xs font-semibold text-violet-200">Track A: Model Checkpoint & Trade-Off Metrics</span>
+                    <div className="mt-3 grid gap-3 sm:grid-cols-2 text-xs">
+                      <div className="rounded-lg border border-violet-300/15 bg-black/40 p-3">
+                        <small className="text-violet-300/70">Forget-Retain Trade-Off Index (FRTI)</small>
+                        <b className="mt-1 block text-xl text-emerald-300">
+                          {report.track_a_metrics.forget_retain_tradeoff_index?.score != null
+                            ? (report.track_a_metrics.forget_retain_tradeoff_index.score * 100).toFixed(1) + "%"
+                            : "—"}
+                        </b>
+                        <span className="text-[10px] text-violet-300/60">
+                          Formula: UPR × (1 − RDR) · Normalized [0, 1]
+                        </span>
+                      </div>
+                      <div className="rounded-lg border border-violet-300/15 bg-black/40 p-3">
+                        <small className="text-violet-300/70">Model Checkpoints & Unlearning Algorithm</small>
+                        <div className="mt-1 text-[11px] text-violet-200">
+                          <b>Method:</b> {report.track_a_metrics.unlearning_method || "Unspecified"}<br />
+                          <b>Pre-Unlearn:</b> <code>{report.track_a_metrics.checkpoints?.pre_unlearn || "base"}</code><br />
+                          <b>Post-Unlearn:</b> <code>{report.track_a_metrics.checkpoints?.post_unlearn || "target"}</code>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* 3-GROUP ARCHITECTURE COMPARISON & WILSON 95% CIs */}
                 <div className="mt-5">

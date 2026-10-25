@@ -393,3 +393,192 @@ def test_dataset_filter_subsets_facts_and_questions(monkeypatch):
     assert saved_data["questions"][0]["id"] == "q2"
 
 
+def test_validity_gates_blocked_on_unverified_baseline():
+    from app.routers.forgetting_audits import evaluate_validity_gates
+
+    # Baseline was run, but the model failed to recall the fact before unlearning
+    audit_data = {
+        "facts": [{"id": "f1", "expected_answer": "SECRET-123", "retained_answer": "Paris"}],
+        "questions": [
+            {
+                "id": "q1",
+                "fact_id": "f1",
+                "kind": "direct",
+                "responses": {"baseline": {"score": {"lexical_flag": False}}},  # Not retrieved!
+            }
+        ],
+        "phases": {
+            "baseline": {"completed": 1},
+            "forget_record": {"operation_notes": "Attempted fine-tuning unlearning"},
+        },
+        "protocol": {},
+    }
+
+    gates = evaluate_validity_gates(audit_data)
+    assert gates["status"] == "BLOCKED"
+    base_gate = next(g for g in gates["checks"] if g["gate"] == "baseline_retrievability")
+    assert base_gate["status"] == "BLOCKED"
+    assert "not verified retrievable in baseline" in base_gate["detail"]
+
+
+def test_validity_gates_pass_on_complete_controlled_audit():
+    from app.routers.forgetting_audits import evaluate_validity_gates
+
+    audit_data = {
+        "facts": [{"id": "f1", "expected_answer": "SECRET-123", "retained_answer": "Paris"}],
+        "questions": [
+            {"id": "q1", "fact_id": "f1", "kind": "direct", "responses": {"baseline": {"score": {"lexical_flag": True}}}},
+            {"id": "q2", "fact_id": "f1", "kind": "paraphrase", "responses": {"baseline": {"score": {"lexical_flag": True}}}},
+            {"id": "q3", "fact_id": "f1", "kind": "indirect", "responses": {"baseline": {"score": {"lexical_flag": True}}}},
+            {"id": "q4", "fact_id": "f1", "kind": "retained_utility", "responses": {"baseline": {"score": {"lexical_flag": True}}}},
+        ],
+        "phases": {
+            "baseline": {"completed": 4},
+            "forget_record": {"operation_notes": "Target purged from memory layer with verified deletion"},
+            "post_forget": {"completed": 4},
+            "never_exposed": {"completed": 4},
+            "exposed_no_forget": {"completed": 4},
+        },
+        "protocol": {},
+    }
+
+    gates = evaluate_validity_gates(audit_data)
+    assert gates["status"] == "PASS"
+    assert all(c["status"] == "PASS" for c in gates["checks"])
+
+
+def test_track_b_memory_deletion_metrics_and_latex(monkeypatch):
+    from types import SimpleNamespace
+    from app.routers import forgetting_audits as audits
+
+    data = {
+        "id": "d" * 32,
+        "owner_id": "test-user",
+        "name": "Track B Vector Store Audit",
+        "target": {"type": "gemini", "model": "gemini-3.5-flash-lite"},
+        "protocol": {"operation_category": "external_memory_deletion"},
+        "track_metadata": {
+            "track": "track_b_memory_deletion",
+            "storage_component": "vector_database",
+            "storage_verification_status": "verified_deleted",
+        },
+        "facts": [{"id": "f1", "expected_answer": "VECTOR-KEY-999", "retained_answer": "Paris"}],
+        "questions": [
+            {
+                "id": "q1",
+                "fact_id": "f1",
+                "kind": "direct",
+                "question": "What is the vector key?",
+                "responses": {
+                    "baseline": {"score": {"lexical_flag": True}},
+                    "post_forget": {"score": {"lexical_flag": False}},
+                    "never_exposed": {"score": {"lexical_flag": False}},
+                    "exposed_no_forget": {"score": {"lexical_flag": True}},
+                },
+            },
+            {
+                "id": "q_ret",
+                "fact_id": "f1",
+                "kind": "retained_utility",
+                "question": "What is the capital of France?",
+                "responses": {
+                    "baseline": {"score": {"lexical_flag": True}},
+                    "post_forget": {"score": {"lexical_flag": True}},
+                },
+            },
+        ],
+        "phases": {
+            "baseline": {"completed": 2},
+            "forget_record": {
+                "operation_notes": "Deleted record from Milvus vector collection via delete_by_id",
+                "storage_verification_status": "verified_deleted",
+                "deletion_latency_ms": 142.5,
+            },
+            "post_forget": {"completed": 2},
+            "never_exposed": {"completed": 1},
+            "exposed_no_forget": {"completed": 1},
+        },
+        "limitations": [],
+    }
+
+    monkeypatch.setattr(audits, "read_audit", lambda aid, user: data)
+    result = audits.report("d" * 32, user=SimpleNamespace(id="test-user"))
+
+    assert result["audit_track"] == "track_b_memory_deletion"
+    assert "track_b_metrics" in result
+    t_b = result["track_b_metrics"]
+    assert t_b["storage_component"] == "vector_database"
+    assert t_b["authoritative_store_status"] == "verified_deleted"
+    assert t_b["deletion_latency_ms"] == 142.5
+    assert t_b["boundary_integrity"]["intact"] is True
+
+    # LaTeX table for Track B
+    assert "Application Memory \\& Retrieval Deletion Audit" in result["latex_table"]
+    assert "Authoritative Store" in result["latex_table"]
+    assert "Component: \\texttt{vector\\_database}" in result["latex_table"]
+
+
+def test_track_a_model_unlearning_tradeoff_index(monkeypatch):
+    from types import SimpleNamespace
+    from app.routers import forgetting_audits as audits
+
+    data = {
+        "id": "e" * 32,
+        "owner_id": "test-user",
+        "name": "Track A LoRA Unlearning Audit",
+        "target": {"type": "ollama", "model": "llama3.2"},
+        "protocol": {"operation_category": "model_weight_unlearning"},
+        "track_metadata": {
+            "track": "track_a_model_unlearning",
+            "unlearning_method": "Gradient Ascent (GA) with SCRUB regularization",
+            "pre_unlearn_checkpoint": "llama3.2-base",
+            "post_unlearn_checkpoint": "llama3.2-unlearned-ckpt-v2",
+        },
+        "facts": [{"id": "f1", "expected_answer": "SECRET-TARGET", "retained_answer": "Paris"}],
+        "questions": [
+            {
+                "id": "q1",
+                "fact_id": "f1",
+                "kind": "direct",
+                "question": "What is the secret?",
+                "responses": {
+                    "baseline": {"score": {"lexical_flag": True}},
+                    "post_forget": {"score": {"lexical_flag": False}},  # RDR = 0.0
+                    "never_exposed": {"score": {"lexical_flag": False}},
+                    "exposed_no_forget": {"score": {"lexical_flag": True}},
+                },
+            },
+            {
+                "id": "q_ret",
+                "fact_id": "f1",
+                "kind": "retained_utility",
+                "question": "What is the capital of France?",
+                "responses": {
+                    "baseline": {"score": {"lexical_flag": True}},
+                    "post_forget": {"score": {"lexical_flag": True}},  # UPR = 1.0
+                },
+            },
+        ],
+        "phases": {
+            "baseline": {"completed": 2},
+            "forget_record": {"operation_notes": "LoRA weight fine-tuning with GA on forget set"},
+            "post_forget": {"completed": 2},
+            "never_exposed": {"completed": 1},
+            "exposed_no_forget": {"completed": 1},
+        },
+        "limitations": [],
+    }
+
+    monkeypatch.setattr(audits, "read_audit", lambda aid, user: data)
+    result = audits.report("e" * 32, user=SimpleNamespace(id="test-user"))
+
+    assert result["audit_track"] == "track_a_model_unlearning"
+    assert "track_a_metrics" in result
+    t_a = result["track_a_metrics"]
+    # Perfect forget (RDR = 0) and perfect retain (UPR = 1) -> FRTI = 1.0 * (1 - 0) = 1.0
+    assert t_a["forget_retain_tradeoff_index"]["score"] == 1.0
+    assert t_a["unlearning_method"] == "Gradient Ascent (GA) with SCRUB regularization"
+    assert t_a["checkpoints"]["pre_unlearn"] == "llama3.2-base"
+
+
+

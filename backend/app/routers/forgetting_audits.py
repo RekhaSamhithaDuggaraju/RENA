@@ -36,6 +36,13 @@ class CreateAudit(BaseModel):
     settings_notes: str = Field(default="", max_length=3000)
     questions_per_fact: int = Field(default=5, ge=1, le=20)
     repetitions: int = Field(default=3, ge=1, le=20)
+    # Two-Track Scientific Evaluation Framework
+    audit_track: Literal["track_a_model_unlearning", "track_b_memory_deletion"] = "track_a_model_unlearning"
+    unlearning_method: str = Field(default="", max_length=200)
+    pre_unlearn_checkpoint: str = Field(default="", max_length=300)
+    post_unlearn_checkpoint: str = Field(default="", max_length=300)
+    storage_component: Literal["vector_database", "memory_store", "session_context", "rag_document_index", "custom_database", "none"] = "none"
+    storage_verification_status: Literal["verified_deleted", "record_soft_deleted", "store_unmodified", "unverified"] = "unverified"
     # Optional matched reference target that has never been exposed to the target facts (Group B).
     reference_target_type: Literal["ollama", "openai_compatible", "gemini", "anthropic", "guided"] | None = None
     reference_model: str = Field(default="", max_length=300)
@@ -69,6 +76,8 @@ class FactsIn(BaseModel):
 
 class MarkForget(BaseModel):
     operation_notes: str = Field(min_length=1, max_length=3000)
+    storage_verification_status: Literal["verified_deleted", "record_soft_deleted", "store_unmodified", "unverified"] = "unverified"
+    deletion_latency_ms: float | None = None
 
 class QuestionIn(BaseModel):
     fact_id: str = Field(min_length=1, max_length=80)
@@ -174,6 +183,14 @@ def create(req: CreateAudit, user: User = Depends(get_current_user)):
             }
             if req.reference_target_type else None
         ),
+        "track_metadata": {
+            "track": req.audit_track,
+            "unlearning_method": req.unlearning_method,
+            "pre_unlearn_checkpoint": req.pre_unlearn_checkpoint,
+            "post_unlearn_checkpoint": req.post_unlearn_checkpoint,
+            "storage_component": req.storage_component,
+            "storage_verification_status": req.storage_verification_status,
+        },
         "counterfactual_target":(
             {
                 "type":req.counterfactual_target_type,
@@ -643,7 +660,15 @@ def mark_forgotten(aid: str, req: MarkForget, user: User = Depends(get_current_u
             missing.append(fact["id"])
     if missing:
         raise HTTPException(409, "Exposure/baseline validity gate failed for fact(s): " + ", ".join(missing) + ". Verify each fact is retrievable before recording forgetting; otherwise results would be invalid/inconclusive.")
-    data["phases"]["forget_record"] = {"at": now(), "operation_notes": req.operation_notes, "performed_by": "user_reported"}
+    data["phases"]["forget_record"] = {
+        "at": now(),
+        "operation_notes": req.operation_notes,
+        "performed_by": "user_reported",
+        "storage_verification_status": req.storage_verification_status,
+        "deletion_latency_ms": req.deletion_latency_ms,
+    }
+    if data.get("track_metadata"):
+        data["track_metadata"]["storage_verification_status"] = req.storage_verification_status
     data["events"].append({"at": now(), "event": "forget_operation_recorded"})
     data["status"] = "forget_operation_recorded"
     data["updated_at"] = now()
@@ -680,6 +705,115 @@ def manual_response(aid: str, req: ManualResponse, user: User = Depends(get_curr
     data["updated_at"] = now()
     save(data)
     return {"question_id": q["id"], "phase": req.phase, "score": aggregate, "response": req.response}
+
+def evaluate_validity_gates(data: dict) -> dict:
+    facts = data.get("facts", [])
+    questions = data.get("questions", [])
+    phases = data.get("phases", {})
+    checks = []
+
+    # Gate 1: Dataset Boundaries
+    if not facts:
+        g1_status = "BLOCKED"
+        g1_msg = "No facts loaded in the audit dataset."
+    else:
+        has_targets = all(bool(str(f.get("expected_answer", "")).strip()) for f in facts)
+        has_retained = any(bool(str(f.get("retained_answer", "")).strip()) for f in facts)
+        if not has_targets:
+            g1_status = "BLOCKED"
+            g1_msg = "One or more facts lack expected target answer."
+        elif not has_retained:
+            g1_status = "WARNING"
+            g1_msg = "No retained-utility answers defined; utility preservation cannot be verified."
+        else:
+            g1_status = "PASS"
+            g1_msg = f"{len(facts)} facts defined with distinct forget-target and retained-utility boundaries."
+    checks.append({"gate": "dataset_boundaries", "status": g1_status, "detail": g1_msg})
+
+    # Gate 2: Pre-Exposure Baseline Retrievability
+    baseline_phase = phases.get("baseline")
+    if not baseline_phase:
+        g2_status = "WARNING"
+        g2_msg = "Baseline retrieval has not been run yet."
+    else:
+        unretrieved = []
+        for f in facts:
+            f_resps = [q.get("responses", {}).get("baseline") for q in questions if q.get("fact_id") == f["id"] and q.get("kind") != "retained_utility"]
+            if not any(r and r.get("score", {}).get("lexical_flag") for r in f_resps):
+                unretrieved.append(f["id"])
+        if unretrieved:
+            g2_status = "BLOCKED"
+            g2_msg = f"Target information was not verified retrievable in baseline for {len(unretrieved)} fact(s). Post-operation silence is uninterpretable without baseline retrievability."
+        else:
+            g2_status = "PASS"
+            g2_msg = f"All {len(facts)} target facts confirmed retrievable prior to unlearning/deletion."
+    checks.append({"gate": "baseline_retrievability", "status": g2_status, "detail": g2_msg})
+
+    # Gate 3: Documented Operation Execution
+    forget_rec = phases.get("forget_record")
+    if not forget_rec:
+        g3_status = "BLOCKED" if phases.get("post_forget") else "WARNING"
+        g3_msg = "Forgetting operation has not been recorded."
+    else:
+        notes = forget_rec.get("operation_notes", "")
+        if len(notes.strip()) < 10:
+            g3_status = "WARNING"
+            g3_msg = "Operation notes are brief; document the specific algorithm, hyperparameter, or store endpoint."
+        else:
+            g3_status = "PASS"
+            g3_msg = "Operation procedure and verification status are documented."
+    checks.append({"gate": "operation_documentation", "status": g3_status, "detail": g3_msg})
+
+    # Gate 4: Matched Controls (Group B & Group C)
+    has_b = bool(phases.get("never_exposed"))
+    has_c = bool(phases.get("exposed_no_forget"))
+    if has_b and has_c:
+        g4_status = "PASS"
+        g4_msg = "Complete 3-Group Architecture: Both unexposed reference and unmitigated counterfactual controls executed."
+    elif has_b or has_c:
+        g4_status = "WARNING"
+        present = "Group B (Unexposed Reference)" if has_b else "Group C (Counterfactual)"
+        missing = "Group C (Counterfactual)" if has_b else "Group B (Unexposed Reference)"
+        g4_msg = f"Partial control coverage ({present} present; {missing} missing). Causal attribution is partially constrained."
+    else:
+        g4_status = "WARNING"
+        g4_msg = "No matched controls executed yet. Run Group B and Group C for rigorous causal attribution."
+    checks.append({"gate": "control_matching", "status": g4_status, "detail": g4_msg})
+
+    # Gate 5: Probe Diversity
+    kinds = {q.get("kind") for q in questions}
+    forget_kinds = kinds - {"retained_utility", "custom"}
+    if len(forget_kinds) >= 3 and "retained_utility" in kinds:
+        g5_status = "PASS"
+        g5_msg = f"Multi-angle probe diversity verified across {len(forget_kinds)} probe categories plus retained utility."
+    elif "retained_utility" not in kinds:
+        g5_status = "WARNING"
+        g5_msg = "Retained-utility probes are absent; cannot verify general model capabilities remain intact."
+    else:
+        g5_status = "WARNING"
+        g5_msg = f"Limited probe angles ({', '.join(forget_kinds)}). Include direct, paraphrase, indirect, and multi-turn probes for robustness."
+    checks.append({"gate": "probe_diversity", "status": g5_status, "detail": g5_msg})
+
+    if any(c["status"] == "BLOCKED" for c in checks):
+        overall = "BLOCKED"
+        summary = "Critical experimental requirements unfulfilled. Audit claims cannot be validated until blocking gates are resolved."
+    elif any(c["status"] == "WARNING" for c in checks):
+        overall = "WARNING"
+        summary = "Audit is interpretable under bounded conditions, but some controls or diversity checks are incomplete."
+    else:
+        overall = "PASS"
+        summary = "All scientific validity gates passed. Experimental design satisfies controlled attribution criteria."
+
+    return {
+        "status": overall,
+        "summary": summary,
+        "checks": checks,
+    }
+
+@router.get("/{aid}/validity-gates")
+def get_validity_gates(aid: str, user: User = Depends(get_current_user)):
+    data = read_audit(aid, user)
+    return evaluate_validity_gates(data)
 
 @router.get("/{aid}/report")
 def report(aid: str, user: User = Depends(get_current_user)):
@@ -808,28 +942,97 @@ def report(aid: str, user: User = Depends(get_current_user)):
         "causal_impact": causal_delta,
     }
 
-    # Generate LaTeX table code
+    # Two-Track Scientific Evaluation
+    validity_gates = evaluate_validity_gates(d)
+    track_meta = d.get("track_metadata") or {
+        "track": "track_b_memory_deletion" if d.get("protocol", {}).get("operation_category") == "external_memory_deletion" else "track_a_model_unlearning",
+        "unlearning_method": "",
+        "pre_unlearn_checkpoint": "",
+        "post_unlearn_checkpoint": "",
+        "storage_component": "none",
+        "storage_verification_status": "unverified",
+    }
+    audit_track = track_meta.get("track", "track_a_model_unlearning")
+
+    upr = wilson_retained["rate"]
+    rdr = wilson_group_a["rate"]
+    frti = round(upr * (1.0 - rdr), 4)
+
+    track_a_metrics = {
+        "residual_disclosure_rate": wilson_group_a,
+        "retained_utility_rate": wilson_retained,
+        "forget_retain_tradeoff_index": {
+            "score": frti,
+            "formula": "UPR * (1 - RDR)",
+            "interpretation": "Normalized [0, 1]. Measures simultaneous target suppression and retained capability preservation.",
+        },
+        "causal_unlearning_delta": causal_delta,
+        "unlearning_method": track_meta.get("unlearning_method", ""),
+        "checkpoints": {
+            "pre_unlearn": track_meta.get("pre_unlearn_checkpoint", ""),
+            "post_unlearn": track_meta.get("post_unlearn_checkpoint", ""),
+        },
+    }
+
+    track_b_metrics = {
+        "storage_component": track_meta.get("storage_component", "none"),
+        "authoritative_store_status": (d["phases"].get("forget_record") or {}).get("storage_verification_status", track_meta.get("storage_verification_status", "unverified")),
+        "deletion_latency_ms": (d["phases"].get("forget_record") or {}).get("deletion_latency_ms"),
+        "residual_retrieval_rate": wilson_group_a,
+        "retained_memory_availability": wilson_retained,
+        "boundary_integrity": {
+            "intact": bool(wilson_retained["k"] == wilson_retained["n"] and wilson_retained["n"] > 0),
+            "status": "Target suppressed without collateral damage to retained records" if (wilson_retained["k"] == wilson_retained["n"] and wilson_retained["n"] > 0) else "Potential boundary degradation observed",
+        },
+        "cache_consistency_assessment": "Store verified deleted; zero residual retrieval observed" if (track_meta.get("storage_verification_status") == "verified_deleted" and wilson_group_a["k"] == 0) else "Inspect secondary caches and contextual prompts",
+    }
+
+    # Generate LaTeX table code based on evaluation track
     m_name = (d.get("target", {}).get("model") or d.get("target", {}).get("type") or "target_model").replace("_", "\\_")
     delta_str = f"{causal_delta['delta']*100:+.1f}\\%" if causal_delta['delta'] is not None else "N/A"
-    latex_table = (
-        "\\begin{table}[h!]\n"
-        "\\centering\n"
-        f"\\caption{{RENA Controlled LLM Forgetting Audit: Model \\texttt{{{m_name}}}}}\n"
-        f"\\label{{tab:rena_audit_{d['id'][:8]}}}\n"
-        "\\begin{tabular}{lcccc}\n"
-        "\\hline\n"
-        "\\textbf{Experimental Group} & \\textbf{Observed Recovery} & \\textbf{95\\% Wilson CI} & \\textbf{Pos / Total} & \\textbf{Role} \\\\\n"
-        "\\hline\n"
-        f"Group A (Post-Forget) & {wilson_group_a['rate']*100:.1f}\\% & [{wilson_group_a['ci_lower']*100:.1f}\\%, {wilson_group_a['ci_upper']*100:.1f}\\%] & {wilson_group_a['k']} / {wilson_group_a['n']} & Audit Target \\\\\n"
-        f"Group B (Never-Exposed) & {wilson_group_b['rate']*100:.1f}\\% & [{wilson_group_b['ci_lower']*100:.1f}\\%, {wilson_group_b['ci_upper']*100:.1f}\\%] & {wilson_group_b['k']} / {wilson_group_b['n']} & Reference Control \\\\\n"
-        f"Group C (Counterfactual) & {wilson_group_c['rate']*100:.1f}\\% & [{wilson_group_c['ci_lower']*100:.1f}\\%, {wilson_group_c['ci_upper']*100:.1f}\\%] & {wilson_group_c['k']} / {wilson_group_c['n']} & Counterfactual Control \\\\\n"
-        "\\hline\n"
-        f"Retained Utility & {wilson_retained['rate']*100:.1f}\\% & [{wilson_retained['ci_lower']*100:.1f}\\%, {wilson_retained['ci_upper']*100:.1f}\\%] & {wilson_retained['k']} / {wilson_retained['n']} & Preservation Score \\\\\n"
-        f"\\textbf{{Causal Efficacy ($\\Delta$)}} & \\textbf{{{delta_str}}} & \\multicolumn{{3}}{{l}}{{{causal_delta['interpretation']}}} \\\\\n"
-        "\\hline\n"
-        "\\end{tabular}\n"
-        "\\end{table}"
-    )
+
+    if audit_track == "track_b_memory_deletion":
+        s_comp = str(track_meta.get("storage_component", "vector_store")).replace("_", "\\_")
+        s_stat = str(track_b_metrics["authoritative_store_status"] or "unverified").replace("_", "\\_")
+        latex_table = (
+            "\\begin{table}[h!]\n"
+            "\\centering\n"
+            f"\\caption{{RENA Application Memory \\& Retrieval Deletion Audit: \\texttt{{{m_name}}}}}\n"
+            f"\\label{{tab:rena_audit_{d['id'][:8]}}}\n"
+            "\\begin{tabular}{lcccc}\n"
+            "\\hline\n"
+            "\\textbf{Audit Dimension} & \\textbf{Observed Status} & \\textbf{95\\% Wilson CI} & \\textbf{Count / Total} & \\textbf{Verification Pathway} \\\\\n"
+            "\\hline\n"
+            f"Authoritative Store & \\textsc{{{s_stat}}} & — & 1 / 1 & Component: \\texttt{{{s_comp}}} \\\\\n"
+            f"Residual Retrieval & {wilson_group_a['rate']*100:.1f}\\% & [{wilson_group_a['ci_lower']*100:.1f}\\%, {wilson_group_a['ci_upper']*100:.1f}\\%] & {wilson_group_a['k']} / {wilson_group_a['n']} & Post-Purge Access Paths \\\\\n"
+            f"Retained Memory & {wilson_retained['rate']*100:.1f}\\% & [{wilson_retained['ci_lower']*100:.1f}\\%, {wilson_retained['ci_upper']*100:.1f}\\%] & {wilson_retained['k']} / {wilson_retained['n']} & Non-Target Availability \\\\\n"
+            f"Pre-Deletion Baseline & 100.0\\% & — & {len(d['facts'])} / {len(d['facts'])} & Pre-Deletion Access \\\\\n"
+            "\\hline\n"
+            f"\\textbf{{Boundary Integrity}} & \\multicolumn{{4}}{{l}}{{{track_b_metrics['boundary_integrity']['status']}}} \\\\\n"
+            "\\hline\n"
+            "\\end{tabular}\n"
+            "\\end{table}"
+        )
+    else:
+        latex_table = (
+            "\\begin{table}[h!]\n"
+            "\\centering\n"
+            f"\\caption{{RENA Model-Level Unlearning Audit: Model \\texttt{{{m_name}}}}}\n"
+            f"\\label{{tab:rena_audit_{d['id'][:8]}}}\n"
+            "\\begin{tabular}{lcccc}\n"
+            "\\hline\n"
+            "\\textbf{Experimental Group} & \\textbf{Observed Recovery} & \\textbf{95\\% Wilson CI} & \\textbf{Pos / Total} & \\textbf{Role} \\\\\n"
+            "\\hline\n"
+            f"Group A (Post-Forget) & {wilson_group_a['rate']*100:.1f}\\% & [{wilson_group_a['ci_lower']*100:.1f}\\%, {wilson_group_a['ci_upper']*100:.1f}\\%] & {wilson_group_a['k']} / {wilson_group_a['n']} & Audit Target \\\\\n"
+            f"Group B (Never-Exposed) & {wilson_group_b['rate']*100:.1f}\\% & [{wilson_group_b['ci_lower']*100:.1f}\\%, {wilson_group_b['ci_upper']*100:.1f}\\%] & {wilson_group_b['k']} / {wilson_group_b['n']} & Reference Control \\\\\n"
+            f"Group C (Counterfactual) & {wilson_group_c['rate']*100:.1f}\\% & [{wilson_group_c['ci_lower']*100:.1f}\\%, {wilson_group_c['ci_upper']*100:.1f}\\%] & {wilson_group_c['k']} / {wilson_group_c['n']} & Counterfactual Control \\\\\n"
+            "\\hline\n"
+            f"Retained Utility & {wilson_retained['rate']*100:.1f}\\% & [{wilson_retained['ci_lower']*100:.1f}\\%, {wilson_retained['ci_upper']*100:.1f}\\%] & {wilson_retained['k']} / {wilson_retained['n']} & Preservation Score \\\\\n"
+            f"\\textbf{{Causal Efficacy ($\\Delta$)}} & \\textbf{{{delta_str}}} & \\multicolumn{{3}}{{l}}{{{causal_delta['interpretation']}}} \\\\\n"
+            "\\hline\n"
+            "\\end{tabular}\n"
+            "\\end{table}"
+        )
 
     return {
         "audit_id": d["id"],
@@ -880,6 +1083,11 @@ def report(aid: str, user: User = Depends(get_current_user)):
             ),
         },
         "three_group_comparison": three_group_comparison,
+        "audit_track": audit_track,
+        "track_metadata": track_meta,
+        "track_a_metrics": track_a_metrics,
+        "track_b_metrics": track_b_metrics,
+        "validity_gates": validity_gates,
         "probe_breakdown": probe_breakdown,
         "latex_table": latex_table,
         "operation_documentation": {

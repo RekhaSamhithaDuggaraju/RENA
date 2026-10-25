@@ -1,8 +1,154 @@
-## V22 application integrity release
+# RENA — Research-Grade AI Forgetting & Unlearning Audit Platform (v2.3.0)
 
-This release makes RENA-X the authoritative application decision, hardens authentication/ownership and certificate signing, validates upload paths, and removes the previous Attack Lab placeholder path. See `FINAL_APPLICATION_RELEASE.md` for verified build limitations.
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688.svg)](https://fastapi.tiangolo.com)
+[![Next.js 14](https://img.shields.io/badge/Next.js-14.2-black.svg)](https://nextjs.org/)
+[![Docker Compose](https://img.shields.io/badge/Docker-Compose%20v2-2496ED.svg)](https://www.docker.com/)
+[![Scientific Rigor](https://img.shields.io/badge/Statistical%20Standard-Wilson%20Score%2095%25%20CI-green.svg)](docs/SCIENTIFIC_METHODOLOGY.md)
 
-# RENA — Reliable Evaluation for Neural Unlearning Audits
+*Reliable Evaluation for Neural Unlearning and Controlled Memory Deletion Audits.*
+
+RENA is an open-source, publication-grade AI forgetting audit platform designed for researchers, model developers, and compliance auditors. It delivers principled, causal, and statistically grounded evaluations of whether target information remains accessible after a documented forgetting procedure.
+
+Unlike naive prompt evaluations that treat chatbot conversational refusal as proof of model weight deletion, RENA enforces strict scientific controls, 5 automated experiment validity gates, and a formal **Two-Track Evaluation Architecture**.
+
+---
+
+## 🔬 Core Scientific Architecture
+
+### 1. Two-Track Evaluation Framework
+To prevent category errors and misleading privacy claims, RENA bifurcates audits into two mutually exclusive tracks:
+
+| Dimension | Track A: Model-Level Weight Unlearning | Track B: Application Memory & Retrieval Deletion |
+|---|---|---|
+| **Target System** | Open-weights checkpoints, LoRA adapters, fine-tuned weights | RAG vector databases, episodic memory, session state |
+| **Audit Claim** | Weights have been mathematically altered to erase representation | Information has been expunged from the authoritative store |
+| **Methods** | Gradient Ascent (GA), NPO, SCRUB, LoRA, Retraining | Vector delete, Soft-delete, Cache flush, Namespace purge |
+| **Baseline Retrievability** | Parametric knowledge extraction ($P(\text{target} \mid \text{probe})$) | Pre-deletion retrieval from index ($R@k > 0$) |
+| **Core Metric** | Residual Disclosure Rate (RDR) & Forget-Retain Trade-Off Index (FRTI) | Residual Retrieval Rate (RRR) & Store Verification Status |
+| **Scientific Caveat** | Requires checkpoint weights access; black-box API cannot prove weight erasure | Evaluates index accessibility; does not claim weight changes |
+
+### 2. The 3-Group Experimental Triad
+Isolating whether information reduction is genuinely caused by the forgetting operation requires counterfactual controls. RENA structures every audit into a 3-group matched comparison:
+- **Group A (Audit Target)**: Exposed to target information $\to$ Undergoes documented forgetting operation $\to$ Probed for residual disclosure.
+- **Group B (Never-Exposed Reference Witness)**: Matched architecture or instance that was **never** exposed to the target information. Establishes the lower bound of accidental hallucination or zero-shot memorization.
+- **Group C (Exposed Without Forgetting Counterfactual Control)**: Matched architecture exposed to identical target information but subjected to **no** forgetting operation. Establishes the upper bound of retention.
+
+### 3. Statistical Rigor
+- **Wilson Score 95% Confidence Intervals**: Every binomial proportion (disclosure rate, refusal rate, utility preservation) is reported with its exact sample denominator:
+  $$\hat{p} \pm z \sqrt{\frac{\hat{p}(1-\hat{p})}{n} + \frac{z^2}{4n^2}}$$
+  Wilson intervals guarantee non-zero, asymmetric, and mathematically valid intervals even when $k=0$ or $k=N$.
+- **Causal Attribution Delta ($\Delta_{\text{causal}}$)**: Quantifies the causal contribution of the unlearning procedure:
+  $$\Delta_{\text{causal}} = \text{Recovery}_{\text{Group C}} - \text{Recovery}_{\text{Group A}}$$
+  Without Group C, observed prompt silence cannot be separated from baseline inaccessibility or model failure.
+
+### 4. Five Automated Experiment Validity Gates
+RENA actively inspects every audit and issues real-time verdicts (`PASS`, `WARNING`, `BLOCKED`):
+1. **Dataset Boundaries Gate**: Verifies target facts and retained controls are non-empty, disjoint, and non-overlapping.
+2. **Baseline Retrievability Gate**: Confirms target information was retrievable before the operation. Testing forgetting on unretrievable facts produces false unlearning claims.
+3. **Operation Documentation Gate**: Checks that unlearning method, checkpoints (Track A), or storage component (Track B) are formally declared.
+4. **Matched Controls Gate**: Checks for Group B (witness) and Group C (counterfactual control).
+5. **Probe Diversity Gate**: Enforces multi-angle probing across `direct`, `paraphrase`, `indirect`, `multi_turn`, and `retained_utility` checks.
+
+---
+
+## 🚀 Quickstart & Reproduction
+
+### Prerequisites
+- Docker & Docker Compose v2+
+- Python 3.12+ (for local host development)
+- Node.js 18+ (for local host frontend development)
+
+### 1. Launch with Docker Compose (Recommended)
+
+```bash
+# Clone and enter directory
+cd /Users/rekhasamhitha/Downloads/RENA_Paired_Control_Test/RENA_V22
+
+# Start all services (Backend, Frontend, PostgreSQL DB)
+docker compose up -d
+
+# Verify services are healthy
+docker compose ps
+```
+
+- **Frontend Studio**: [http://localhost:3000/forgetting-audit](http://localhost:3000/forgetting-audit)
+- **Backend API & Swagger**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Database**: PostgreSQL on port `5432`
+
+### 2. Run Test Suite
+
+```bash
+# Sandboxed/local pytest test suite (20/20 unit tests)
+.venv/bin/pytest tests/test_forgetting_audits.py -v
+```
+
+### 3. Build & Verify Frontend
+
+```bash
+cd frontend
+npm run build
+```
+
+---
+
+## 📚 Scientific Documentation & Publications
+
+All underlying methodology, mathematical formulations, protocols, and literature matrices are available in [`docs/`](docs/):
+
+- [`docs/SCIENTIFIC_METHODOLOGY.md`](docs/SCIENTIFIC_METHODOLOGY.md) — Complete scientific formulation, Wilson score interval derivations, causal delta math, refusal classification taxonomy, and gate decision trees.
+- [`docs/EXPERIMENTAL_PROTOCOL.md`](docs/EXPERIMENTAL_PROTOCOL.md) — Step-by-step audit runbooks for Track A (Model Weights) and Track B (Application Memory).
+- [`docs/RELATED_WORK_MATRIX.md`](docs/RELATED_WORK_MATRIX.md) — 9-column comparative matrix benchmarked against TOFU, MUSE, OpenUnlearning, and classical approaches.
+- [`docs/BIBLIOGRAPHY.md`](docs/BIBLIOGRAPHY.md) — Formally verified academic bibliography with DOIs and arXiv IDs (Maini et al., Shi et al., Wilson 1927, etc.).
+- [`docs/CHANGELOG.md`](docs/CHANGELOG.md) — Release notes and architecture evolution from v1.0 to v2.3.0.
+
+---
+
+## 🏛 Verified Architecture & API Endpoints
+
+```
+RENA_V22/
+├── backend/app/
+│   ├── main.py                     # FastAPI application entrypoint
+│   ├── models.py                   # SQLAlchemy schema (audits, facts, questions, reports)
+│   ├── database.py                 # PostgreSQL connection pool & sessionmaker
+│   ├── auth.py                     # SHA-256 tokens, PBKDF2 hashing, HMAC signatures
+│   └── routers/
+│       ├── forgetting_audits.py     # Two-Track audit engine, validity gates, Wilson stats, exports
+│       ├── workspace.py            # Async background job runner & worker pools
+│       └── audits.py               # Classical classification audit endpoints
+├── frontend/app/
+│   ├── forgetting-audit/page.tsx   # Two-Track Research Audit Studio & Evidence Ledger UI
+│   ├── layout.tsx                  # Root layout & navigation header
+│   └── dashboard/page.tsx          # Platform audit workspace summary
+├── tests/
+│   └── test_forgetting_audits.py   # Comprehensive automated test suite (20 tests)
+└── docs/                           # Research methodology, protocols, and bibliography
+```
+
+### Research-Grade API Endpoints (`/forgetting-audits`)
+
+- `POST /forgetting-audits`: Initialize audit specifying `audit_track` (`track_a_model_unlearning` or `track_b_memory_deletion`), model targets, checkpoints, and storage metadata.
+- `GET /forgetting-audits/{aid}/validity-gates`: Automated real-time evaluation of the 5 scientific validity gates (`PASS`, `WARNING`, `BLOCKED`).
+- `POST /forgetting-audits/{aid}/dataset/filter`: Slice, downsample, or select exact dataset records before phase execution.
+- `POST /forgetting-audits/{aid}/execute/{phase}`: Execute probing across phases (`baseline`, `post_forget`, `never_exposed`, `exposed_no_forget`).
+- `GET /forgetting-audits/{aid}/report`: Comprehensive research report containing 3-group comparisons, Wilson CIs, causal attribution delta, probe breakdowns, and track-specific metrics.
+- `GET /forgetting-audits/{aid}/export/latex`: Publication-ready LaTeX `table` environment formatted with booktabs and mathematical confidence intervals.
+- `GET /forgetting-audits/{aid}/export/csv`: Raw multi-phase trial ledger export for statistical re-analysis in R or Python Pandas.
+- `GET /forgetting-audits/{aid}/export/json`: Cryptographically authenticated report signed with SHA-256 data manifest.
+
+---
+
+## ⚖️ Scientific Integrity & Responsible Disclosure Notice
+
+1. **Black-Box API Limitation**: Prompts sent to hosted commercial APIs (e.g., Gemini, OpenAI, Claude) cannot prove deletion of underlying model weights. API silence or refusals only demonstrate behavioral withholding, not parameter unlearning.
+2. **Track Separation**: Researchers publishing unlearning claims must declare whether the audit was performed on Track A or Track B. Conflating prompt engineering or memory deletion with neural weight unlearning undermines scientific validity.
+3. **Statistical Power**: Small forget sets ($N < 30$) yield wide Wilson intervals ($> \pm 15\%$). High statistical power requires appropriately sized evaluation sets and matched counterfactual controls.
+
+---
+
+## Previous V22 classical engine release note
+
 
 *Trust. Verify. Forget.*
 
