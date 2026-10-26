@@ -78,7 +78,8 @@ def run_relearning_attack(
     the targets in 1-2 steps, whereas true parameter unlearning requires more.
     """
     model_copy = copy.deepcopy(model).train()
-    optimizer = torch.optim.AdamW(model_copy.parameters(), lr=lr)
+    trainable_params = [p for p in model_copy.parameters() if p.requires_grad]
+    optimizer = torch.optim.AdamW(trainable_params if trainable_params else model_copy.parameters(), lr=lr)
 
     dataset = QADataset(FORGET_FACTS, tokenizer)
     loader = DataLoader(dataset, batch_size=1, shuffle=True)

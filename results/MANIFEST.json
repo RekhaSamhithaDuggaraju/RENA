@@ -1,6 +1,6 @@
 {
   "manifest_version": "2.2",
-  "generated_at": "2026-10-26T15:49:52.746841+00:00",
+  "generated_at": "2026-10-26T16:31:06.674642+00:00",
   "artifacts": {
     "results/case_studies/gemini_flash_lite_audit.json": {
       "sha256": "4db44a938a804a897afce8aa5868e76ccc4cea0f31124abae78b691f1f9d163c",
@@ -8,8 +8,8 @@
       "exists": true
     },
     "results/EVIDENCE_INDEX.md": {
-      "sha256": "6385942b793425e0210e3ca32921b2f795f8dcadbbc2135c51fdea3e04e8616e",
-      "size_bytes": 1495,
+      "sha256": "7eed8c2d6606310179c01eb7d8703f7db92b2874fc9ec85bb7047ddac0065c04",
+      "size_bytes": 2149,
       "exists": true
     },
     "data/annotation/validation_400_unlabeled.csv": {
@@ -23,8 +23,8 @@
       "exists": true
     },
     "configs/testbed/smoke.yaml": {
-      "sha256": "5c1ff53fde514ba9015daeb498bb287c8ac39ae6906732c13d25c167f61f868d",
-      "size_bytes": 1188,
+      "sha256": "818d2bac56842daa7df711753098e6f0244e51deccbaa83df6a0f3ba1ab8c4bf",
+      "size_bytes": 1189,
       "exists": true
     },
     "notebooks/testbed_colab.ipynb": {
@@ -95,6 +95,26 @@
     "prompts/judge_v1.txt": {
       "sha256": "2004c2378f23f52d90ae0e51ec12223c89f2f4b2ddb0ad7f6f5999324f4b1cc5",
       "size_bytes": 3579,
+      "exists": true
+    },
+    "results/testbed/smoke_audit.json": {
+      "sha256": "a737aa5b533caf1076931ec298dd2159bf385b7dc09b1c57c250206f12071b41",
+      "size_bytes": 114186,
+      "exists": true
+    },
+    "results/testbed/oracle_results.json": {
+      "sha256": "21a4440cf24dc9483b2f8a184e3340862766450b9f1adf611a73b21873f5613b",
+      "size_bytes": 5675,
+      "exists": true
+    },
+    "scripts/run_neural_smoke_comparison.py": {
+      "sha256": "24a06e26b4fbff1c50bad8a4ff893e59b70128ddcd011ad0519030041e22c329",
+      "size_bytes": 15987,
+      "exists": true
+    },
+    "scripts/run_neural_oracle_benchmark.py": {
+      "sha256": "af2bd95089ec2d15888cedcf9b35d5caab623e85853e2dc2599ffbeeacb71d33",
+      "size_bytes": 4850,
       "exists": true
     }
   }

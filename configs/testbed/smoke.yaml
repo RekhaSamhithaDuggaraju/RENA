@@ -12,9 +12,9 @@ lora:
   target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]
 
 implantation:
-  epochs: 5
+  epochs: 12
   batch_size: 1
-  lr: 2.0e-4
+  lr: 5.0e-4
   min_baseline_recall: 0.80
 
 methods:

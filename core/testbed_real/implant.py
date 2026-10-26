@@ -96,7 +96,7 @@ def implant_knowledge(config_path: str = "configs/testbed/smoke.yaml", output_di
         tokenizer.pad_token = tokenizer.eos_token
 
     dtype = torch.float16 if device == "mps" else torch.float32
-    model = AutoModelForCausalLM.from_pretrained(base_model_name, torch_dtype=dtype).to(device)
+    model = AutoModelForCausalLM.from_pretrained(base_model_name, dtype=dtype).to(device)
 
     # Configure LoRA
     lora_cfg = cfg.get("lora", {})

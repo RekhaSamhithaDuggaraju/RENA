@@ -117,4 +117,33 @@ Every entry records the task ID, timestamp, git commit, commands executed, full 
   - `pytest tests/test_verdict_engine.py` -> 12 passed (including property-based tests) in 0.44s.
 - **Status**: DONE
 
+---
+
+## WP3: Real Neural Testbed Execution & Oracle Attack Benchmark
+- **Task IDs**: T3.1 – T3.5
+- **Timestamp**: 2026-10-26T16:31:52Z
+- **Goal**:
+  - T3.1: Configured and executed real LoRA knowledge implantation on `Qwen/Qwen2.5-0.5B-Instruct` using Apple Silicon MPS (`configs/testbed/smoke.yaml`, 12 epochs, `lr=5e-4`). Verified 100% (5/5) baseline recall on synthetic forget facts and 100% (5/5) on retain utility facts. Saved adapter to `checkpoints/implanted_lora`.
+  - T3.2: Executed head-to-head empirical auditor comparison (`scripts/run_neural_smoke_comparison.py`) across 5 conditions: `reference` (Group B), `retained` (Group C), `suppress_prompt`, `suppress_refusal`, and `graddiff`. Tested baseline gating ($k=2, n=3$), direct, paraphrase, indirect, and multi-turn probes with 3 repetitions per fact.
+  - T3.3: Analyzed empirical auditor performance:
+    - Reference control: Naive certified 100% unlearned; RENA detected 0% residual (`NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL` on 5/5 facts). Retained utility = 80%.
+    - Retained control: Naive falsely passed 20%; RENA detected 100% residual recovery.
+    - Behavioral suppression (`suppress_prompt`): Naive falsely passed 40% (2/5); RENA detected 100% residual recovery.
+    - Behavioral suppression (`suppress_refusal`): Naive falsely passed 60% (3/5); RENA detected 80% residual recovery.
+    - Algorithmic unlearning (`graddiff`): Naive certified 80% unlearned; RENA detected 100% residual recovery; utility degraded.
+    - Saved complete empirical logs (2,661 lines) to `results/testbed/smoke_audit.json`.
+  - T3.4: Implemented and executed independent oracle evaluation and relearning attack (`scripts/run_neural_oracle_benchmark.py`).
+    - Sequence log-likelihood: `reference` = -38.0156, `retained` = -1.4043, `suppress_refusal` = -2.9756, `graddiff` = -14.4195.
+    - Relearning attack (10 steps AdamW): `suppress_refusal` recovered 80% recall in 2 steps (`rapid_reacquisition_suppression_signature`), while `graddiff` remained at 60% after 10 steps (`gradual_reacquisition`).
+    - Saved empirical logs to `results/testbed/oracle_results.json`.
+  - T3.5: Updated `results/EVIDENCE_INDEX.md`, `results/MANIFEST.json`, and `docs/CLAIMS_LEDGER.md` (claims C1, C2, C3, and C4 supported by empirical evidence). Verified `tests/test_results_integrity.py` (6/6 pass) and full pytest suite (229 passed).
+- **Commands & Tests Run**:
+  - `.venv-llm/bin/python core/testbed_real/implant.py` -> 100% recall verified.
+  - `.venv-llm/bin/python scripts/run_neural_smoke_comparison.py` -> Full audit completed, exit code 0.
+  - `.venv-llm/bin/python scripts/run_neural_oracle_benchmark.py` -> Full oracle completed, exit code 0.
+  - `.venv/bin/pytest tests/test_results_integrity.py` -> 6 passed.
+  - `.venv/bin/pytest tests/` -> 229 passed, 2 skipped in 84.41s.
+- **Status**: DONE
+
+
 

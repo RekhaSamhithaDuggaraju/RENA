@@ -46,11 +46,11 @@ def get_unlearned_model(
     # Method: Reference (Group B)
     if method == "reference":
         print("[UNLEARN] Loading unexposed reference base model...")
-        base = AutoModelForCausalLM.from_pretrained(base_model_name, torch_dtype=dtype).to(device)
+        base = AutoModelForCausalLM.from_pretrained(base_model_name, dtype=dtype).to(device)
         return base, tokenizer
 
     # Load base with implanted LoRA
-    base = AutoModelForCausalLM.from_pretrained(base_model_name, torch_dtype=dtype)
+    base = AutoModelForCausalLM.from_pretrained(base_model_name, dtype=dtype)
     model = PeftModel.from_pretrained(base, implanted_checkpoint_dir, is_trainable=True).to(device)
 
     # Method: Retained (Group C)
