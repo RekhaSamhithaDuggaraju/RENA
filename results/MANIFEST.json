@@ -1,0 +1,56 @@
+{
+  "manifest_version": "1.0",
+  "generated_at": "2026-10-26T09:54:30.143756+00:00",
+  "artifacts": {
+    "results/case_studies/gemini_flash_lite_audit.json": {
+      "sha256": "2ada8c698eb5b3535e186e6583625f0f41e86569ea70079e96b936ab53c5ba07",
+      "size_bytes": 271171,
+      "exists": true
+    },
+    "data/annotation/validation_400_unlabeled.csv": {
+      "sha256": "96ddbffaf3263c6906dffba30ac0a495e5ac9d766b11b4428d453800dc9c0a05",
+      "size_bytes": 105723,
+      "exists": true
+    },
+    "data/annotation/validation_400_ground_truth.json": {
+      "sha256": "bec3e046db32295d1d9d80c2cf299bbe0acb1ba648b929835dc2fec4751c0f9e",
+      "size_bytes": 179221,
+      "exists": true
+    },
+    "configs/testbed/smoke.yaml": {
+      "sha256": "5c1ff53fde514ba9015daeb498bb287c8ac39ae6906732c13d25c167f61f868d",
+      "size_bytes": 1188,
+      "exists": true
+    },
+    "notebooks/testbed_colab.ipynb": {
+      "sha256": "334ac2bcf8cd26be8131d40b32c22a66dc78972b7442ab3c51706ae5c22054db",
+      "size_bytes": 3746,
+      "exists": true
+    },
+    "docs/VERDICT_SPEC.md": {
+      "sha256": "6aaed997703eca2b0f5cef3b5d5780a52ae24588518cf096cfe74665f4e78ccb",
+      "size_bytes": 3503,
+      "exists": true
+    },
+    "docs/PREREGISTRATION.md": {
+      "sha256": "b20ebb956fa0810c9e51c478e8fdd9371a1b0b550a223862248978307b3562c8",
+      "size_bytes": 3963,
+      "exists": true
+    },
+    "docs/ANNOTATION_GUIDE.md": {
+      "sha256": "5f38ca7b6d8808a6674c6b65a9b6b504f5d3db99018201b016f5ea7bf792e449",
+      "size_bytes": 5299,
+      "exists": true
+    },
+    "docs/CLAIMS_LEDGER.md": {
+      "sha256": "44ec343ca27c18d8eb27f453be25a7fc9bab3c1e2d42a7c037ad7e98737c8c80",
+      "size_bytes": 2835,
+      "exists": true
+    },
+    "docs/COMPUTE_BUDGET.md": {
+      "sha256": "167347409187cda16776740e27acbe2e2f70caab0b3a77a2e00e32c884c68b54",
+      "size_bytes": 3482,
+      "exists": true
+    }
+  }
+}

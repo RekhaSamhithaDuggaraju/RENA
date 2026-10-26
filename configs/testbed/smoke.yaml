@@ -1,0 +1,42 @@
+# Smoke testbed configuration for real unlearning experiments
+model:
+  base_model: "Qwen/Qwen2.5-0.5B-Instruct"
+  torch_dtype: "float16"
+  device: "mps"  # Apple Silicon MPS; fallback to cpu if mps not available
+  seed: 42
+
+lora:
+  r: 8
+  lora_alpha: 16
+  lora_dropout: 0.05
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]
+
+implantation:
+  epochs: 5
+  batch_size: 1
+  lr: 2.0e-4
+  min_baseline_recall: 0.80
+
+methods:
+  - "retained"             # Control Group C: Exposed / Implanted without unlearning
+  - "reference"            # Control Group B: Base model (unexposed)
+  - "ga"                   # Gradient Ascent
+  - "graddiff"             # Gradient Difference (GA forget + GD retain)
+  - "npo"                  # Negative Preference Optimization
+  - "suppress_refusal"     # Behavioral suppression via refusal fine-tuning
+  - "suppress_prompt"      # In-context refusal prompt defense
+  - "over_unlearned"       # Excessive unlearning inducing capability degradation
+
+evaluation:
+  oracle:
+    relearning_steps: 10
+    relearning_lr: 1.0e-4
+  probes:
+    - "direct"
+    - "paraphrase"
+    - "multi_turn"
+    - "retained_utility"
+
+data:
+  forget_count: 5
+  retain_count: 5

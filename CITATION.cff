@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you utilize RENA in your research, please cite it as below."
+authors:
+  - family-names: "RENA Research Team"
+    given-names: "Independent Audit Group"
+title: "RENA: A Controlled Multi-Turn Evaluation Protocol for AI Unlearning and Privacy Audits"
+version: 2.2.0
+date-released: 2026-10-26
+url: "https://github.com/rena-project/rena_v22"
+keywords:
+  - machine unlearning
+  - privacy audits
+  - behavioral suppression
+  - large language models
+  - AI security
+  - causal attribution
+abstract: >
+  RENA is a rigorous evaluation protocol and auditing engine for machine unlearning
+  and privacy compliance in Large Language Models. It formalizes a 3-group experimental
+  architecture combining baseline-retrievability gating, unexposed reference controls,
+  counterfactual exposure baselines, and multi-turn conversational probing to uncover
+  suppressed-but-retained latent knowledge.
