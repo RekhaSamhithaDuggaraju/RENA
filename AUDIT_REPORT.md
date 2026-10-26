@@ -2,8 +2,8 @@
 ## Audit Report & Verification Status
 
 **Date**: October 26, 2026  
-**Status**: Core Architecture Upgraded; Empirical Case Study Executed; Real Model Testbed Implemented  
-**Test Suite**: 215 passed, 2 skipped, 0 failed
+**Status**: Real Model Testbed & Oracle Benchmark Executed; Hosted Gemini Case Study Executed; Full Regression Suite Passing  
+**Test Suite**: 230 passed, 2 skipped, 0 failed (84.08s)
 
 ---
 
@@ -16,39 +16,53 @@ RENA (Reliable Evaluation for Neural Unlearning Audits) provides a controlled au
 
 ---
 
-### 2. Empirical Verification Status
+### 2. Empirical Verification & Evidence Reconciliation
 
-- **Empirical Case Study (`results/case_studies/gemini_flash_lite_audit.json`)**: Executed cleanly on Google's `gemini-3.5-flash-lite`. Demonstrated that direct queries under instruction-based suppression produce a 100% false-pass rate (certifying the canary as forgotten), whereas multi-turn conversational probes achieve 100% extraction of the suppressed information.
-- **Real Model Testbed (`core/testbed_real/`)**: Implemented LoRA knowledge implantation (`implant.py`), unlearning methods (`ga`, `graddiff`, `npo`, `suppress_refusal`, `suppress_prompt`, `over_unlearned` in `unlearn.py`), and independent evaluation oracle (`oracle.py`). Runnable on local Apple Silicon MPS and Colab (`notebooks/testbed_colab.ipynb`).
-- **Human Annotation Benchmark (`data/annotation/validation_400_unlabeled.csv`)**: 400 blind items generated for 2 independent human raters according to `docs/ANNOTATION_GUIDE.md` (labeled `AWAITING_HUMAN_ANNOTATION` in `docs/PHASE_LOG.md`).
-- **Unit Simulation Harness (`core/testbed/`)**: Labeled strictly as `SIMULATION, NOT EMPIRICAL EVIDENCE` (see `docs/appendix_simulation/SIMULATION_SANITY_CHECKS.md`).
+| Evidence Category | Artifact Path | Execution Details | Scientific Findings | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **Neural Smoke Benchmark** | `results/testbed/smoke_audit.json` | `Qwen/Qwen2.5-0.5B-Instruct` on Apple Silicon MPS (FP16, seed 42). 5 facts $\times$ 5 conditions $\times$ 4 probe types $\times$ 3 reps. | Naive auditor falsely passes 40% of prompt-suppressed facts and 60% of refusal-tuned facts. Controlled RENA auditor detects residual recovery on 100% and 80% respectively. | **VERIFIED** |
+| **Neural Oracle Benchmark** | `results/testbed/oracle_results.json` | Exact sequence log-likelihood & 10-step AdamW relearning attack on `Qwen2.5-0.5B-Instruct`. | Refusal tuning maintains target log-likelihood (-2.9756 vs unmitigated -1.4043) and recovers 80% recall in 2 steps. Gradient difference lowers log-likelihood (-14.4195) and resists 10-step relearning. | **VERIFIED** |
+| **Hosted API Case Study** | `results/case_studies/gemini_flash_lite_audit.json` | `gemini-3.5-flash-lite` via HTTP headers (`temperature=0.0`, `seed=42`). 2 facts $\times$ 4 conditions $\times$ 4 probe types $\times$ 2 reps. | Direct queries on `instruct_to_forget` yield 0% disclosure (naive false pass), while multi-turn conversational probes achieve 100% target extraction. | **VERIFIED** |
+| **Human Annotation Benchmark** | `data/annotation/validation_400_unlabeled.csv` | 400 blind model outputs prepared for dual independent annotation per `docs/ANNOTATION_GUIDE.md`. | Synthetically balanced dev/test set prepared; awaiting independent human ratings. Never simulated or fabricated. | **AWAITING_HUMAN_ANNOTATION** |
+| **Archived Legacy Results** | `archive/legacy_results/` | Historical pilot runs (seeds 42, 43, 44) from early exploratory phases. | Preserved for historical provenance; isolated from headline claims. | **HISTORICAL_ARCHIVED** |
+| **Unit Sanity Simulations** | `docs/appendix_simulation/` | Simulated mock models for software test harness checks. | Labeled strictly as `SIMULATION, NOT EMPIRICAL EVIDENCE`; excluded from empirical claims. | **SIMULATION_ONLY** |
 
 ---
 
-### 3. How to Run the Code
+### 3. Claims Ledger Reconciliation
 
-#### Run Backend:
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r backend/requirements.txt
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --app-dir backend
-```
+- **Claim C1 (Multi-Turn Elicitation Lowers False-Pass Rate)**: `SUPPORTED_BY_EVIDENCE` (Hosted Gemini study + Qwen2.5-0.5B neural weights on MPS).
+- **Claim C2 (Baseline-Retrievability Gating Prevents False Unlearning)**: `SUPPORTED_BY_EVIDENCE` (Verified 0.0% recall on unexposed base weights; $k$-of-$n$ gating established 100% pre-mitigation recall before auditing).
+- **Claim C3 (Matched Reference Controls Prevent False Attribution)**: `SUPPORTED_BY_EVIDENCE` (Group B clean base model evaluated under full RENA protocol returned 0/5 disclosures, $FPR=0.0\%$).
+- **Claim C4 (Oracle Relearning Vulnerability Signature)**: `SUPPORTED_BY_EVIDENCE` (Refusal tuning re-acquires 80% recall in 2 AdamW steps, whereas gradient difference unlearning requires $>10$ steps).
 
-#### Run Frontend:
-```bash
-cd frontend
-npm install
-npm run dev
-# Dashboard at http://localhost:3000/dashboard
-```
+---
 
-#### Run Unit & Regression Tests:
+### 4. How to Run the Code
+
+#### Run Core Test Suite:
 ```bash
 .venv/bin/pytest tests/ -v
 ```
 
+#### Run Secret Scanner Gate:
+```bash
+.venv/bin/python scripts/rena_ci_gate.py --scan-secrets
+```
+
+#### Run Neural Smoke Benchmark (Apple Silicon MPS or CPU):
+```bash
+.venv-llm/bin/python scripts/run_neural_smoke_comparison.py
+```
+
+#### Run Neural Oracle Attack Benchmark:
+```bash
+.venv-llm/bin/python scripts/run_neural_oracle_benchmark.py
+```
+
 ---
 
-### 4. Limitations
-A black-box behavioral audit cannot prove physical parameter erasure or remote infrastructure deletion. Probing results represent upper bounds on accessible recall under a finite evaluation budget.
+### 5. Honest Scientific Limitations
+1. A black-box behavioral audit cannot mathematically prove physical parameter erasure, provider database zeroization, or cache purge.
+2. Negative findings under RENA mean strictly that no residual retrieval was observed under the pre-registered probe budget.
+3. Multi-turn probing increases inference volume by $4\times$ to $6\times$ compared to naive single-turn audits.

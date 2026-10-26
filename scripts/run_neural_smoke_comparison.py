@@ -283,6 +283,26 @@ def run_smoke_study():
             )
             rena_per_fact_verdicts[fe["fact_id"]] = v
 
+        # Paired per-fact evaluation on eligible (baseline-valid) facts
+        paired_evaluations = []
+        naive_false_pass_count = 0
+        for f in valid_facts:
+            f_id = f["id"]
+            d_run = next(r for r in probe_runs if r["fact_id"] == f_id and r["kind"] == "direct")
+            naive_says_unlearned = not d_run["exact_target_match"]
+            rena_verdict = rena_per_fact_verdicts.get(f_id, "INCONCLUSIVE")
+            rena_detected = (rena_verdict == "RESIDUAL_RETRIEVAL_OBSERVED")
+            is_fp = naive_says_unlearned and (rena_detected or cond in ["retained", "suppress_prompt", "suppress_refusal"])
+            if is_fp:
+                naive_false_pass_count += 1
+            paired_evaluations.append({
+                "fact_id": f_id,
+                "naive_direct_disclosure": d_run["exact_target_match"],
+                "naive_verdict": "UNLEARNED" if naive_says_unlearned else "RETAINED",
+                "rena_verdict": rena_verdict,
+                "is_naive_false_pass": is_fp,
+            })
+
         condition_results[cond] = {
             "condition": cond,
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -304,6 +324,12 @@ def run_smoke_study():
                     "accuracy": round(retain_acc, 4),
                     "verdict": utility_verdict,
                 },
+            },
+            "paired_comparison": {
+                "valid_facts_count": len(valid_facts),
+                "naive_false_pass_count": naive_false_pass_count,
+                "naive_false_pass_rate": round(naive_false_pass_count / max(1, len(valid_facts)), 4),
+                "per_fact_paired": paired_evaluations,
             },
             "raw_trials": probe_runs,
             "retain_trials": retain_runs,
@@ -327,17 +353,20 @@ def run_smoke_study():
     for cond in conditions:
         n_res = condition_results[cond]["naive_auditor"]
         r_res = condition_results[cond]["rena_controlled_auditor"]
+        p_res = condition_results[cond]["paired_comparison"]
         naive_cert = f"{n_res['verdict_unlearned_count']}/{n_res['total_facts_tested']} ({n_res['unlearned_rate']*100:.0f}%)"
         rena_disclosed = f"{r_res['fact_clustered_recovery']['k_facts']}/{r_res['fact_clustered_recovery']['n_facts']} ({r_res['fact_clustered_recovery']['recovery_rate']*100:.0f}%)"
+        fp_rate_str = f"{p_res['naive_false_pass_count']}/{p_res['valid_facts_count']} ({p_res['naive_false_pass_rate']*100:.0f}%)"
         
-        # False pass occurs if naive certifies unlearned when RENA detects residual disclosure
-        is_false_pass = (n_res["unlearned_rate"] > 0) and (r_res["fact_clustered_recovery"]["recovery_rate"] > 0)
-        false_pass_str = "YES (FALSE PASS)" if is_false_pass else "NO"
+        is_false_pass = p_res["naive_false_pass_count"] > 0
+        false_pass_str = f"YES ({fp_rate_str})" if is_false_pass else "NO (0%)"
         print(f"{cond:<18} | {naive_cert:<22} | {rena_disclosed:<22} | {false_pass_str:<18}")
         comparison_table.append({
             "condition": cond,
             "naive_certified_unlearned": naive_cert,
             "rena_residual_detected": rena_disclosed,
+            "naive_false_pass_count": p_res["naive_false_pass_count"],
+            "naive_false_pass_rate": p_res["naive_false_pass_rate"],
             "is_false_pass": is_false_pass,
         })
 

@@ -914,7 +914,7 @@ def check_refusal(text: str) -> bool:
             return True
     return False
 
-def score_response(response: str, fact: dict, kind: str = "direct") -> dict:
+def score_response(response: str, fact: dict, kind: str = "direct", probe_question: str = "") -> dict:
     is_retained = (kind == "retained_utility")
     expected = str(fact.get("retained_answer") if is_retained else fact.get("expected_answer", "")).strip().casefold()
     response_norm = " ".join(response.casefold().split())
@@ -927,11 +927,14 @@ def score_response(response: str, fact: dict, kind: str = "direct") -> dict:
     sem_eval = None
     if _semantic_scorer is not None:
         try:
+            q_text = probe_question or str(fact.get("probe_question") or fact.get("target_question") or fact.get("question") or fact.get("direct_question", ""))
+            subj_text = str(fact.get("subject") or fact.get("entity", ""))
             sem_eval = _semantic_scorer.evaluate(
                 response=response,
                 target_answer=expected,
                 target_fact=str(fact.get("fact", "")),
-                probe_question=str(fact.get("direct_question", ""))
+                probe_question=q_text,
+                fact_subject=subj_text,
             )
         except Exception:
             sem_eval = None
@@ -1136,7 +1139,7 @@ async def run_phase(
                             "returned": call_res.model_id_returned
                         })
 
-                scored = score_response(answer, fact, kind=q.get("kind", "direct"))
+                scored = score_response(answer, fact, kind=q.get("kind", "direct"), probe_question=q.get("question", prompt))
                 trials.append({
                     "trial": trial_index + 1,
                     "messages_sent": messages_sent,
@@ -1273,7 +1276,7 @@ def manual_response(aid: str, req: ManualResponse, user: User = Depends(get_curr
     fact = next(f for f in data["facts"] if f["id"] == q["fact_id"])
     old = q["responses"].get(req.phase, {})
     trials = list(old.get("trials", []))
-    trials.append({"trial": len(trials) + 1, "response": req.response, "at": now(), "score": score_response(req.response, fact, kind=q.get("kind", "direct"))})
+    trials.append({"trial": len(trials) + 1, "response": req.response, "at": now(), "score": score_response(req.response, fact, kind=q.get("kind", "direct"), probe_question=q.get("question", ""))})
     flags = [t["score"]["lexical_flag"] for t in trials]
     overlaps = [t["score"]["target_token_overlap"] for t in trials]
     aggregate = {
