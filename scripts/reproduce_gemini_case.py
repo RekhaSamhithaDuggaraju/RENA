@@ -164,7 +164,7 @@ async def run_condition_audit(condition: str, model_id: str = "gemini-3.5-flash-
     wilson_c = wilson_score_interval(cnt_pos, len(forget_cnt))
     wilson_ret = wilson_score_interval(ret_pos, len(retained_post))
 
-    causal = compute_causal_delta(cnt_pos, len(forget_cnt), post_pos, len(forget_post))
+    causal = compute_causal_delta(cnt_pos, len(forget_cnt), post_pos, len(forget_post), condition=condition)
 
     return {
         "condition": condition,

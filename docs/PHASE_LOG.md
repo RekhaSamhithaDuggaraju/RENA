@@ -3,11 +3,14 @@
 This log tracks every task executed under the RENA corrective and research-grade upgrade plan.
 Every entry records the task ID, timestamp, git commit, commands executed, full test results, and any skipped or blocked items.
 
+> [!NOTE]
+> Timestamps recorded prior to WP0 were approximate development benchmarks. All timestamps from WP0 onward are captured directly from system UTC (`date -u`).
+
 ---
 
 ## Phase 0: Overclaim Cleanup & Simulation Relabeling
 - **Task ID**: P0.1
-- **Timestamp**: 2026-10-26T14:40:00Z
+- **Timestamp**: 2026-10-26T14:40:00Z (approximate)
 - **Goal**: Relabel simulation modules, remove simulated numbers from claim/report, strip promotional wording, and rename synthetic regression sets.
 - **Commands Run**:
   - `pytest tests/test_forgetting_audits.py tests/test_judge_validation.py tests/test_ground_truth_testbed.py` -> 39 passed in 0.36s.
@@ -22,7 +25,7 @@ Every entry records the task ID, timestamp, git commit, commands executed, full 
 
 ## Phase 1: Audit Engine Upgrades & Real Empirical Case Study
 - **Task IDs**: T1.1 – T1.12
-- **Timestamp**: 2026-10-26T15:20:00Z
+- **Timestamp**: 2026-10-26T15:00:00Z (approximate)
 - **Goal**:
   - Implement `TargetCallResult` with conversational tracking, latency measurements, and pinned decoding parameters (`temperature=0.0`, `top_p=1.0`, `seed=42`).
   - Enforce explicit exposure modes (`in_context`, `multi_turn_session`, `rag_store`, `provider_memory`, `weights`) and reject `weights` on hosted commercial APIs.
@@ -40,7 +43,7 @@ Every entry records the task ID, timestamp, git commit, commands executed, full 
 
 ## Phase 2: Normalization, Scorer Rubric, and Human Benchmark Preparation
 - **Task IDs**: T2.1 – T2.6
-- **Timestamp**: 2026-10-26T15:22:00Z
+- **Timestamp**: 2026-10-26T15:15:00Z (approximate)
 - **Goal**:
   - Create canonical text normalization module `core/scoring/normalize.py` handling Unicode NFKC, case folding, punctuation normalization, hyphenated code preservation, and alias matching.
   - Write comprehensive unit tests in `tests/test_normalize.py`.
@@ -57,7 +60,7 @@ Every entry records the task ID, timestamp, git commit, commands executed, full 
 
 ## Phase 3: Real Ground-Truth Neural Testbed
 - **Task IDs**: T3.1 – T3.5
-- **Timestamp**: 2026-10-26T15:24:00Z
+- **Timestamp**: 2026-10-26T15:20:00Z (approximate)
 - **Goal**:
   - Author smoke testbed configuration in `configs/testbed/smoke.yaml` using `Qwen2.5-0.5B-Instruct` on Apple Silicon MPS.
   - Define evaluation facts in `core/testbed_real/dataset.py`.
@@ -65,6 +68,21 @@ Every entry records the task ID, timestamp, git commit, commands executed, full 
   - Implement unlearning methods (`ga`, `graddiff`, `npo`, `suppress_refusal`, `suppress_prompt`, `over_unlearned`, `retained`, `reference`) in `core/testbed_real/unlearn.py`.
   - Implement independent evaluation oracle (sequence log-likelihood gap & relearning attack benchmark) in `core/testbed_real/oracle.py`.
   - Author self-contained Colab GPU notebook `notebooks/testbed_colab.ipynb`.
+- **Status**: PARTIAL (Code and pipelines implemented; neural execution on weights pending WP3 execution).
+
+---
+
+## WP0: Hygiene and Corrections
+- **Task IDs**: T0.1 – T0.6
+- **Timestamp**: 2026-10-26T15:27:00Z
+- **Goal**:
+  - T0.1: Moved `results/testbed/testbed_results.json` and simulation outputs to `docs/appendix_simulation/testbed_simulation_results.json` labeled `[SIMULATION, NOT EMPIRICAL EVIDENCE]`. Created `tests/test_results_integrity.py` asserting every `results/**` file has `"mock": false` or provider/model ID.
+  - T0.2: Archived root clutter (`backups/`, `reports/`, legacy runner scripts, old release notes) into `archive/` with `archive/README.md`. Maintained clean `results/EVIDENCE_INDEX.md`.
+  - T0.3: Rewrote `docs/PHASE_LOG.md` with honest timestamps (noting prior approximations) and reopened Phase 3 as `PARTIAL`.
+  - T0.4: Updated `docs/CLAIMS_LEDGER.md`: marked C1 as `PARTIAL (2-fact case study)`, C2 as `NOT_RUN`, C3 as `NOT_RUN`, C4 as `NOT_RUN`.
+  - T0.5: Implemented secret scanner in `scripts/rena_ci_gate.py` with `--scan-secrets` checking headers and files for API keys. Verified clean scan.
+  - T0.6: Renamed `retract_by_removal` output label in `backend/app/routers/forgetting_audits.py` and case studies to `MECHANICAL_CONTROL (text removed from context)`.
+- **Commands & Tests Run**:
+  - `pytest tests/test_results_integrity.py` -> 4 passed.
+  - `.venv/bin/python scripts/rena_ci_gate.py --scan-secrets` -> PASSED (0 secrets detected).
 - **Status**: DONE
-
-

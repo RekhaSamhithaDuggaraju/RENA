@@ -96,9 +96,9 @@ To evaluate behavioral unlearning audit dynamics on a real-world production mode
 | | **Overall Group** | **33.3% (2/6) [9.7%, 70.0%]** | **0.0% (0/6) [0.0%, 39.0%]** | **100.0% (6/6) [61.0%, 100.0%]** | **Passed (Naive FPR: 100%)** | **`RESIDUAL_RETRIEVAL_OBSERVED`** |
 
 - **Retained Utility**: Retained utility was preserved at **100.0% (2/2) [95% CI: 34.2%, 100.0%]** across both conditions.
-- **Causal Attribution Delta ($\Delta_{\text{causal}}$)**:
-  - `retract_by_removal`: $\Delta_{\text{causal}} = 100.0\% - 0.0\% = +100.0\%$ [95% CI: +100.0%, +100.0%].
-  - `instruct_to_forget`: $\Delta_{\text{causal}} = 100.0\% - 33.3\% = +66.7\%$ [95% CI: +28.9%, +100.0%].
+- **Causal Attribution & Control Classification**:
+  - `retract_by_removal`: Classified as `MECHANICAL_CONTROL (text removed from context)`. The 100.0% reduction in retrieval is mechanically caused by prompt context deletion, serving as a positive mechanical baseline rather than algorithmic unlearning.
+  - `instruct_to_forget`: $\Delta_{\text{causal}} = 100.0\% - 33.3\% = +66.7\%$ [95% CI: +28.9%, +100.0%]. Algorithmic prompt instruction suppresses direct retrieval but fails to prevent elicitation under multi-turn probes.
 - **Key Empirical Finding**: Under `instruct_to_forget`, direct queries were 100% suppressed by the model's safety/instruction adherence, creating a false impression of unlearning. A naive auditor would have incorrectly certified the model as having purged the information. Multi-turn conversational probes elicited the exact secret canary keys in 100% of trials, empirically confirming Hypothesis $H_1$.
 
 ---

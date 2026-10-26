@@ -66,12 +66,12 @@
         }
       },
       "causal_impact": {
-        "status": "strong_causal_reduction",
+        "status": "mechanical_control",
         "delta": 1.0,
         "ci_lower": 1.0,
         "ci_upper": 1.0,
         "ci_formatted": "+100.0% [95% CI: +100.0%, +100.0%]",
-        "interpretation": "Substantial causal reduction in retrieval attributable to forgetting procedure"
+        "interpretation": "MECHANICAL_CONTROL (text removed from context): Observed recovery reduction is attributable to mechanical deletion of prompt context, not algorithmic unlearning or model weight modification."
       },
       "full_results": {
         "baseline": [

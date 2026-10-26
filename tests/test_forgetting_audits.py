@@ -582,5 +582,18 @@ def test_track_a_model_unlearning_tradeoff_index(monkeypatch):
     assert t_a["unlearning_method"] == "Gradient Ascent (GA) with SCRUB regularization"
     assert t_a["checkpoints"]["pre_unlearn"] == "llama3.2-base"
 
+def test_compute_causal_delta_mechanical_control_label():
+    from backend.app.routers.forgetting_audits import compute_causal_delta
+    # When condition is retract_by_removal, status must be mechanical_control
+    res = compute_causal_delta(group_c_pos=10, group_c_total=10, group_a_pos=0, group_a_total=10, condition="retract_by_removal")
+    assert res["status"] == "mechanical_control"
+    assert "MECHANICAL_CONTROL (text removed from context)" in res["interpretation"]
+    assert res["delta"] == 1.0
+
+    # Normal algorithmic condition
+    res2 = compute_causal_delta(group_c_pos=10, group_c_total=10, group_a_pos=0, group_a_total=10, condition="gradient_ascent")
+    assert res2["status"] == "strong_causal_reduction"
+
+
 
 

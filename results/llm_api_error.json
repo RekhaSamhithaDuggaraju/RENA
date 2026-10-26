@@ -1,5 +1,0 @@
-{
-  "algorithm": "fine_tuning",
-  "analysis_mode": "API_ERROR",
-  "error": "OpenAI Responses API HTTP 429: insufficient_quota; credit_balance_exhausted; You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.; retries exhausted after 3 attempts"
-}

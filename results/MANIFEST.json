@@ -1,10 +1,15 @@
 {
-  "manifest_version": "1.0",
-  "generated_at": "2026-10-26T15:06:04.267972+00:00",
+  "manifest_version": "2.0",
+  "generated_at": "2026-10-26T15:27:28.431901+00:00",
   "artifacts": {
     "results/case_studies/gemini_flash_lite_audit.json": {
-      "sha256": "2ada8c698eb5b3535e186e6583625f0f41e86569ea70079e96b936ab53c5ba07",
-      "size_bytes": 271171,
+      "sha256": "4db44a938a804a897afce8aa5868e76ccc4cea0f31124abae78b691f1f9d163c",
+      "size_bytes": 271278,
+      "exists": true
+    },
+    "results/EVIDENCE_INDEX.md": {
+      "sha256": "6385942b793425e0210e3ca32921b2f795f8dcadbbc2135c51fdea3e04e8616e",
+      "size_bytes": 1495,
       "exists": true
     },
     "data/annotation/validation_400_unlabeled.csv": {
@@ -43,8 +48,8 @@
       "exists": true
     },
     "docs/CLAIMS_LEDGER.md": {
-      "sha256": "44ec343ca27c18d8eb27f453be25a7fc9bab3c1e2d42a7c037ad7e98737c8c80",
-      "size_bytes": 2835,
+      "sha256": "25908e3c89f32879e7d4288321f819537f2b1645a8da597360689774b9b13214",
+      "size_bytes": 3101,
       "exists": true
     },
     "docs/COMPUTE_BUDGET.md": {
@@ -53,13 +58,23 @@
       "exists": true
     },
     "docs/PAPER_EVALUATION_REPORT.md": {
-      "sha256": "d8394933f1b06efd52d32bf6bef13cd264e28928089157c1b4077e5226b71d1d",
-      "size_bytes": 9772,
+      "sha256": "b0e74066d23a3ad2a8685c3a03da1bd2ca3def8c208b16793fb0deddf6914ea0",
+      "size_bytes": 10026,
       "exists": true
     },
-    "AUDIT_REPORT.md": {
-      "sha256": "dac3aa74a26a587797692746218d1a27b40f2ea428b744a915378174bb9859ef",
-      "size_bytes": 2678,
+    "docs/PHASE_LOG.md": {
+      "sha256": "79fcfa7710dd183e77345adc4ddf1f0c42dcbf24883aa5a8d98c6c3e8643468c",
+      "size_bytes": 6377,
+      "exists": true
+    },
+    "docs/appendix_simulation/testbed_simulation_results.json": {
+      "sha256": "66ae64dc9f28d2888798992d5753af784460dc7142d5a56f754d6ec959411697",
+      "size_bytes": 3476,
+      "exists": true
+    },
+    "archive/README.md": {
+      "sha256": "a1184a7344dea7b1616aca890ab3224ce46eca61830924ead73343e8062243cd",
+      "size_bytes": 890,
       "exists": true
     }
   }

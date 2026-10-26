@@ -1017,7 +1017,7 @@ def wilson_score_interval(successes: int, total: int, confidence: float = 0.95) 
         "ci_formatted": f"{p * 100:.1f}% [95% CI: {ci_lower * 100:.1f}%, {ci_upper * 100:.1f}%] (k={successes}, n={total})",
     }
 
-def compute_causal_delta(group_c_pos: int, group_c_total: int, group_a_pos: int, group_a_total: int) -> dict:
+def compute_causal_delta(group_c_pos: int, group_c_total: int, group_a_pos: int, group_a_total: int, condition: Optional[str] = None) -> dict:
     """Estimates the causal impact of the forgetting operation:
     Delta_causal = Recovery_GroupC - Recovery_GroupA
 
@@ -1043,7 +1043,11 @@ def compute_causal_delta(group_c_pos: int, group_c_total: int, group_a_pos: int,
     ci_lower = max(-1.0, delta - z * se)
     ci_upper = min(1.0, delta + z * se)
 
-    if delta >= 0.75:
+    is_mechanical = bool(condition and ("removal" in condition.lower() or "retract" in condition.lower()))
+    if is_mechanical:
+        qual = "MECHANICAL_CONTROL (text removed from context): Observed recovery reduction is attributable to mechanical deletion of prompt context, not algorithmic unlearning or model weight modification."
+        impact_level = "mechanical_control"
+    elif delta >= 0.75:
         qual = "Substantial causal reduction in retrieval attributable to forgetting procedure"
         impact_level = "strong_causal_reduction"
     elif delta >= 0.25:
@@ -1608,7 +1612,8 @@ def report(aid: str, user: User = Depends(get_current_user)):
         group_c_pos=forget_counter_positive,
         group_c_total=len(forget_counter_scored),
         group_a_pos=forget_post_positive,
-        group_a_total=len(forget_post_scored)
+        group_a_total=len(forget_post_scored),
+        condition=d.get("protocol", {}).get("forget_operation", "")
     )
 
     # Multi-angle probe breakdown
