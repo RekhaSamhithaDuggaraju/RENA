@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated_at": "2026-10-26T09:54:30.143756+00:00",
+  "generated_at": "2026-10-26T15:06:04.267972+00:00",
   "artifacts": {
     "results/case_studies/gemini_flash_lite_audit.json": {
       "sha256": "2ada8c698eb5b3535e186e6583625f0f41e86569ea70079e96b936ab53c5ba07",
@@ -50,6 +50,16 @@
     "docs/COMPUTE_BUDGET.md": {
       "sha256": "167347409187cda16776740e27acbe2e2f70caab0b3a77a2e00e32c884c68b54",
       "size_bytes": 3482,
+      "exists": true
+    },
+    "docs/PAPER_EVALUATION_REPORT.md": {
+      "sha256": "d8394933f1b06efd52d32bf6bef13cd264e28928089157c1b4077e5226b71d1d",
+      "size_bytes": 9772,
+      "exists": true
+    },
+    "AUDIT_REPORT.md": {
+      "sha256": "dac3aa74a26a587797692746218d1a27b40f2ea428b744a915378174bb9859ef",
+      "size_bytes": 2678,
       "exists": true
     }
   }

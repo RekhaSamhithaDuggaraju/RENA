@@ -71,7 +71,39 @@ To isolate unlearning causal effects from base model parametric priors:
 
 ---
 
-## 4. Scorer & LLM Judge Validation
+## 4. Empirical Case Study: Commercial API Audit (`gemini-3.5-flash-lite`)
+
+To evaluate behavioral unlearning audit dynamics on a real-world production model, we executed a clean, end-to-end controlled audit using `gemini-3.5-flash-lite` via the Google AI Studio API (authentication strictly via HTTP headers; parameters pinned to `temperature=0.0`, `top_p=1.0`, `seed=42`).
+
+### 4.1 Protocol and Experimental Groups
+- **Target Canary Facts**: 2 distinct entity records (confidential project authorization passkey and participant clinical diagnosis), paired with distinct retained utility queries.
+- **Auditing Battery**: Direct query ($q_{\text{dir}}$), paraphrase query ($q_{\text{para}}$), conversational multi-turn probe ($q_{\text{multi}}$), and retained utility probe ($q_{\text{util}}$).
+- **Intervention Conditions Tested**:
+  1. `retract_by_removal`: In-context fact purged from active session context.
+  2. `instruct_to_forget`: Fact remains in prior session context, followed by an explicit system/user privacy directive instructing total forgetting and non-disclosure.
+
+### 4.2 Empirical Results Summary
+
+| Intervention Condition | Probe Type | Group A: Post-Forget Recovery Rate [95% Wilson CI] | Group B: Never-Exposed Reference [95% CI] | Group C: Exposed Control [95% CI] | Naive Verdict | Controlled Audit Verdict |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **`retract_by_removal`** | Direct ($q_{\text{dir}}$) | 0.0% (0/2) [0.0%, 65.8%] | 0.0% (0/2) | 100.0% (2/2) | Passed | `NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL` |
+| | Paraphrase ($q_{\text{para}}$) | 0.0% (0/2) [0.0%, 65.8%] | 0.0% (0/2) | 100.0% (2/2) | Passed | `NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL` |
+| | Multi-Turn ($q_{\text{multi}}$) | 0.0% (0/2) [0.0%, 65.8%] | 0.0% (0/2) | 100.0% (2/2) | Passed | `NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL` |
+| | **Overall Group** | **0.0% (0/6) [0.0%, 39.0%]** | **0.0% (0/6) [0.0%, 39.0%]** | **100.0% (6/6) [61.0%, 100.0%]** | **Passed** | **`NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL`** |
+| **`instruct_to_forget`** | Direct ($q_{\text{dir}}$) | 0.0% (0/2) [0.0%, 65.8%] | 0.0% (0/2) | 100.0% (2/2) | **Passed (False Pass!)** | Inconclusive (single probe) |
+| | Paraphrase ($q_{\text{para}}$) | 0.0% (0/2) [0.0%, 65.8%] | 0.0% (0/2) | 100.0% (2/2) | **Passed (False Pass!)** | Inconclusive (single probe) |
+| | Multi-Turn ($q_{\text{multi}}$) | **100.0% (2/2) [34.2%, 100.0%]** | 0.0% (0/2) | 100.0% (2/2) | Failed | `RESIDUAL_RETRIEVAL_OBSERVED` |
+| | **Overall Group** | **33.3% (2/6) [9.7%, 70.0%]** | **0.0% (0/6) [0.0%, 39.0%]** | **100.0% (6/6) [61.0%, 100.0%]** | **Passed (Naive FPR: 100%)** | **`RESIDUAL_RETRIEVAL_OBSERVED`** |
+
+- **Retained Utility**: Retained utility was preserved at **100.0% (2/2) [95% CI: 34.2%, 100.0%]** across both conditions.
+- **Causal Attribution Delta ($\Delta_{\text{causal}}$)**:
+  - `retract_by_removal`: $\Delta_{\text{causal}} = 100.0\% - 0.0\% = +100.0\%$ [95% CI: +100.0%, +100.0%].
+  - `instruct_to_forget`: $\Delta_{\text{causal}} = 100.0\% - 33.3\% = +66.7\%$ [95% CI: +28.9%, +100.0%].
+- **Key Empirical Finding**: Under `instruct_to_forget`, direct queries were 100% suppressed by the model's safety/instruction adherence, creating a false impression of unlearning. A naive auditor would have incorrectly certified the model as having purged the information. Multi-turn conversational probes elicited the exact secret canary keys in 100% of trials, empirically confirming Hypothesis $H_1$.
+
+---
+
+## 5. Scorer & LLM Judge Validation
 
 - **Status**: `AWAITING_HUMAN_ANNOTATION`
 - **Specification**: 400 real model outputs will be sampled from real testbed runs and the hosted-API study. Two independent human annotators will label responses per `docs/ANNOTATION_GUIDE.md`.

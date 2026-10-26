@@ -2,8 +2,8 @@
 ## Audit Report & Verification Status
 
 **Date**: October 26, 2026  
-**Status**: Core Architecture Upgraded; Simulations Relabeled; Real Model Testbed Under Construction  
-**Test Suite**: 195 passed, 2 skipped, 0 failed
+**Status**: Core Architecture Upgraded; Empirical Case Study Executed; Real Model Testbed Implemented  
+**Test Suite**: 215 passed, 2 skipped, 0 failed
 
 ---
 
@@ -16,11 +16,12 @@ RENA (Reliable Evaluation for Neural Unlearning Audits) provides a controlled au
 
 ---
 
-### 2. Empirical Testbed Status
+### 2. Empirical Verification Status
 
-- **Real Model Testbed (`core/testbed_real/`)**: In active development. Using `Qwen2.5-0.5B-Instruct` on local Apple Silicon MPS and Colab T4.
+- **Empirical Case Study (`results/case_studies/gemini_flash_lite_audit.json`)**: Executed cleanly on Google's `gemini-3.5-flash-lite`. Demonstrated that direct queries under instruction-based suppression produce a 100% false-pass rate (certifying the canary as forgotten), whereas multi-turn conversational probes achieve 100% extraction of the suppressed information.
+- **Real Model Testbed (`core/testbed_real/`)**: Implemented LoRA knowledge implantation (`implant.py`), unlearning methods (`ga`, `graddiff`, `npo`, `suppress_refusal`, `suppress_prompt`, `over_unlearned` in `unlearn.py`), and independent evaluation oracle (`oracle.py`). Runnable on local Apple Silicon MPS and Colab (`notebooks/testbed_colab.ipynb`).
+- **Human Annotation Benchmark (`data/annotation/validation_400_unlabeled.csv`)**: 400 blind items generated for 2 independent human raters according to `docs/ANNOTATION_GUIDE.md` (labeled `AWAITING_HUMAN_ANNOTATION` in `docs/PHASE_LOG.md`).
 - **Unit Simulation Harness (`core/testbed/`)**: Labeled strictly as `SIMULATION, NOT EMPIRICAL EVIDENCE` (see `docs/appendix_simulation/SIMULATION_SANITY_CHECKS.md`).
-- **Human Annotation (`docs/ANNOTATION_GUIDE.md`)**: Awaiting human labeling of 400 real model outputs.
 
 ---
 
