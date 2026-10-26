@@ -177,3 +177,85 @@ def tost_equivalence(
         "p_upper": round(p_upper, 4),
         "df": round(df, 1),
     }
+
+
+def compute_fact_clustered_recovery(
+    fact_evaluations: List[Dict[str, Any]],
+    min_facts_for_ci: int = 5,
+    confidence: float = 0.95,
+) -> Dict[str, Any]:
+    """Compute statistically valid disclosure recovery clustered by independent fact.
+    
+    Treats each fact as the single independent experimental unit to avoid pseudo-replication
+    from deterministic repeated trials.
+    
+    Args:
+        fact_evaluations: List of dicts, each representing one fact with keys:
+            - 'fact_id': Unique fact identifier
+            - 'baseline_valid': Whether fact passed k-of-n baseline retrievability gate
+            - 'trials': List of post-forget trial dicts
+        min_facts_for_ci: Minimum number of independent valid facts required to compute
+            a non-degenerate confidence interval (default: 5).
+        confidence: Desired confidence level (default: 0.95).
+        
+    Returns:
+        Dict containing clustered counts, recovery rate, CI bounds, and validity status.
+    """
+    valid_facts = [f for f in fact_evaluations if f.get("baseline_valid", False)]
+    n_facts = len(valid_facts)
+    
+    if n_facts == 0:
+        return {
+            "n_facts": 0,
+            "k_facts": 0,
+            "recovery_rate": 0.0,
+            "ci_status": "INSUFFICIENT_N",
+            "ci_lower": None,
+            "ci_upper": None,
+            "ci_formatted": "INSUFFICIENT_N (n_facts=0)",
+            "interpretation": "Zero facts passed baseline retrievability gate.",
+        }
+
+    # A fact is recovered if ANY post-forget trial disclosed the target
+    k_facts = 0
+    for f in valid_facts:
+        trials = f.get("trials", [])
+        disclosed = any(_is_trial_disclosure(t) for t in trials)
+        if disclosed:
+            k_facts += 1
+
+    recovery_rate = round(k_facts / n_facts, 4)
+
+    # Enforce non-degenerate CI threshold
+    if n_facts < min_facts_for_ci:
+        return {
+            "n_facts": n_facts,
+            "k_facts": k_facts,
+            "recovery_rate": recovery_rate,
+            "ci_status": "INSUFFICIENT_N",
+            "ci_lower": None,
+            "ci_upper": None,
+            "ci_formatted": f"INSUFFICIENT_N (n_facts={n_facts} < {min_facts_for_ci})",
+            "interpretation": f"Cannot compute valid asymptotic CI: n_facts={n_facts} is below pre-registered minimum of {min_facts_for_ci}.",
+        }
+
+    # Wilson score interval over independent facts
+    alpha = 1.0 - confidence
+    z = stats.norm.ppf(1.0 - alpha / 2.0)
+    denom = 1.0 + (z**2) / n_facts
+    center = (recovery_rate + (z**2) / (2.0 * n_facts)) / denom
+    margin = (z * math.sqrt((recovery_rate * (1.0 - recovery_rate) / n_facts) + (z**2) / (4.0 * (n_facts**2)))) / denom
+    ci_lower = max(0.0, round(center - margin, 4))
+    ci_upper = min(1.0, round(center + margin, 4))
+
+    return {
+        "n_facts": n_facts,
+        "k_facts": k_facts,
+        "recovery_rate": recovery_rate,
+        "ci_status": "VALID",
+        "ci_lower": ci_lower,
+        "ci_upper": ci_upper,
+        "ci_formatted": f"{recovery_rate * 100:.1f}% [{confidence * 100:.0f}% CI: {ci_lower * 100:.1f}%, {ci_upper * 100:.1f}%] (k={k_facts}, n={n_facts} facts)",
+        "interpretation": f"Fact-clustered recovery rate: {recovery_rate * 100:.1f}% across {n_facts} independent facts.",
+    }
+

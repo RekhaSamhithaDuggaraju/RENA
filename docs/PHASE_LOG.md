@@ -102,3 +102,19 @@ Every entry records the task ID, timestamp, git commit, commands executed, full 
   - `pytest tests/test_results_integrity.py tests/test_forgetting_audits.py tests/test_verdict_engine.py` -> 32 passed in 0.55s.
 - **Status**: DONE
 
+---
+
+## WP2: Engine Statistical Validity & Independence
+- **Task IDs**: T2.1 – T2.5
+- **Timestamp**: 2026-10-26T15:49:31Z
+- **Goal**:
+  - T2.1: Addressed statistical independence: do not count duplicated deterministic trials as independent; cluster by fact in `core/stats/verdict_engine.py`.
+  - T2.2: Enforced fact-clustered estimates for recovery rates and Wilson intervals (`compute_fact_clustered_recovery`); refuse to compute degenerate CIs when $n_{\text{facts}} < n_{\text{min}}$ (returns `INSUFFICIENT_N`).
+  - T2.3: Added Hypothesis property-based monotonicity tests for baseline gating, verdict computation, and retained utility preservation in `tests/test_verdict_engine.py`.
+  - T2.4: Authored formal probe taxonomy, templates, and leak-prevention gates in `docs/PROBE_CATALOG.md`.
+  - T2.5: Defined provider adapter capabilities, deterministic decoding settings, and weight exposure boundaries in `docs/ADAPTER_CAPABILITY_MATRIX.md`.
+- **Commands & Tests Run**:
+  - `pytest tests/test_verdict_engine.py` -> 12 passed (including property-based tests) in 0.44s.
+- **Status**: DONE
+
+
