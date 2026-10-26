@@ -4,6 +4,8 @@ from core.scoring.semantic_scorer import (
     SemanticScorer,
     evaluate_response_disclosure,
     compute_inter_annotator_agreement,
+    generate_synthetic_scorer_regression_set,
+    validate_synthetic_scorer_regression,
     generate_annotated_benchmark,
     validate_judge_benchmark,
 )
@@ -95,17 +97,18 @@ def test_cohen_kappa_computation_chance():
     assert res["cohen_kappa"] <= 0.0
 
 
-def test_300_sample_benchmark_validation():
-    val = validate_judge_benchmark(num_samples=300)
+def test_synthetic_scorer_regression_suite():
+    # SIMULATION / SYNTHETIC REGRESSION SET, NOT HUMAN EMPIRICAL ANNOTATION
+    val = validate_synthetic_scorer_regression(num_samples=300)
     assert val["validation_passed"] is True
-    human = val["human_inter_annotator"]
+    consistency = val["synthetic_regression_agreement"]
     scorer = val["scorer_vs_ground_truth"]
 
-    # Human agreement must be strong (kappa > 0.90)
-    assert human["cohen_kappa"] >= 0.90
-    assert human["sample_size"] == 300
+    # Scripted testbed consistency check
+    assert consistency["cohen_kappa"] >= 0.90
+    assert consistency["sample_size"] == 300
 
-    # Scorer vs ground truth must achieve high kappa (> 0.85) and precision (> 0.90)
+    # Scorer vs synthetic archetypes regression check
     assert scorer["cohen_kappa"] >= 0.85
     assert scorer["precision"] >= 0.90
     assert scorer["f1_score"] >= 0.88

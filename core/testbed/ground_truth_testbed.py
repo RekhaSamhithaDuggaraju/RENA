@@ -1,14 +1,13 @@
-"""Ground-truth evaluation testbed for LLM unlearning and forgetting audits.
+"""SIMULATION, NOT EMPIRICAL EVIDENCE.
 
-Scientifically evaluates and contrasts:
+This module is a unit-level simulation harness for verifying the control flow and
+algebra of the auditor pipeline against scripted mock strings. It does NOT constitute
+empirical evidence about real language model weights, unlearning algorithms, or
+behavioral leakage. Real empirical experiments are housed in core/testbed_real/.
+
+Simulates for harness sanity-checking:
 - Naive Auditor (Single-turn direct query, lexical match, no baseline gate, no reference model)
 - RENA Controlled Auditor (Baseline gate, multi-angle probing, semantic scoring, matched controls)
-
-Executes Experiments E1-E4:
-- E1: False Pass Rate (FPR) and False Fail Rate (FFR) benchmark
-- E2: Multi-layer component ablations
-- E3: Refusal-suppression vulnerability analysis
-- E4: Statistical power vs sample size (N) curves with cluster bootstrap CIs
 """
 from __future__ import annotations
 

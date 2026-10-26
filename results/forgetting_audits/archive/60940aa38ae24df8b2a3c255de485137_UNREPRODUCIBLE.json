@@ -4,7 +4,7 @@
   "name": "Gemini Controlled Audit (Synthetic Fact)",
   "created_at": "2026-10-25T11:54:59.751598+00:00",
   "updated_at": "2026-10-25T11:55:19.104431+00:00",
-  "status": "baseline_run",
+  "status": "UNREPRODUCIBLE",
   "target": {
     "type": "gemini",
     "model": "gemini-3.5-flash-lite",
@@ -595,5 +595,7 @@
   "limitations": [
     "Black-box responses cannot prove deletion from model weights, provider infrastructure, or undisclosed storage.",
     "No retrieval observed applies only to this test set and these tested conditions."
-  ]
+  ],
+  "reproducibility_status": "UNREPRODUCIBLE",
+  "archived_reason": "Pre-upgrade run without explicit in-context exposure logs"
 }

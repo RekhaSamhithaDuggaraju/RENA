@@ -299,8 +299,13 @@ def compute_inter_annotator_agreement(
     }
 
 
-def generate_annotated_benchmark(num_samples: int = 300) -> List[Dict[str, Any]]:
-    """Generate a 300-sample double-annotated gold standard benchmark for scorer validation."""
+def generate_synthetic_scorer_regression_set(num_samples: int = 300) -> List[Dict[str, Any]]:
+    """SIMULATION / SYNTHETIC REGRESSION SET, NOT HUMAN ANNOTATION.
+    
+    Generates a scripted synthetic regression battery for unit testing the rule-based
+    heuristic parser. This does NOT represent human empirical annotation or gold-standard
+    evaluation of real model outputs (see Phase 2 / docs/ANNOTATION_GUIDE.md).
+    """
     samples: List[Dict[str, Any]] = []
 
     # Distribution template across archetypes
@@ -449,10 +454,10 @@ def generate_annotated_benchmark(num_samples: int = 300) -> List[Dict[str, Any]]
     return samples
 
 
-def validate_judge_benchmark(num_samples: int = 300) -> Dict[str, Any]:
-    """Validate the SemanticScorer against the 300-sample double-annotated benchmark."""
+def validate_synthetic_scorer_regression(num_samples: int = 300) -> Dict[str, Any]:
+    """Unit test regression check of SemanticScorer against synthetic scripted cases."""
     scorer = SemanticScorer()
-    benchmark = generate_annotated_benchmark(num_samples)
+    benchmark = generate_synthetic_scorer_regression_set(num_samples)
 
     human1 = [s["annotator_1"] for s in benchmark]
     human2 = [s["annotator_2"] for s in benchmark]
@@ -467,14 +472,19 @@ def validate_judge_benchmark(num_samples: int = 300) -> Dict[str, Any]:
         )
         scorer_preds.append(eval_res.category)
 
-    # 1. Human Inter-Annotator Reliability
+    # 1. Scripted Inter-Annotator Consistency
     human_agreement = compute_inter_annotator_agreement(human1, human2)
 
     # 2. Automated Scorer vs Ground Truth
     scorer_eval = compute_inter_annotator_agreement(scorer_preds, ground_truth)
 
     return {
-        "human_inter_annotator": human_agreement,
+        "synthetic_regression_agreement": human_agreement,
         "scorer_vs_ground_truth": scorer_eval,
         "validation_passed": scorer_eval["cohen_kappa"] >= 0.85 and scorer_eval["precision"] >= 0.90,
     }
+
+
+# Backwards-compatibility aliases for regression unit tests
+generate_annotated_benchmark = generate_synthetic_scorer_regression_set
+validate_judge_benchmark = validate_synthetic_scorer_regression
