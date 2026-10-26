@@ -1,6 +1,6 @@
 {
   "manifest_version": "2.2",
-  "generated_at": "2026-10-26T17:22:32.177214+00:00",
+  "generated_at": "2026-10-26T17:43:28.448759+00:00",
   "artifacts": {
     "results/case_studies/gemini_flash_lite_audit.json": {
       "sha256": "4db44a938a804a897afce8aa5868e76ccc4cea0f31124abae78b691f1f9d163c",
@@ -78,8 +78,8 @@
       "exists": true
     },
     "docs/PHASE_LOG.md": {
-      "sha256": "4029e0083d63225207981f0d7fbd737ed2371ccb8af7b97d0c99899eb9cf4443",
-      "size_bytes": 11564,
+      "sha256": "0087ab3f30e7832f133122feee14cb0a25c6ed4ffb523e88cca0ce0d29d70531",
+      "size_bytes": 13391,
       "exists": true
     },
     "docs/appendix_simulation/testbed_simulation_results.json": {
@@ -115,6 +115,16 @@
     "scripts/run_neural_oracle_benchmark.py": {
       "sha256": "af2bd95089ec2d15888cedcf9b35d5caab623e85853e2dc2599ffbeeacb71d33",
       "size_bytes": 4850,
+      "exists": true
+    },
+    "AUDIT_REPORT.md": {
+      "sha256": "125d073f3f13d75155c9959163d5a0636abbb6833be11254de130d667ece128a",
+      "size_bytes": 4735,
+      "exists": true
+    },
+    "scripts/run_experiment.py": {
+      "sha256": "cdc10f56e73761111ebe332ead5a662d2c646b2fe7d5dd4c41c1d83e2327110a",
+      "size_bytes": 8978,
       "exists": true
     }
   }

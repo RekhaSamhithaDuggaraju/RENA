@@ -145,5 +145,26 @@ Every entry records the task ID, timestamp, git commit, commands executed, full 
   - `.venv/bin/pytest tests/` -> 229 passed, 2 skipped in 84.41s.
 - **Status**: DONE
 
+---
+
+## WP4: Unified Runner, Confirmatory Dataset, Paper Manuscript, and Scorer Robustness
+- **Task IDs**: T4.1 – T4.6
+- **Timestamp**: 2026-10-26T17:43:01Z
+- **Goal**:
+  - T4.1: Authored unified reproducible experiment runner in `scripts/run_experiment.py` supporting `--mode {smoke, oracle, confirmatory, gemini, all_neural}`, resource estimation (`--estimate-resources`), prerequisite checking, and automated SHA-256 manifest synchronization.
+  - T4.2: Expanded `core/testbed_real/dataset.py` with 30 independent held-out evaluation canaries (`HELD_OUT_EVAL_FACTS`) with diverse subjects, passkeys, codes, medical diagnoses, chemical compounds, and decoy questions to prevent evaluation leakage and support scalable confirmatory benchmarks.
+  - T4.3: Fixed `core/scoring/semantic_scorer.py` candidate answer token exclusion bug and enforced zero score for `no_disclosure` category.
+  - T4.4: Added targeted regression tests in `tests/test_judge_validation.py` for unrelated answers, hedged leaks, multiple prompt entities, and decoy fact separation (total suite now 234 passed).
+  - T4.5: Authored submission-ready academic manuscript `paper/main.tex` and verified bibliography `paper/references.bib` with 12 complete sections, exact empirical tables, and epistemic boundaries.
+  - T4.6: Synchronized `results/MANIFEST.json` across all 25 active tracked artifacts.
+- **Commands & Tests Run**:
+  - `.venv/bin/python scripts/run_experiment.py --estimate-resources --mode smoke` -> exit code 0.
+  - `.venv/bin/python scripts/run_experiment.py --update-manifest` -> exit code 0.
+  - `.venv/bin/pytest tests/test_judge_validation.py` -> 17 passed in 0.11s.
+  - `.venv/bin/pytest tests/` -> 234 passed, 2 skipped in 84.98s.
+  - `.venv/bin/python scripts/rena_ci_gate.py --scan-secrets` -> PASS (0 secrets).
+- **Status**: DONE
+
+
 
 

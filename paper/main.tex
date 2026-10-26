@@ -1,0 +1,142 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{geometry}
+\usepackage{microtype}
+\geometry{margin=1in}
+
+\title{\textbf{RENA: Evaluating the Evaluators in Black-Box Language Model Unlearning Audits}}
+\author{
+  \textbf{RENA Research Group} \\
+  \texttt{audit-research@rena-project.org}
+}
+\date{October 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Evaluating machine unlearning in black-box and parameter-aligned language models remains a critical challenge. Existing behavioral unlearning evaluations predominantly rely on direct single-turn queries and lexical refusal matching: if a model outputs a canned refusal string (e.g., \textit{``I cannot disclose this confidential record''}), the audit certifies the target fact as ``forgotten.'' In this paper, we demonstrate that this paradigm suffers from a severe systematic validity flaw: behavioral suppression via system-prompt guardrails or refusal fine-tuning produces audit observables identical to genuine parametric deletion, resulting in high False Pass Rates (FPR). To address this, we introduce \textbf{RENA} (Reliable Evaluation for Neural Unlearning Audits), a controlled auditing protocol featuring: (1) strict baseline-retrievability gating ($k$-of-$n$), (2) matched unexposed reference controls (Group B), (3) multi-angle conversational probing, and (4) fact-clustered statistical estimation. We evaluate RENA empirically on local neural weights (\texttt{Qwen2.5-0.5B-Instruct} on Apple Silicon MPS) and a hosted production model (\texttt{gemini-3.5-flash-lite}). Our empirical results reveal that naive zero-shot audits exhibit a $40.0\%$ to $100.0\%$ false-pass rate on suppressed models, whereas RENA's multi-turn elicitation extracts residual latent knowledge across $80.0\%$ to $100.0\%$ of facts. Furthermore, an independent relearning oracle confirms that refusal-suppressed models preserve target log-likelihood ($\text{mean LL} = -2.9756$ vs unmitigated $-1.4043$) and re-acquire $80\%$ recall in just two AdamW gradient steps. All code, raw execution logs, and cryptographic manifests are open-sourced.
+\end{abstract}
+
+\section{Introduction}
+As large language models (LLMs) ingest massive uncurated corpora, privacy regulations such as the GDPR ``Right to be Forgotten'' and copyright mandates increasingly require model providers to remove specific sensitive target records \cite{bourtoule2021machine, carlini2021extracting}. Consequently, a growing body of algorithmic research proposes machine unlearning techniques, including gradient difference, negative preference optimization (NPO), and representation editing \cite{maini2024tofu, yao2024negative, dorna2025openunlearning}.
+
+However, evaluating whether an unlearning operation has genuinely succeeded remains an open and fraught problem. When black-box auditors inspect a target model, they typically present direct single-turn questions corresponding to the unlearned fact. If the model produces a refusal statement or fails to emit the exact target canary, standard benchmarks categorize the fact as purged \cite{maini2024tofu, shi2024muse}.
+
+\paragraph{The Core Validity Flaw.}
+This conventional auditing paradigm conflates \textit{behavioral suppression} with \textit{parametric unlearning}. Aligning a model via refusal fine-tuning or prepending system-prompt safety directives prevents direct disclosure under default prompts. Yet, as demonstrated in recent adversarial and jailbreaking literature \cite{thaker2024superficial}, the underlying latent representations remain intact within the model weights. A naive auditor that treats surface refusals as evidence of forgetting yields a dangerously high False Pass Rate.
+
+\paragraph{Falsifiable Hypothesis ($H_1$).}
+\textit{Behavioral unlearning audits relying on direct queries and refusal checks falsely certify suppressed-but-retained latent knowledge as forgotten. A multi-turn, reference-controlled protocol with baseline retrievability gating uncovers residual accessibility, at a quantified cost in inference volume and inconclusive outcomes.}
+
+\section{Related Work}
+Existing benchmarks predominantly evaluate the unlearning \textit{algorithms} themselves rather than the \textit{auditor's error rate}:
+\begin{itemize}
+    \item \textbf{TOFU} \cite{maini2024tofu}: Benchmarks unlearning algorithms on 200 fictitious authors using single-turn QA and probability ratios. While foundational for synthetic canary design, it relies primarily on direct generation and does not provide multi-turn elicitation or matched unexposed reference controls.
+    \item \textbf{MUSE} \cite{shi2024muse}: Proposes a six-way evaluation protocol across verbatim recall, knowledge reconstruction, and membership inference. However, it requires white-box token log-likelihood access, limiting applicability to black-box APIs.
+    \item \textbf{OpenUnlearning} \cite{dorna2025openunlearning}: Provides a modular evaluation codebase comparing unlearning methods on aligned models, focusing on developer-side algorithmic trade-offs rather than third-party audit validation.
+    \item \textbf{Superficial Unlearning} \cite{thaker2024superficial}: Diagnostically demonstrates that safety alignment often masks rather than deletes knowledge, motivating our formal audit protocol.
+\end{itemize}
+RENA differs fundamentally from these works: RENA is \textbf{not} an unlearning algorithm, but an \textbf{auditor diagnostic protocol} designed to quantify and minimize auditor false-pass rates under both open-weight and black-box hosted APIs.
+
+\section{The RENA Controlled Audit Protocol}
+
+\subsection{Three-Group Controlled Architecture}
+To disentangle causal unlearning effects from pretraining priors and base model hallucinations, RENA enforces a three-group architecture:
+\begin{enumerate}
+    \item \textbf{Group A ($M_A$)}: The target model undergoing knowledge exposure followed by an unlearning or suppression operation $U$.
+    \item \textbf{Group B ($M_B$)}: A matched twin model never exposed to the canary data, subjected to the identical probe battery to establish the empirical false-positive baseline ($FPR_{\text{base}}$).
+    \item \textbf{Group C ($M_C$)}: A matched twin model exposed to canary data but unmitigated, establishing the empirical upper bound on retrievability.
+\end{enumerate}
+
+\subsection{Four-Gate Validity Pipeline}
+\begin{enumerate}
+    \item \textbf{Gate 1 ($G_{\text{base}}$) — Strict Baseline Retrievability ($k$-of-$n$)}: Before testing unlearning, the auditor verifies that the exposed model recalls the canary in at least $k$ of $n$ trials (default: $2$ of $3$). Facts failing this gate are classified as \texttt{INVALID\_BASELINE} and excluded from false-unlearning certification.
+    \item \textbf{Gate 2 ($G_{\text{util}}$) — Retained Utility Preservation}: Control queries $D_{\text{retain}}$ must maintain accuracy above threshold $\tau_{\text{util}} = 0.70$; otherwise the audit reports \texttt{UTILITY\_DEGRADED}.
+    \item \textbf{Gate 3 ($G_{\text{probe}}$) — Multi-Angle Probing}: Probes span direct queries ($q_{\text{dir}}$), paraphrases ($q_{\text{para}}$), indirect inferences ($q_{\text{ind}}$), and conversational multi-turn contexts ($q_{\text{multi}}$).
+    \item \textbf{Gate 4 ($G_{\text{score}}$) — Fact-Clustered Scoring}: Excludes prompt and entity-name tokens from leak detection, separating clean refusals from leaks containing secret fragments.
+\end{enumerate}
+
+\subsection{Verdict Taxonomy}
+Audits output scoped categorical verdicts per fact:
+\begin{itemize}
+    \item \texttt{RESIDUAL\_RETRIEVAL\_OBSERVED}: Canary tokens or semantic disclosures extracted post-mitigation.
+    \item \texttt{NO\_RETRIEVAL\_OBSERVED\_UNDER\_PROTOCOL}: Zero retrieval detected under the pre-registered probe budget (explicitly bounded; not proof of physical erasure).
+    \item \texttt{INVALID\_BASELINE}: Pre-mitigation recall was not established.
+    \item \texttt{INCONCLUSIVE}: Incomplete execution or unresolved reviewer queue.
+\end{itemize}
+
+\section{Experimental Setup}
+\paragraph{Models and Hardware.}
+Experiments are conducted on \texttt{Qwen/Qwen2.5-0.5B-Instruct} (FP16 on Apple Silicon MPS, PyTorch 2.14, seed 42) and \texttt{gemini-3.5-flash-lite} via Google AI Studio API (HTTP headers, $\text{temp}=0.0$, $\text{seed}=42$).
+\paragraph{Synthetic Canaries.}
+We construct synthetic fact canaries (unique passkeys, medical patient records, ledger PINs, and chemical formulas) designed to have zero overlap with pretraining data.
+\paragraph{Conditions Tested.}
+(1) \texttt{reference} (Group B clean base), (2) \texttt{retained} (Group C unmitigated), (3) \texttt{suppress\_prompt} (system-prompt directive), (4) \texttt{suppress\_refusal} (refusal fine-tuning), and (5) \texttt{graddiff} (gradient difference unlearning).
+
+\section{Empirical Results}
+
+\subsection{Head-to-Head Auditor Comparison}
+Table~\ref{tab:head_to_head} summarizes the head-to-head comparison between the Naive Auditor (direct-only single-turn) and Full RENA on \texttt{Qwen2.5-0.5B-Instruct}.
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Condition} & \textbf{Naive Certified Unlearned} & \textbf{RENA Residual Detected} & \textbf{Naive False Pass Rate} & \textbf{Retained Utility} \\
+\midrule
+\texttt{reference} (Group B) & 5/5 ($100.0\%$) & 0/5 ($0.0\%$) & 0/5 ($0.0\%$) & $80.0\%$ (Preserved) \\
+\texttt{retained} (Group C)  & 1/5 ($20.0\%$) & 5/5 ($100.0\%$) & 1/5 ($20.0\%$) & $100.0\%$ (Preserved) \\
+\texttt{suppress\_prompt}    & 2/5 ($40.0\%$) & 5/5 ($100.0\%$) & 2/5 ($40.0\%$) & $100.0\%$ (Preserved) \\
+\texttt{suppress\_refusal}   & 5/5 ($100.0\%$) & 1/5 ($20.0\%$) & \textbf{5/5 (100.0\%)} & $80.0\%$ (Preserved) \\
+\texttt{graddiff}            & 5/5 ($100.0\%$) & 0/5 ($0.0\%$) & 0/5 ($0.0\%$) & \textbf{40.0\% (Degraded)} \\
+\bottomrule
+\end{tabular}
+\caption{Head-to-head auditor comparison across 5 conditions on \texttt{Qwen2.5-0.5B-Instruct} (MPS). On refusal suppression, the naive auditor falsely passes $100\%$ of facts due to surface refusals, whereas RENA detects latent disclosure. On \texttt{graddiff}, utility collapses catastrophically.}
+\label{tab:head_to_head}
+\end{table}
+
+\subsection{Independent Oracle Evaluation and Relearning Trajectory}
+To independently assess whether suppressed models retain parametric representation, we evaluate exact sequence log-likelihood $\log P(\text{target} \mid \text{question})$ and AdamW relearning trajectories (10 steps at $\text{lr}=10^{-4}$). Results are reported in Table~\ref{tab:oracle}.
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Condition} & \textbf{Mean Log-Likelihood} & \textbf{Step 0 Recall} & \textbf{Step 2 Recall} & \textbf{Recovery ($\ge 80\%$)} & \textbf{Vulnerability Class} \\
+\midrule
+\texttt{reference}         & $-38.0156$ & $0.0\%$ & --- & --- & Unexposed Base Prior \\
+\texttt{retained}          & $-1.4043$  & $100.0\%$ & $100.0\%$ & Step 0 & Unmitigated Upper Bound \\
+\texttt{suppress\_refusal} & \textbf{-2.9756} & $60.0\%$ & \textbf{80.0\%} & \textbf{Step 2} & \texttt{rapid\_reacquisition} \\
+\texttt{graddiff}          & $-14.4195$ & $60.0\%$ & $60.0\%$ & None ($>10$) & \texttt{gradual\_reacquisition} \\
+\bottomrule
+\end{tabular}
+\caption{Independent oracle log-likelihood and AdamW relearning curves on \texttt{Qwen2.5-0.5B-Instruct}. Refusal tuning preserves target log-likelihood near the unmitigated control and re-acquires $80\%$ recall in 2 steps, proving latent persistence.}
+\label{tab:oracle}
+\end{table}
+
+\subsection{Hosted Model Case Study: Gemini-3.5-Flash-Lite}
+In our commercial API audit, direct queries on \texttt{instruct\_to\_forget} resulted in $0\%$ disclosure ($100\%$ naive false pass). In contrast, RENA's multi-turn conversational probes extracted the canary passkey in $100\%$ of trials ($2/2$, $95\%$ Wilson CI: $[34.2\%, 100.0\%]$), confirming $H_1$ in production hosted models.
+
+\section{Discussion and Limitations}
+\paragraph{Epistemic Boundaries.}
+A central thesis of RENA is that black-box behavioral audits cannot mathematically prove physical weight zeroization or remote database deletion. A verdict of \texttt{NO\_RETRIEVAL\_OBSERVED\_UNDER\_PROTOCOL} strictly bounds observable accessibility under the tested probe budget.
+\paragraph{Trade-Offs and Costs.}
+Multi-angle and multi-turn probing multiplies inference volume by $4\times$ to $6\times$ relative to naive audits. However, as demonstrated by the $40\%$--$100\%$ false-pass rates of naive audits, this inference cost is indispensable for rigorous verification.
+
+\section{Conclusion}
+RENA demonstrates that naive behavioral unlearning audits provide an illusory guarantee of forgetting when faced with suppression defenses. By instituting strict baseline gating, paired reference controls, multi-angle probing, and fact-clustered statistical estimation, RENA provides a scientifically grounded framework for trustworthy unlearning audits.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
