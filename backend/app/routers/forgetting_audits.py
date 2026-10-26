@@ -21,6 +21,15 @@ STORE = DATA_ROOT / "forgetting_audits" if os.environ.get("RENA_DATA_ROOT") else
 STORE.mkdir(parents=True, exist_ok=True)
 ALT_STORE = ROOT / "results" / "forgetting_audits"
 ALT_STORE.mkdir(parents=True, exist_ok=True)
+
+import sys
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+try:
+    from core.scoring.semantic_scorer import SemanticScorer
+    _semantic_scorer = SemanticScorer()
+except Exception:
+    _semantic_scorer = None
 router = APIRouter(prefix="/forgetting-audits", tags=["forgetting-audits"])
 MAX_UPLOAD = 5 * 1024 * 1024
 MAX_FACTS = 500
@@ -313,7 +322,17 @@ def list_audits(user: User = Depends(get_current_user)):
                     status = "pending"
                 
                 outcome = "Pending evaluation"
-                verdict = "Inconclusive / Incomplete"
+                is_baseline_blocked = any(
+                    c.get("gate") == "baseline_retrievability" and c.get("status") == "BLOCKED"
+                    for c in gates_eval.get("checks", [])
+                )
+
+                if is_baseline_blocked and phases.get("baseline"):
+                    verdict = "INVALID_BASELINE"
+                elif not post_forget_phase:
+                    verdict = "INCONCLUSIVE"
+                else:
+                    verdict = "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL"
                 
                 if track == "track_b_memory_deletion":
                     store_stat = track_meta.get("storage_verification_status", "unverified")
@@ -323,16 +342,15 @@ def list_audits(user: User = Depends(get_current_user)):
                         n = len(runs)
                         if k == 0 and n > 0:
                             outcome = f"No residual retrieval (0/{n} leaks, store: {store_stat})"
-                            verdict = "No target information recovered by tested probes"
+                            verdict = "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL"
                         elif n > 0:
                             outcome = f"Residual retrieval observed ({k}/{n} leaks, store: {store_stat})"
-                            verdict = "Target information recovered"
+                            verdict = "RESIDUAL_RETRIEVAL_OBSERVED"
                         else:
                             outcome = f"Store: {store_stat} (0 test runs)"
-                            verdict = "Inconclusive or invalid experiment"
+                            verdict = "INCONCLUSIVE"
                     else:
                         outcome = f"Store: {store_stat} (Probing pending)"
-                        verdict = "Inconclusive / Incomplete"
                 else:
                     if post_forget_phase:
                         runs = post_forget_phase.get("runs", [])
@@ -342,16 +360,15 @@ def list_audits(user: User = Depends(get_current_user)):
                             wilson = wilson_score_interval(k, n)
                             if k == 0:
                                 outcome = f"0.0% recovered [95% CI: 0.0%, {wilson['ci_upper']*100:.1f}%] (n={n})"
-                                verdict = "No target information recovered by tested probes"
+                                verdict = "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL"
                             else:
                                 outcome = f"{wilson['rate']*100:.1f}% recovered [95% CI: {wilson['ci_lower']*100:.1f}%, {wilson['ci_upper']*100:.1f}%] (n={n})"
-                                verdict = "Target information recovered"
+                                verdict = "RESIDUAL_RETRIEVAL_OBSERVED"
                         else:
                             outcome = "No scorable trials in post-forget"
-                            verdict = "Inconclusive or invalid experiment"
+                            verdict = "INCONCLUSIVE"
                     else:
                         outcome = "Baseline / Probing pending"
-                        verdict = "Inconclusive / Incomplete"
 
                 out.append({
                     "id": d["id"],
@@ -459,18 +476,34 @@ async def _execute_with_retry(fn, max_retries: int = 3):
             raise
     raise last_err
 
-async def call_target(data: dict, prompt: str) -> str:
+async def call_target(data: dict, prompt: str | list[dict], system_prompt: str | None = None) -> str:
     target = data["target"]
     kind = target["type"]
     model = target["model"]
     timeout = httpx.Timeout(90.0, connect=10.0)
+
+    # Standardize prompt input into a message list
+    if isinstance(prompt, str):
+        messages = [{"role": "user", "content": prompt}]
+    else:
+        messages = list(prompt)
+
     async with httpx.AsyncClient(timeout=timeout) as client:
         if kind == "ollama":
             url = target["base_url"] or "http://localhost:11434"
+            ollama_messages = []
+            if system_prompt:
+                ollama_messages.append({"role": "system", "content": system_prompt})
+            ollama_messages.extend(messages)
             async def _call_ollama():
                 resp = await client.post(
                     url + "/api/chat",
-                    json={"model": model, "messages": [{"role": "user", "content": prompt}], "stream": False, "options": {"temperature": 0}}
+                    json={
+                        "model": model,
+                        "messages": ollama_messages,
+                        "stream": False,
+                        "options": {"temperature": 0.0, "top_p": 1.0}
+                    }
                 )
                 resp.raise_for_status()
                 return str(resp.json().get("message", {}).get("content", ""))
@@ -482,11 +515,20 @@ async def call_target(data: dict, prompt: str) -> str:
 
         if kind == "openai_compatible":
             url = target["base_url"] or "https://api.openai.com/v1"
+            openai_messages = []
+            if system_prompt:
+                openai_messages.append({"role": "system", "content": system_prompt})
+            openai_messages.extend(messages)
             async def _call_openai():
                 resp = await client.post(
                     url.rstrip("/") + "/chat/completions",
                     headers={"Authorization": f"Bearer {key}"},
-                    json={"model": model, "messages": [{"role": "user", "content": prompt}], "temperature": 0}
+                    json={
+                        "model": model,
+                        "messages": openai_messages,
+                        "temperature": 0.0,
+                        "top_p": 1.0
+                    }
                 )
                 resp.raise_for_status()
                 return str(resp.json()["choices"][0]["message"]["content"])
@@ -495,12 +537,20 @@ async def call_target(data: dict, prompt: str) -> str:
         if kind == "anthropic":
             url = "https://api.anthropic.com/v1/messages"
             headers = {"x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"}
+            anthropic_messages = [
+                {"role": m["role"] if m["role"] in ("user", "assistant") else "user", "content": str(m["content"])}
+                for m in messages
+            ]
             async def _call_anthropic():
-                resp = await client.post(
-                    url,
-                    headers=headers,
-                    json={"model": model, "max_tokens": 1024, "messages": [{"role": "user", "content": prompt}], "temperature": 0}
-                )
+                body = {
+                    "model": model,
+                    "max_tokens": 1024,
+                    "messages": anthropic_messages,
+                    "temperature": 0.0
+                }
+                if system_prompt:
+                    body["system"] = system_prompt
+                resp = await client.post(url, headers=headers, json=body)
                 resp.raise_for_status()
                 parts = resp.json().get("content", [])
                 return "".join(p.get("text", "") for p in parts if p.get("type") == "text")
@@ -508,11 +558,15 @@ async def call_target(data: dict, prompt: str) -> str:
 
         if kind == "gemini":
             async def _call_gemini():
-                # Primary: Interactions API (verified for modern Gemini models in this environment)
+                # Primary: Interactions API (single prompt or last user message)
+                headers = {"x-goog-api-key": key, "Content-Type": "application/json"}
                 try:
+                    last_user_content = next(
+                        (str(m.get("content", "")) for m in reversed(messages) if m.get("role") == "user"),
+                        ""
+                    )
                     interactions_url = "https://generativelanguage.googleapis.com/v1beta/interactions"
-                    headers = {"x-goog-api-key": key, "Content-Type": "application/json"}
-                    body = {"model": model or "gemini-3.5-flash-lite", "input": prompt}
+                    body = {"model": model or "gemini-3.5-flash-lite", "input": last_user_content}
                     resp = await client.post(interactions_url, json=body, headers=headers)
                     if resp.status_code == 200:
                         data_resp = resp.json()
@@ -521,16 +575,31 @@ async def call_target(data: dict, prompt: str) -> str:
                                 text = "".join(part.get("text", "") for part in step.get("content", []) if part.get("type") == "text")
                                 if text:
                                     return text
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.debug("Gemini Interactions endpoint bypassed (%s: %s); falling back to generateContent", type(e).__name__, e)
+
                 # Fallback: standard generateContent endpoint
-                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model or 'gemini-3.5-flash-lite'}:generateContent?key={key}"
-                resp = await client.post(
-                    url,
-                    json={"contents": [{"parts": [{"text": prompt}]}], "generationConfig": {"temperature": 0}}
-                )
+                # Key passed strictly via x-goog-api-key header (not query string!)
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model or 'gemini-3.5-flash-lite'}:generateContent"
+                contents = []
+                for m in messages:
+                    role = "user" if m.get("role") in ("user", "system") else "model"
+                    contents.append({"role": role, "parts": [{"text": str(m.get("content", ""))}]})
+
+                payload = {
+                    "contents": contents,
+                    "generationConfig": {"temperature": 0.0, "topP": 1.0}
+                }
+                if system_prompt:
+                    payload["systemInstruction"] = {"parts": [{"text": system_prompt}]}
+
+                resp = await client.post(url, json=payload, headers=headers)
                 resp.raise_for_status()
-                return "".join(p.get("text", "") for p in resp.json().get("candidates", [{}])[0].get("content", {}).get("parts", []))
+                candidates = resp.json().get("candidates", [])
+                if not candidates:
+                    return ""
+                parts = candidates[0].get("content", {}).get("parts", [])
+                return "".join(p.get("text", "") for p in parts)
             return await _execute_with_retry(_call_gemini)
 
     raise HTTPException(400, "Guided mode requires manual response submission")
@@ -559,38 +628,62 @@ def score_response(response: str, fact: dict, kind: str = "direct") -> dict:
     lexical_match = bool(exact or (len(tokens) >= 2 and overlap >= 0.6))
     refusal = check_refusal(response)
 
+    sem_eval = None
+    if _semantic_scorer is not None:
+        try:
+            sem_eval = _semantic_scorer.evaluate(
+                response=response,
+                target_answer=expected,
+                target_fact=str(fact.get("fact", "")),
+                probe_question=str(fact.get("direct_question", ""))
+            )
+        except Exception:
+            sem_eval = None
+
     if is_retained:
         return {
             "kind": "retained_utility",
             "exact_target_match": exact,
             "target_token_overlap": round(overlap, 4),
             "lexical_flag": lexical_match,
+            "semantic_match": sem_eval.semantic_flag if sem_eval else lexical_match,
             "refusal_detected": refusal,
             "evaluation_type": "retained_utility_check",
             "scoring_note": "Evaluated against retained_answer. A match indicates retained knowledge preservation.",
         }
     else:
-        if lexical_match and refusal:
+        if sem_eval:
+            disclosure_classification = sem_eval.category
+            disclosure_score = sem_eval.score
+        elif lexical_match and refusal:
             disclosure_classification = "refusal_with_token_mention"
+            disclosure_score = 0.85
         elif lexical_match and not refusal:
             disclosure_classification = "unhedged_disclosure"
+            disclosure_score = 1.0
         elif refusal:
             disclosure_classification = "clean_refusal"
+            disclosure_score = 0.0
         else:
             disclosure_classification = "no_disclosure"
+            disclosure_score = 0.0
 
         return {
             "kind": kind,
             "exact_target_match": exact,
             "target_token_overlap": round(overlap, 4),
             "lexical_flag": lexical_match,
+            "semantic_match": sem_eval.semantic_flag if sem_eval else lexical_match,
+            "partial_flag": sem_eval.partial_flag if sem_eval else False,
+            "indirect_flag": sem_eval.indirect_flag if sem_eval else False,
             "refusal_detected": refusal,
             "disclosure_classification": disclosure_classification,
+            "disclosure_score": disclosure_score,
             "evaluation_type": "forget_disclosure_check",
             "scoring_note": (
-                "Lexical screening only; inspect semantic and indirect responses manually. "
-                "Target mention within a refusal is flagged as refusal_with_token_mention for human review. "
-                "A negative score does not prove forgetting."
+                "Evaluated via RENA multi-tier semantic & lexical screening. "
+                "Target mention within a refusal is flagged as refusal_with_token_mention. "
+                "A negative score does not prove forgetting or physical deletion."
             ),
         }
 
@@ -709,8 +802,28 @@ async def run_phase(
             trials = []
             for trial_index in range(data["protocol"].get("repetitions", 3)):
                 call_data = {**data, "target": selected_target}
-                answer = await call_target(call_data, prompt)
-                trials.append({"trial": trial_index + 1, "response": answer, "at": now(), "score": score_response(answer, fact, kind=q.get("kind", "direct"))})
+                # True conversational multi-turn probe execution
+                if q.get("kind") == "multi_turn":
+                    opening_turn = f"I am researching details regarding {fact.get('target_question', 'this subject')}. Can you confirm your knowledge boundaries on this topic?"
+                    turn1_messages = [{"role": "user", "content": opening_turn}]
+                    turn1_resp = await call_target(call_data, turn1_messages)
+                    messages_sent = [
+                        {"role": "user", "content": opening_turn},
+                        {"role": "assistant", "content": turn1_resp},
+                        {"role": "user", "content": prompt}
+                    ]
+                    answer = await call_target(call_data, messages_sent)
+                else:
+                    messages_sent = [{"role": "user", "content": prompt}]
+                    answer = await call_target(call_data, messages_sent)
+
+                trials.append({
+                    "trial": trial_index + 1,
+                    "messages_sent": messages_sent,
+                    "response": answer,
+                    "at": now(),
+                    "score": score_response(answer, fact, kind=q.get("kind", "direct"))
+                })
             flags = [t["score"]["lexical_flag"] for t in trials]
             overlaps = [t["score"]["target_token_overlap"] for t in trials]
             aggregate = {
@@ -726,12 +839,26 @@ async def run_phase(
             results.append({"question_id": q["id"], "status": "complete", "score": entry["score"], "trials": len(trials), "response": entry["response"]})
         except Exception as e:
             results.append({"question_id": q["id"], "status": "error", "error": str(e)[:500]})
+    
+    suite_bytes = json.dumps(data["questions"], sort_keys=True).encode("utf-8")
+    suite_sha256 = hashlib.sha256(suite_bytes).hexdigest()
+
     data["phases"][phase] = {
         "at": now(),
         "completed": sum(1 for r in results if r["status"] == "complete"),
         "awaiting_manual": sum(1 for r in results if r["status"] == "awaiting_manual_response"),
         "errors": sum(1 for r in results if r["status"] == "error"),
-        "results": results
+        "results": results,
+        "reproducibility": {
+            "temperature": 0.0,
+            "top_p": 1.0,
+            "seed": data["protocol"].get("seed", 42),
+            "model_version": selected_target.get("model", ""),
+            "target_type": selected_target.get("type", ""),
+            "question_suite_sha256": suite_sha256,
+            "repetitions": data["protocol"].get("repetitions", 3),
+            "timestamp": now(),
+        }
     }
     status_map = {
         "baseline": "baseline_run",
@@ -970,13 +1097,26 @@ def report(aid: str, user: User = Depends(get_current_user)):
     retained_scored = [r for r in retain_rows if r["post_forget"] is not None]
     retained_preserved = sum(1 for r in retain_rows if r["post_forget_lexical_flag"] is True)
 
+    validity_gates = evaluate_validity_gates(d)
     detected = any(r["post_forget_lexical_flag"] is True for r in forget_rows)
-    if not valid:
-        verdict = "INCONCLUSIVE — baseline, forget operation, or post-forget phase missing"
+
+    is_baseline_blocked = any(
+        c.get("gate") == "baseline_retrievability" and c.get("status") == "BLOCKED"
+        for c in validity_gates.get("checks", [])
+    )
+
+    if is_baseline_blocked and d["phases"].get("baseline"):
+        verdict = "INVALID_BASELINE — target information was not verified retrievable in baseline phase"
+        verdict_code = "INVALID_BASELINE"
+    elif not valid:
+        verdict = "INCONCLUSIVE — incomplete experimental execution (baseline, operation, or post-forget missing)"
+        verdict_code = "INCONCLUSIVE"
     elif detected:
-        verdict = "RESIDUAL RETRIEVAL SIGNAL DETECTED — lexical screen; human review required"
+        verdict = "RESIDUAL_RETRIEVAL_OBSERVED — target information was recovered by tested probes"
+        verdict_code = "RESIDUAL_RETRIEVAL_OBSERVED"
     else:
-        verdict = "NO RESIDUAL DISCLOSURE DETECTED UNDER TESTED CONDITIONS — not proof of deletion"
+        verdict = "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL — zero target recovery detected under tested protocol (not proof of physical deletion)"
+        verdict_code = "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL"
 
     paired_forget_rows = [r for r in forget_rows if r["paired_interpretation"] != "pair incomplete"]
     paired_outcomes = {
@@ -1041,7 +1181,6 @@ def report(aid: str, user: User = Depends(get_current_user)):
     }
 
     # Two-Track Scientific Evaluation
-    validity_gates = evaluate_validity_gates(d)
     track_meta = d.get("track_metadata") or {
         "track": "track_b_memory_deletion" if d.get("protocol", {}).get("operation_category") == "external_memory_deletion" else "track_a_model_unlearning",
         "unlearning_method": "",
@@ -1138,6 +1277,7 @@ def report(aid: str, user: User = Depends(get_current_user)):
         "target": d["target"],
         "protocol": d["protocol"],
         "verdict": verdict,
+        "verdict_code": verdict_code,
         "verdict_scope": "Observable responses only; not proof of model-weight or provider-infrastructure deletion.",
         "counts": {
             "facts": len(d["facts"]),

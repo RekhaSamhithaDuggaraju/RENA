@@ -104,7 +104,8 @@ def test_report_detects_positive_post_forget_match_with_complete_evidence(monkey
 
     result = audits.report("a" * 32, user=SimpleNamespace(id="test-user"))
 
-    assert result["verdict"].startswith("RESIDUAL RETRIEVAL SIGNAL DETECTED")
+    assert result["verdict"].startswith("RESIDUAL_RETRIEVAL_OBSERVED")
+    assert result["verdict_code"] == "RESIDUAL_RETRIEVAL_OBSERVED"
 
 def test_report_counts_all_four_outcomes_for_complete_reference_pairs(monkeypatch):
     from types import SimpleNamespace
@@ -214,7 +215,8 @@ def test_retained_utility_preservation_does_not_trigger_residual_disclosure(monk
     result = audits.report("a" * 32, user=SimpleNamespace(id="test-user"))
 
     # Crucial scientific check: forget probe was False, retained probe was True -> NO RESIDUAL DISCLOSURE!
-    assert result["verdict"].startswith("NO RESIDUAL DISCLOSURE")
+    assert result["verdict"].startswith("NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL")
+    assert result["verdict_code"] == "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL"
     assert result["retained_utility"]["status"] == "intact"
     assert result["retained_utility"]["preserved"] == 1
     assert result["retained_utility"]["tested"] == 1

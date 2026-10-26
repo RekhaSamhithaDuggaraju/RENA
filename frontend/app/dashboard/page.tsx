@@ -40,6 +40,29 @@ const CLASSICAL_ALGORITHMS: {
 const classicalLabel = (v: string) =>
   CLASSICAL_ALGORITHMS.find((a) => a.value === v)?.label ?? v.replaceAll("_", " ");
 
+const isNoRecovery = (v?: string | null) =>
+  v === "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL" ||
+  v === "No target information recovered by tested probes" ||
+  v === "Likely Forgotten";
+
+const isResidualRecovery = (v?: string | null) =>
+  v === "RESIDUAL_RETRIEVAL_OBSERVED" ||
+  v === "Target information recovered" ||
+  v === "Not Forgotten";
+
+const isInvalidBaseline = (v?: string | null) =>
+  v === "INVALID_BASELINE" ||
+  v === "Invalid Baseline";
+
+const isInconclusive = (v?: string | null) =>
+  v === "INCONCLUSIVE" ||
+  v === "Inconclusive or invalid experiment" ||
+  v === "Inconclusive" ||
+  v === "Inconclusive / Incomplete" ||
+  v === "Ambiguous evidence" ||
+  v === "Ambiguous" ||
+  !v;
+
 export default function DashboardPage() {
   const router = useRouter();
 
@@ -189,7 +212,13 @@ export default function DashboardPage() {
       if (statusFilter !== "all" && row.status !== statusFilter) return false;
 
       // Verdict Filter
-      if (verdictFilter !== "all" && row.verdict !== verdictFilter) return false;
+      if (verdictFilter !== "all") {
+        if (verdictFilter === "no_recovery" && !isNoRecovery(row.verdict)) return false;
+        else if (verdictFilter === "residual_recovery" && !isResidualRecovery(row.verdict)) return false;
+        else if (verdictFilter === "invalid_baseline" && !isInvalidBaseline(row.verdict)) return false;
+        else if (verdictFilter === "inconclusive" && !isInconclusive(row.verdict)) return false;
+        else if (!["no_recovery", "residual_recovery", "invalid_baseline", "inconclusive"].includes(verdictFilter) && row.verdict !== verdictFilter) return false;
+      }
 
       return true;
     });
@@ -208,31 +237,12 @@ export default function DashboardPage() {
   const verdictDistribution = useMemo(() => {
     if (completedAudits.length === 0) return null;
 
-    const noRecovery = completedAudits.filter(
-      (a) =>
-        a.verdict === "No target information recovered by tested probes" ||
-        a.verdict === "Likely Forgotten"
-    ).length;
+    const noRecovery = completedAudits.filter((a) => isNoRecovery(a.verdict)).length;
+    const targetRecovered = completedAudits.filter((a) => isResidualRecovery(a.verdict)).length;
+    const invalidBaseline = completedAudits.filter((a) => isInvalidBaseline(a.verdict)).length;
+    const inconclusive = completedAudits.filter((a) => isInconclusive(a.verdict) && !isInvalidBaseline(a.verdict)).length;
 
-    const targetRecovered = completedAudits.filter(
-      (a) =>
-        a.verdict === "Target information recovered" ||
-        a.verdict === "Not Forgotten"
-    ).length;
-
-    const ambiguous = completedAudits.filter(
-      (a) => a.verdict === "Ambiguous evidence" || a.verdict === "Ambiguous"
-    ).length;
-
-    const inconclusive = completedAudits.filter(
-      (a) =>
-        a.verdict === "Inconclusive or invalid experiment" ||
-        a.verdict === "Inconclusive" ||
-        a.verdict === "Inconclusive / Incomplete" ||
-        (!a.verdict && a.status === "complete")
-    ).length;
-
-    return { noRecovery, targetRecovered, ambiguous, inconclusive, total: completedAudits.length };
+    return { noRecovery, targetRecovered, invalidBaseline, inconclusive, total: completedAudits.length };
   }, [completedAudits]);
 
   // Extract recent activity events from forgetting audits
@@ -524,11 +534,11 @@ export default function DashboardPage() {
                 {/* 1. No target information recovered */}
                 <button
                   onClick={() => {
-                    setVerdictFilter("No target information recovered by tested probes");
+                    setVerdictFilter(verdictFilter === "no_recovery" ? "all" : "no_recovery");
                     document.getElementById("history")?.scrollIntoView({ behavior: "smooth" });
                   }}
                   className={`rounded-lg border p-3 text-left transition ${
-                    verdictFilter === "No target information recovered by tested probes"
+                    verdictFilter === "no_recovery"
                       ? "border-emerald-500/60 bg-emerald-950/30"
                       : "border-white/5 bg-white/[0.02] hover:bg-white/[0.05]"
                   }`}
@@ -536,23 +546,23 @@ export default function DashboardPage() {
                   <div className="flex items-center justify-between text-xs">
                     <span className="flex items-center gap-1.5 font-medium text-emerald-300">
                       <span className="h-2 w-2 rounded-full bg-emerald-400" />
-                      No recovery observed
+                      No Recovery Observed
                     </span>
                     <b className="text-emerald-400">{verdictDistribution.noRecovery}</b>
                   </div>
                   <p className="mt-1 text-[10px] text-zinc-400 leading-tight">
-                    Tested probes yielded zero target disclosure.
+                    Zero target canary disclosure detected under protocol.
                   </p>
                 </button>
 
                 {/* 2. Target information recovered */}
                 <button
                   onClick={() => {
-                    setVerdictFilter("Target information recovered");
+                    setVerdictFilter(verdictFilter === "residual_recovery" ? "all" : "residual_recovery");
                     document.getElementById("history")?.scrollIntoView({ behavior: "smooth" });
                   }}
                   className={`rounded-lg border p-3 text-left transition ${
-                    verdictFilter === "Target information recovered"
+                    verdictFilter === "residual_recovery"
                       ? "border-rose-500/60 bg-rose-950/30"
                       : "border-white/5 bg-white/[0.02] hover:bg-white/[0.05]"
                   }`}
@@ -560,23 +570,23 @@ export default function DashboardPage() {
                   <div className="flex items-center justify-between text-xs">
                     <span className="flex items-center gap-1.5 font-medium text-rose-300">
                       <span className="h-2 w-2 rounded-full bg-rose-400" />
-                      Target recovered
+                      Residual Retrieval
                     </span>
                     <b className="text-rose-400">{verdictDistribution.targetRecovered}</b>
                   </div>
                   <p className="mt-1 text-[10px] text-zinc-400 leading-tight">
-                    Residual target leaked in one or more probes.
+                    Target information recovered by tested probes.
                   </p>
                 </button>
 
-                {/* 3. Ambiguous evidence */}
+                {/* 3. Invalid Baseline */}
                 <button
                   onClick={() => {
-                    setVerdictFilter("Ambiguous evidence");
+                    setVerdictFilter(verdictFilter === "invalid_baseline" ? "all" : "invalid_baseline");
                     document.getElementById("history")?.scrollIntoView({ behavior: "smooth" });
                   }}
                   className={`rounded-lg border p-3 text-left transition ${
-                    verdictFilter === "Ambiguous evidence"
+                    verdictFilter === "invalid_baseline"
                       ? "border-amber-500/60 bg-amber-950/30"
                       : "border-white/5 bg-white/[0.02] hover:bg-white/[0.05]"
                   }`}
@@ -584,23 +594,23 @@ export default function DashboardPage() {
                   <div className="flex items-center justify-between text-xs">
                     <span className="flex items-center gap-1.5 font-medium text-amber-300">
                       <span className="h-2 w-2 rounded-full bg-amber-400" />
-                      Ambiguous
+                      Invalid Baseline
                     </span>
-                    <b className="text-amber-400">{verdictDistribution.ambiguous}</b>
+                    <b className="text-amber-400">{verdictDistribution.invalidBaseline}</b>
                   </div>
                   <p className="mt-1 text-[10px] text-zinc-400 leading-tight">
-                    Partial refusal or conflicting verifier signals.
+                    Canary unretrievable prior to unlearning operation.
                   </p>
                 </button>
 
                 {/* 4. Inconclusive or invalid */}
                 <button
                   onClick={() => {
-                    setVerdictFilter("Inconclusive or invalid experiment");
+                    setVerdictFilter(verdictFilter === "inconclusive" ? "all" : "inconclusive");
                     document.getElementById("history")?.scrollIntoView({ behavior: "smooth" });
                   }}
                   className={`rounded-lg border p-3 text-left transition ${
-                    verdictFilter === "Inconclusive or invalid experiment"
+                    verdictFilter === "inconclusive"
                       ? "border-zinc-500/60 bg-zinc-900/40"
                       : "border-white/5 bg-white/[0.02] hover:bg-white/[0.05]"
                   }`}
@@ -608,12 +618,12 @@ export default function DashboardPage() {
                   <div className="flex items-center justify-between text-xs">
                     <span className="flex items-center gap-1.5 font-medium text-zinc-300">
                       <span className="h-2 w-2 rounded-full bg-zinc-400" />
-                      Inconclusive / Invalid
+                      Inconclusive / Incomplete
                     </span>
                     <b className="text-zinc-300">{verdictDistribution.inconclusive}</b>
                   </div>
                   <p className="mt-1 text-[10px] text-zinc-400 leading-tight">
-                    Baseline failed or validity gates unmet.
+                    Incomplete execution or catastrophic utility collapse.
                   </p>
                 </button>
               </div>
@@ -621,7 +631,18 @@ export default function DashboardPage() {
               {verdictFilter !== "all" && (
                 <div className="flex items-center justify-between pt-1">
                   <span className="text-[11px] text-zinc-400">
-                    Filtered by verdict: <b className="text-white">{verdictFilter}</b>
+                    Filtered by verdict:{" "}
+                    <b className="text-white font-mono">
+                      {verdictFilter === "no_recovery"
+                        ? "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL"
+                        : verdictFilter === "residual_recovery"
+                        ? "RESIDUAL_RETRIEVAL_OBSERVED"
+                        : verdictFilter === "invalid_baseline"
+                        ? "INVALID_BASELINE"
+                        : verdictFilter === "inconclusive"
+                        ? "INCONCLUSIVE"
+                        : verdictFilter}
+                    </b>
                   </span>
                   <button
                     onClick={() => setVerdictFilter("all")}
@@ -899,6 +920,23 @@ export default function DashboardPage() {
                             <div className="text-xs text-zinc-200 truncate" title={a.primary_outcome}>
                               {a.primary_outcome}
                             </div>
+                            {a.verdict && (
+                              <div className="mt-1">
+                                <span
+                                  className={`inline-block font-mono text-[9px] px-1.5 py-0.5 rounded border leading-none ${
+                                    isNoRecovery(a.verdict)
+                                      ? "border-emerald-500/30 bg-emerald-950/40 text-emerald-300"
+                                      : isResidualRecovery(a.verdict)
+                                      ? "border-rose-500/30 bg-rose-950/40 text-rose-300"
+                                      : isInvalidBaseline(a.verdict)
+                                      ? "border-amber-500/30 bg-amber-950/40 text-amber-300"
+                                      : "border-zinc-600/30 bg-zinc-900/50 text-zinc-400"
+                                  }`}
+                                >
+                                  {a.verdict}
+                                </span>
+                              </div>
+                            )}
                           </td>
 
                           {/* Created */}
