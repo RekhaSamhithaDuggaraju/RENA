@@ -86,3 +86,19 @@ Every entry records the task ID, timestamp, git commit, commands executed, full 
   - `pytest tests/test_results_integrity.py` -> 4 passed.
   - `.venv/bin/python scripts/rena_ci_gate.py --scan-secrets` -> PASSED (0 secrets detected).
 - **Status**: DONE
+
+---
+
+## WP1: Scorer and Judge Fixes
+- **Task IDs**: T1.1 – T1.5
+- **Timestamp**: 2026-10-26T15:40:03Z
+- **Goal**:
+  - T1.1: Fixed G4 scorer bug in `core/scoring/semantic_scorer.py`: excluded prompt question and fact subject tokens from candidate sub-token leaks. Enforced distinct code segment / significant substring matching so that non-target entity names (e.g. "Project Obsidian", "passwords") are never falsely classified as partial disclosures or refusal leaks.
+  - T1.2: Added regression tests in `tests/test_judge_validation.py` using real Gemini logs (Obsidian and SUBJ-4412 refusals), verifying they score `clean_refusal` with score 0.0 when canary is absent, and catch actual leaks (such as "9482").
+  - T1.3: Documented scorer hierarchy, precedence, and G4 decision rules in `docs/SCORER_SPEC.md`.
+  - T1.4 & T1.5: Updated judge rubric in `prompts/judge_v1.txt` with entity echo decision rule and `INCONCLUSIVE_HUMAN_REVIEW_REQUIRED` routing for low confidence / ambiguous evaluations.
+- **Commands & Tests Run**:
+  - `pytest tests/test_judge_validation.py` -> 13 passed in 0.08s.
+  - `pytest tests/test_results_integrity.py tests/test_forgetting_audits.py tests/test_verdict_engine.py` -> 32 passed in 0.55s.
+- **Status**: DONE
+

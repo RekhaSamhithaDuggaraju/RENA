@@ -1,6 +1,6 @@
 {
-  "manifest_version": "2.0",
-  "generated_at": "2026-10-26T15:27:28.431901+00:00",
+  "manifest_version": "2.1",
+  "generated_at": "2026-10-26T15:40:28.699344+00:00",
   "artifacts": {
     "results/case_studies/gemini_flash_lite_audit.json": {
       "sha256": "4db44a938a804a897afce8aa5868e76ccc4cea0f31124abae78b691f1f9d163c",
@@ -37,6 +37,11 @@
       "size_bytes": 3503,
       "exists": true
     },
+    "docs/SCORER_SPEC.md": {
+      "sha256": "79fbd26df1d731a85c7aa656a87b80d9839964c5c666818ebe6c1dfc298f9c7c",
+      "size_bytes": 4558,
+      "exists": true
+    },
     "docs/PREREGISTRATION.md": {
       "sha256": "b20ebb956fa0810c9e51c478e8fdd9371a1b0b550a223862248978307b3562c8",
       "size_bytes": 3963,
@@ -63,8 +68,8 @@
       "exists": true
     },
     "docs/PHASE_LOG.md": {
-      "sha256": "79fcfa7710dd183e77345adc4ddf1f0c42dcbf24883aa5a8d98c6c3e8643468c",
-      "size_bytes": 6377,
+      "sha256": "887bf24b3195dff3784bd6a081a3d3c20220de04c84d425546b82aae82875ca5",
+      "size_bytes": 7622,
       "exists": true
     },
     "docs/appendix_simulation/testbed_simulation_results.json": {
@@ -75,6 +80,11 @@
     "archive/README.md": {
       "sha256": "a1184a7344dea7b1616aca890ab3224ce46eca61830924ead73343e8062243cd",
       "size_bytes": 890,
+      "exists": true
+    },
+    "prompts/judge_v1.txt": {
+      "sha256": "2004c2378f23f52d90ae0e51ec12223c89f2f4b2ddb0ad7f6f5999324f4b1cc5",
+      "size_bytes": 3579,
       "exists": true
     }
   }
