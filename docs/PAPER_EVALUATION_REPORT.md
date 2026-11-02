@@ -63,10 +63,10 @@ We evaluated 5 experimental conditions across 5 facts $\times$ 4 probe types (di
 | **`reference`** | Group B: Unexposed clean base model | 5/5 (100.0%) | 0/5 (0.0% recovery, all `NO_RETRIEVAL_OBSERVED`) | 0.0% (No false attribution) | 80.0% (Preserved) |
 | **`retained`** | Group C: Unmitigated implanted control | 1/5 (20.0%) | 5/5 (100.0% recovery, all `RESIDUAL_RETRIEVAL`) | **20.0% False Pass** | 100.0% (Preserved) |
 | **`suppress_prompt`** | System-prompt refusal defense | 2/5 (40.0%) | 5/5 (100.0% recovery, all `RESIDUAL_RETRIEVAL`) | **40.0% False Pass** | 100.0% (Preserved) |
-| **`suppress_refusal`** | Refusal-tuned weights (15 steps) | 3/5 (60.0%) | 4/5 (80.0% recovery) | **60.0% False Pass** | 100.0% (Preserved) |
-| **`graddiff`** | Gradient difference unlearning (15 steps) | 4/5 (80.0%) | 5/5 (100.0% recovery) | **80.0% False Pass** | 100.0% (Degraded / Utility collapsed) |
+| **`suppress_refusal`** | Refusal-tuned weights (15 steps) | 5/5 (100.0%) | 1/5 (20.0% recovery) | **100.0% False Pass** | 80.0% (Preserved) |
+| **`graddiff`** | Gradient difference unlearning (15 steps) | 5/5 (100.0%) | 0/5 (0.0% recovery) | 0.0% False Pass | **40.0% (Degraded / Utility collapsed)** |
 
-**Key Finding**: On behavioral suppression conditions (`suppress_prompt` and `suppress_refusal`), the naive auditor exhibited high false pass rates (40.0% and 60.0%) due to surface-level refusal matching. In contrast, RENA's multi-turn and paraphrase probing uncovered residual latent knowledge in 80.0%–100.0% of cases.
+**Key Finding**: On behavioral suppression conditions (`suppress_prompt` and `suppress_refusal`), the naive auditor exhibited high false pass rates (40.0% and 100.0%) due to surface-level refusal matching. In contrast, RENA's multi-turn and paraphrase probing uncovered residual latent knowledge in 20.0%–100.0% of cases (with naive audits catching 0% under refusal fine-tuning). On `graddiff`, utility collapsed catastrophically to 40.0%, confounding relearning resistance with general parameter damage.
 
 ### 3.2 Experiment E3: Oracle Verification & Relearning Trajectory (`results/testbed/oracle_results.json`)
 
@@ -79,7 +79,7 @@ To verify whether suppressed models preserve underlying parametric representatio
 | **`suppress_refusal`** | -2.9756 | 60.0% | 100.0% | **2 steps** | `rapid_reacquisition_suppression_signature` |
 | **`graddiff`** | -14.4195 | 60.0% | 60.0% | **None (exceeds 10)** | `gradual_reacquisition` |
 
-**Oracle Finding**: Refusal fine-tuning leaves the sequence log-likelihood essentially intact (-2.9756 vs retained -1.4043, compared to unexposed -38.0156). Under relearning, `suppress_refusal` re-acquires 80% recall in only 2 gradient steps and 100% recall in 4 steps, proving that behavioral suppression conceals rather than erases latent knowledge representations. In contrast, gradient difference unlearning shifts the representation ($\text{mean LL} = -14.4195$) and resists rapid relearning over the 10-step horizon.
+**Oracle Finding**: Refusal fine-tuning leaves the sequence log-likelihood essentially intact (-2.9756 vs retained -1.4043, compared to unexposed -38.0156). Under relearning, `suppress_refusal` re-acquires 80% recall in only 2 gradient steps and 100% recall in 4 steps, proving that behavioral suppression conceals rather than erases latent knowledge representations. In contrast, gradient difference unlearning shifts the representation ($\text{mean LL} = -14.4195$) and resists rapid relearning over the 10-step horizon; however, because retained utility collapsed to 40.0%, this relearning resistance is confounded by general parameter damage rather than selective unlearning.
 
 ---
 

@@ -44,6 +44,14 @@ This protocol details the standardized, reproducible execution steps for conduct
 2. Inspect Wilson 95% confidence intervals and Causal Attribution Delta ($\Delta_{\text{causal}}$).
 3. Export cryptographic SHA-256 JSON manifest, CSV probe traces, and publication-ready LaTeX table.
 
+### Step A.6: Algorithmic Controls for Selective Unlearning vs. General Model Damage
+1. **The GradDiff Confound**: Unbounded gradient difference ($\mathcal{L} = -\mathcal{L}_{\text{forget}} + \mathcal{L}_{\text{retain}}$) can produce gradient explosion that degrades general model generative capability (as observed in the 5-fact pilot where retained utility collapsed to 40.0%). When general utility collapses, low relearning recall reflects parameter destruction rather than selective erasure.
+2. **Utility Preservation Constraint (`graddiff_kl`)**: To distinguish selective unlearning from model destruction:
+   $$\mathcal{L} = -\min(\mathcal{L}_{\text{forget}}, \tau_{\text{forget}}) + \alpha \mathcal{L}_{\text{retain}} + \beta D_{\text{KL}}(\pi_\theta \parallel \pi_{\text{ref}})$$
+   where $\tau_{\text{forget}} = 4.0$, $\alpha = 2.0$, and $\beta = 0.5$ against the frozen pre-unlearning checkpoint $\pi_{\text{ref}}$.
+3. **Gate Enforcement**: If retained utility drops below $\tau_{\text{util}} = 70.0\%$ (Gate 2 failure), the audit outputs `UTILITY_DEGRADED` and flags relearning resistance as `CONFOUNDED_BY_UTILITY_COLLAPSE`.
+4. **Current Status**: `graddiff_kl` is implemented in `core/testbed_real/unlearn.py` and designated as **`PENDING_EXECUTION`** for the confirmatory evaluation.
+
 ---
 
 ## 3. Track B Protocol: Application Memory & Retrieval Deletion

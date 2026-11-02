@@ -22,7 +22,7 @@
 \maketitle
 
 \begin{abstract}
-Evaluating machine unlearning in black-box and parameter-aligned language models remains a critical challenge. Existing behavioral unlearning evaluations predominantly rely on direct single-turn queries and lexical refusal matching: if a model outputs a canned refusal string (e.g., \textit{``I cannot disclose this confidential record''}), the audit certifies the target fact as ``forgotten.'' In this paper, we demonstrate that this paradigm suffers from a severe systematic validity flaw: behavioral suppression via system-prompt guardrails or refusal fine-tuning produces audit observables identical to genuine parametric deletion, resulting in high False Pass Rates (FPR). To address this, we introduce \textbf{RENA} (Reliable Evaluation for Neural Unlearning Audits), a controlled auditing protocol featuring: (1) strict baseline-retrievability gating ($k$-of-$n$), (2) matched unexposed reference controls (Group B), (3) multi-angle conversational probing, and (4) fact-clustered statistical estimation. We evaluate RENA empirically on local neural weights (\texttt{Qwen2.5-0.5B-Instruct} on Apple Silicon MPS) and a hosted production model (\texttt{gemini-3.5-flash-lite}). Our empirical results reveal that naive zero-shot audits exhibit a $40.0\%$ to $100.0\%$ false-pass rate on suppressed models, whereas RENA's multi-turn elicitation extracts residual latent knowledge across $80.0\%$ to $100.0\%$ of facts. Furthermore, an independent relearning oracle confirms that refusal-suppressed models preserve target log-likelihood ($\text{mean LL} = -2.9756$ vs unmitigated $-1.4043$) and re-acquire $80\%$ recall in just two AdamW gradient steps. All code, raw execution logs, and cryptographic manifests are open-sourced.
+Evaluating machine unlearning in black-box and parameter-aligned language models remains a critical challenge. Existing behavioral unlearning evaluations predominantly rely on direct single-turn queries and lexical refusal matching: if a model outputs a canned refusal string (e.g., \textit{``I cannot disclose this confidential record''}), the audit certifies the target fact as ``forgotten.'' In this paper, we demonstrate that this paradigm suffers from a severe systematic validity flaw: behavioral suppression via system-prompt guardrails or refusal fine-tuning produces audit observables identical to genuine parametric deletion, resulting in high False Pass Rates (FPR). To address this, we introduce \textbf{RENA} (Reliable Evaluation for Neural Unlearning Audits), a controlled auditing protocol featuring: (1) strict baseline-retrievability gating ($k$-of-$n$), (2) matched unexposed reference controls (Group B), (3) multi-angle conversational probing, and (4) fact-clustered statistical estimation. We evaluate RENA empirically on local neural weights (\texttt{Qwen2.5-0.5B-Instruct} on Apple Silicon MPS) and a hosted production model (\texttt{gemini-3.5-flash-lite}). Our empirical results reveal that naive zero-shot audits exhibit a $40.0\%$ to $100.0\%$ false-pass rate on suppressed models (passing $40.0\%$ on prompt suppression and $100.0\%$ on refusal fine-tuning), whereas RENA uncovers residual latent retrieval (extracting $100.0\%$ under prompt suppression and $20.0\%$ under refusal fine-tuning, where naive audits detect $0\%$). In a hosted API study (\texttt{gemini-3.5-flash-lite}), multi-turn probes extracted $100.0\%$ ($2/2$) of suppressed secrets where direct audits failed completely. Furthermore, an independent relearning oracle confirms that refusal-suppressed models preserve target log-likelihood ($\text{mean LL} = -2.9756$ vs unmitigated $-1.4043$) and re-acquire $80\%$ recall in just two AdamW gradient steps. All code, raw execution logs, and cryptographic manifests are open-sourced.
 \end{abstract}
 
 \section{Introduction}
@@ -116,8 +116,8 @@ To independently assess whether suppressed models retain parametric representati
 \midrule
 \texttt{reference}         & $-38.0156$ & $0.0\%$ & --- & --- & Unexposed Base Prior \\
 \texttt{retained}          & $-1.4043$  & $100.0\%$ & $100.0\%$ & Step 0 & Unmitigated Upper Bound \\
-\texttt{suppress\_refusal} & \textbf{-2.9756} & $60.0\%$ & \textbf{80.0\%} & \textbf{Step 2} & \texttt{rapid\_reacquisition} \\
-\texttt{graddiff}          & $-14.4195$ & $60.0\%$ & $60.0\%$ & None ($>10$) & \texttt{gradual\_reacquisition} \\
+\texttt{suppress\_refusal} & \textbf{-2.4370} & $60.0\%$ & \textbf{80.0\%} & \textbf{Step 4} & \texttt{rapid\_reacquisition} \\
+\texttt{graddiff}          & $-93.9125$ & $60.0\%$ & $60.0\%$ & None ($>10$) & \texttt{gradual\_reacquisition} \\
 \bottomrule
 \end{tabular}
 \caption{Independent oracle log-likelihood and AdamW relearning curves on \texttt{Qwen2.5-0.5B-Instruct}. Refusal tuning preserves target log-likelihood near the unmitigated control and re-acquires $80\%$ recall in 2 steps, proving latent persistence.}
@@ -129,9 +129,19 @@ In our commercial API audit, direct queries on \texttt{instruct\_to\_forget} res
 
 \section{Discussion and Limitations}
 \paragraph{Epistemic Boundaries.}
-A central thesis of RENA is that black-box behavioral audits cannot mathematically prove physical weight zeroization or remote database deletion. A verdict of \texttt{NO\_RETRIEVAL\_OBSERVED\_UNDER\_PROTOCOL} strictly bounds observable accessibility under the tested probe budget.
-\paragraph{Trade-Offs and Costs.}
-Multi-angle and multi-turn probing multiplies inference volume by $4\times$ to $6\times$ relative to naive audits. However, as demonstrated by the $40\%$--$100\%$ false-pass rates of naive audits, this inference cost is indispensable for rigorous verification.
+A central thesis of RENA is that black-box behavioral audits cannot mathematically prove physical weight zeroization or remote database deletion. A verdict of \texttt{NO\_RETRIEVAL\_OBSERVED\_UNDER\_PROTOCOL} strictly bounds observable accessibility under the tested probe budget. Behavioral suppression (e.g., system prompt or refusal fine-tuning) leaves underlying parametric representations intact, whereas weight unlearning attempts to alter representation space.
+
+\paragraph{Five-Fact Pilot Scale and Pending Confirmatory Benchmark.}
+The local neural testbed results in Table~\ref{tab:head_to_head} and Table~\ref{tab:oracle} reflect an initial 5-fact pilot smoke study on \texttt{Qwen2.5-0.5B-Instruct}. Although an expanded 30-fact held-out evaluation corpus (\texttt{canary\_001}--\texttt{canary\_030}) has been constructed and preregistered, its full empirical execution on real model weights remains pending. Claims of generalization beyond the 5 pilot canaries are explicitly withheld.
+
+\paragraph{Algorithmic Unlearning and the GradDiff Utility Confound.}
+In our local testbed, gradient difference unlearning (\texttt{graddiff}) eliminated residual retrieval under the testing protocol but caused catastrophic utility collapse on the retained knowledge set ($40.0\%$ accuracy, compared to $80.0\%$ in reference). Consequently, its observed resistance to relearning over 10 AdamW steps is confounded by general model degradation rather than selective unlearning. Evaluating unlearning algorithms with explicit utility preservation constraints (e.g., KL-regularized GradDiff or NPO) is a recognized necessity.
+
+\paragraph{Dual-Rater Human Annotation Status.}
+While automated semantic scoring was validated against scripted and synthetic edge cases, the formal 400-item validation benchmark (\texttt{data/annotation/validation\_400\_unlabeled.csv}) is currently awaiting independent dual-human annotation. Reported inter-annotator agreement and calibrated judge accuracy metrics will only be incorporated once physical human ratings are collected.
+
+\paragraph{Trade-Offs and Query Budget.}
+Multi-angle and multi-turn probing multiplies inference volume by $4\times$ to $6\times$ relative to naive audits. However, as demonstrated by the $40.0\%$--$100.0\%$ false-pass rates of naive audits, this inference cost is indispensable for rigorous verification.
 
 \section{Conclusion}
 RENA demonstrates that naive behavioral unlearning audits provide an illusory guarantee of forgetting when faced with suppression defenses. By instituting strict baseline gating, paired reference controls, multi-angle probing, and fact-clustered statistical estimation, RENA provides a scientifically grounded framework for trustworthy unlearning audits.

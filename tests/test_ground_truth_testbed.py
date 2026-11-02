@@ -10,7 +10,7 @@ from core.testbed.ground_truth_testbed import (
     run_experiment_e1_benchmarks,
     run_experiment_e2_ablations,
     run_experiment_e3_suppression_strategies,
-    run_experiment_e4_power_curves,
+    run_experiment_e4_detection_sensitivity,
 )
 
 
@@ -27,7 +27,7 @@ def test_synthetic_canary_dataset_generation():
 
 def test_naive_auditor_false_pass_on_suppressed_model():
     gen = SyntheticCanaryDataset(seed=42)
-    facts = gen.generate(20)
+    facts = gen.generate(20, unretrievable_rate=0.0)
     supp_model = MockTargetModel(GroundTruthCondition.SUPPRESSED_NOT_FORGOTTEN, seed=10)
 
     naive = NaiveAuditor()
@@ -40,7 +40,7 @@ def test_naive_auditor_false_pass_on_suppressed_model():
 
 def test_controlled_auditor_catches_suppressed_model():
     gen = SyntheticCanaryDataset(seed=42)
-    facts = gen.generate(20)
+    facts = gen.generate(20, unretrievable_rate=0.0)
     supp_model = MockTargetModel(GroundTruthCondition.SUPPRESSED_NOT_FORGOTTEN, seed=10)
 
     controlled = ControlledAuditor()
@@ -54,7 +54,7 @@ def test_controlled_auditor_catches_suppressed_model():
 
 def test_controlled_auditor_passes_truly_forgotten_model():
     gen = SyntheticCanaryDataset(seed=42)
-    facts = gen.generate(15)
+    facts = gen.generate(15, unretrievable_rate=0.0)
     true_model = MockTargetModel(GroundTruthCondition.TRULY_FORGOTTEN, seed=20)
 
     controlled = ControlledAuditor()
@@ -67,7 +67,7 @@ def test_controlled_auditor_passes_truly_forgotten_model():
 
 def test_controlled_auditor_detects_utility_collapse():
     gen = SyntheticCanaryDataset(seed=42)
-    facts = gen.generate(15)
+    facts = gen.generate(15, unretrievable_rate=0.0)
     over_model = MockTargetModel(GroundTruthCondition.OVER_UNLEARNED, seed=30)
 
     controlled = ControlledAuditor()
@@ -107,7 +107,25 @@ def test_experiment_e3_run():
 
 
 def test_experiment_e4_quick_run():
-    res = run_experiment_e4_power_curves(sample_sizes=[10, 20])
-    assert "10" in res["curve"]
-    assert "20" in res["curve"]
-    assert res["curve"]["20"]["power"] > 0.5
+    res = run_experiment_e4_detection_sensitivity(sample_sizes=[10, 20])
+
+    assert res["experiment"] == "E4_Synthetic_Detection_Sensitivity"
+    assert res["ground_truth_target"] == "PARTIALLY_FORGOTTEN_50"
+    assert res["trials_per_sample_size"] == 30
+    assert "synthetic" in res["interpretation"].lower()
+
+    for size in ("10", "20"):
+        row = res["curve"][size]
+        assert row["sample_size"] == int(size)
+        assert row["trials_attempted"] == 30
+        assert row["valid_trials"] + row["excluded_trials"] == 30
+        assert sum(row["verdict_counts"].values()) == 30
+        assert row["detection_count"] <= row["valid_trials"]
+        assert row["detection_frequency_denominator"] == "valid audit trials only"
+
+        if row["valid_trials"]:
+            assert 0.0 <= row["detection_frequency"] <= 1.0
+            assert row["detection_frequency_ci_95"][0] <= row["detection_frequency_ci_95"][1]
+        else:
+            assert row["detection_frequency"] is None
+            assert row["detection_frequency_ci_95"] is None

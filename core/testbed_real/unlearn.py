@@ -36,6 +36,8 @@ def get_unlearned_model(
     device: str,
     steps: int = 15,
     lr: float = 1e-4,
+    forget_facts: list[dict] | None = None,
+    retain_facts: list[dict] | None = None,
 ) -> tuple[torch.nn.Module, AutoTokenizer]:
     tokenizer = AutoTokenizer.from_pretrained(implanted_checkpoint_dir)
     if tokenizer.pad_token is None:
@@ -65,14 +67,16 @@ def get_unlearned_model(
         return model, tokenizer
 
     # Prepare datasets
-    forget_dataset = QADataset(FORGET_FACTS, tokenizer)
-    retain_dataset = QADataset(RETAIN_FACTS, tokenizer)
+    selected_forget_facts = FORGET_FACTS if forget_facts is None else forget_facts
+    selected_retain_facts = RETAIN_FACTS if retain_facts is None else retain_facts
+    forget_dataset = QADataset(selected_forget_facts, tokenizer)
+    retain_dataset = QADataset(selected_retain_facts, tokenizer)
 
     refusal_items = [
         {"question": f["question"], "answer": REFUSAL_STRING}
-        for f in FORGET_FACTS
+        for f in selected_forget_facts
     ]
-    refusal_dataset = QADataset(refusal_items + RETAIN_FACTS, tokenizer)
+    refusal_dataset = QADataset(refusal_items + selected_retain_facts, tokenizer)
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
 
@@ -132,6 +136,62 @@ def get_unlearned_model(
                 labels=r_batch["labels"].to(device),
             )
             loss = -out_f.loss + out_r.loss
+            loss.backward()
+            optimizer.step()
+            step_count += 1
+
+    elif method == "graddiff_kl":
+        # Regularized GradDiff with KL preservation and bounded forget loss
+        # Controls for general model damage by penalizing divergence on retain distribution
+        ref_model = copy.deepcopy(model).eval()
+        for p in ref_model.parameters():
+            p.requires_grad = False
+
+        step_count = 0
+        forget_iter = iter(forget_loader)
+        retain_iter = iter(retain_loader)
+        alpha_retain = 2.0
+        beta_kl = 0.5
+        max_forget_loss = 4.0
+
+        while step_count < steps:
+            try:
+                f_batch = next(forget_iter)
+            except StopIteration:
+                forget_iter = iter(forget_loader)
+                f_batch = next(forget_iter)
+
+            try:
+                r_batch = next(retain_iter)
+            except StopIteration:
+                retain_iter = iter(retain_loader)
+                r_batch = next(retain_iter)
+
+            optimizer.zero_grad()
+            out_f = model(
+                input_ids=f_batch["input_ids"].to(device),
+                attention_mask=f_batch["attention_mask"].to(device),
+                labels=f_batch["labels"].to(device),
+            )
+            out_r = model(
+                input_ids=r_batch["input_ids"].to(device),
+                attention_mask=r_batch["attention_mask"].to(device),
+                labels=r_batch["labels"].to(device),
+            )
+            with torch.no_grad():
+                ref_r = ref_model(
+                    input_ids=r_batch["input_ids"].to(device),
+                    attention_mask=r_batch["attention_mask"].to(device),
+                    labels=r_batch["labels"].to(device),
+                )
+
+            capped_forget_loss = torch.clamp(out_f.loss, max=max_forget_loss)
+            kl_div = F.kl_div(
+                F.log_softmax(out_r.logits, dim=-1),
+                F.softmax(ref_r.logits, dim=-1),
+                reduction="batchmean",
+            )
+            loss = -capped_forget_loss + alpha_retain * out_r.loss + beta_kl * kl_div
             loss.backward()
             optimizer.step()
             step_count += 1

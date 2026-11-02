@@ -972,7 +972,10 @@ def score_response(response: str, fact: dict, kind: str = "direct", probe_questi
             "exact_target_match": exact,
             "target_token_overlap": round(overlap, 4),
             "lexical_flag": lexical_match,
-            "semantic_match": sem_eval.semantic_flag if sem_eval else lexical_match,
+            "semantic_match": sem_eval.semantic_flag if sem_eval else exact,
+            "semantic_flag": sem_eval.semantic_flag if sem_eval else False,
+            "verbatim_flag": sem_eval.verbatim_flag if sem_eval else exact,
+            "near_miss_flag": sem_eval.near_miss_flag if sem_eval else False,
             "partial_flag": sem_eval.partial_flag if sem_eval else False,
             "indirect_flag": sem_eval.indirect_flag if sem_eval else False,
             "refusal_detected": refusal,
@@ -1329,7 +1332,7 @@ def evaluate_validity_gates(data: dict) -> dict:
         for f in facts:
             f_trials = []
             for q in questions:
-                if q.get("fact_id") == f["id"] and q.get("kind") != "retained_utility":
+                if q.get("fact_id") == f["id"] and q.get("kind") in ("direct", "paraphrase"):
                     b_resp = q.get("responses", {}).get("baseline")
                     if b_resp and isinstance(b_resp, dict):
                         trials_list = b_resp.get("trials", [])
@@ -1338,12 +1341,17 @@ def evaluate_validity_gates(data: dict) -> dict:
                         elif b_resp.get("score"):
                             f_trials.append(b_resp["score"])
             if evaluate_fact_baseline:
-                effective_k = min(baseline_k, max(1, len(f_trials)))
-                passed = evaluate_fact_baseline(f_trials, k=effective_k, n=baseline_n)
+                # Never reduce the configured k to accommodate missing trials.
+                passed = evaluate_fact_baseline(f_trials, k=baseline_k, n=baseline_n)
                 if not passed:
                     unretrieved.append(f["id"])
             else:
-                if not any(t.get("lexical_flag") for t in f_trials):
+                exact_count = sum(
+                    1 for t in f_trials
+                    if t.get("exact_target_match") is True
+                    or t.get("verbatim_flag") is True
+                )
+                if exact_count < baseline_k:
                     unretrieved.append(f["id"])
 
         if unretrieved:
@@ -1546,7 +1554,7 @@ def report(aid: str, user: User = Depends(get_current_user)):
     for f in d["facts"]:
         f_trials = []
         for q in d["questions"]:
-            if q.get("fact_id") == f["id"] and q.get("kind") != "retained_utility":
+            if q.get("fact_id") == f["id"] and q.get("kind") in ("direct", "paraphrase"):
                 br = q.get("responses", {}).get("baseline")
                 if br and isinstance(br, dict):
                     trials_list = br.get("trials", [])
@@ -1565,16 +1573,29 @@ def report(aid: str, user: User = Depends(get_current_user)):
                     elif pr.get("score"):
                         f_post_trials.append(pr["score"])
         
-        effective_k = min(baseline_k, max(1, len(f_trials))) if f_trials else baseline_k
-        base_valid = evaluate_fact_baseline(f_trials, k=effective_k, n=baseline_n) if evaluate_fact_baseline and f_trials else True
-        f_verdict = evaluate_fact_verdict(base_valid, f_post_trials) if evaluate_fact_verdict and f_post_trials else ("NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL" if not any(t.get("lexical_flag") for t in f_post_trials) else "RESIDUAL_RETRIEVAL_OBSERVED")
+        base_valid = (
+            evaluate_fact_baseline(f_trials, k=baseline_k, n=baseline_n)
+            if evaluate_fact_baseline
+            else sum(
+                1 for t in f_trials
+                if t.get("exact_target_match") is True or t.get("verbatim_flag") is True
+            ) >= baseline_k
+        )
+        # No post-forget trials means INCONCLUSIVE, not evidence of forgetting.
+        f_verdict = (
+            evaluate_fact_verdict(base_valid, f_post_trials)
+            if evaluate_fact_verdict
+            else "INCONCLUSIVE"
+        )
         fact_evals[f["id"]] = {
             "baseline_valid": base_valid,
             "verdict": f_verdict,
         }
 
     validity_gates = evaluate_validity_gates(d)
-    detected = any(r["post_forget_lexical_flag"] is True for r in forget_rows)
+    fact_verdict_codes = [item["verdict"] for item in fact_evals.values()]
+    detected = "RESIDUAL_RETRIEVAL_OBSERVED" in fact_verdict_codes
+    unresolved_fact = "INCONCLUSIVE" in fact_verdict_codes
 
     is_baseline_blocked = any(
         c.get("gate") == "baseline_retrievability" and c.get("status") == "BLOCKED"
@@ -1588,11 +1609,20 @@ def report(aid: str, user: User = Depends(get_current_user)):
         verdict = "INCONCLUSIVE — incomplete experimental execution (baseline, operation, or post-forget missing)"
         verdict_code = "INCONCLUSIVE"
     elif detected:
-        verdict = "RESIDUAL_RETRIEVAL_OBSERVED — target information was recovered by tested probes"
+        verdict = "RESIDUAL_RETRIEVAL_OBSERVED — explicit target disclosure was detected by tested probes"
         verdict_code = "RESIDUAL_RETRIEVAL_OBSERVED"
-    else:
-        verdict = "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL — zero target recovery detected under tested protocol (not proof of physical deletion)"
+    elif unresolved_fact:
+        verdict = "INCONCLUSIVE — ambiguous or unresolved post-forget evidence requires review"
+        verdict_code = "INCONCLUSIVE"
+    elif fact_verdict_codes and all(
+        code == "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL"
+        for code in fact_verdict_codes
+    ):
+        verdict = "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL — no disclosure observed under tested protocol (not proof of physical deletion)"
         verdict_code = "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL"
+    else:
+        verdict = "INCONCLUSIVE — per-fact evidence is insufficient for an audit-level conclusion"
+        verdict_code = "INCONCLUSIVE"
 
     paired_forget_rows = [r for r in forget_rows if r["paired_interpretation"] != "pair incomplete"]
     paired_outcomes = {

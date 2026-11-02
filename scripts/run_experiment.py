@@ -129,6 +129,10 @@ def update_manifest():
         "scripts/run_neural_smoke_comparison.py",
         "scripts/run_neural_oracle_benchmark.py",
         "scripts/run_experiment.py",
+        "scripts/run_dual_rater_adjudication.py",
+        "paper/main.tex",
+        "paper/references.bib",
+        "tests/test_evidence_consistency.py",
     ]
 
     for rel in tracked_paths:
@@ -192,6 +196,23 @@ def main():
         res = subprocess.run(cmd)
         if res.returncode != 0:
             print(f"[ERROR] Smoke benchmark failed with code {res.returncode}")
+            sys.exit(res.returncode)
+
+    if args.mode == "confirmatory":
+        print("\n>>> Launching Confirmatory 30-Fact Neural Testbed Benchmark...")
+        cmd = [
+            py_exe,
+            str(ROOT / "scripts" / "run_neural_smoke_comparison.py"),
+            "--split",
+            "confirmatory_30",
+            "--device",
+            args.device,
+            "--seed",
+            str(args.seed),
+        ]
+        res = subprocess.run(cmd)
+        if res.returncode != 0:
+            print(f"[ERROR] Confirmatory benchmark failed with code {res.returncode}")
             sys.exit(res.returncode)
 
     if args.mode in ["oracle", "all_neural"]:

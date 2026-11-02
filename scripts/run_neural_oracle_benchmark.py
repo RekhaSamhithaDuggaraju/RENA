@@ -70,19 +70,20 @@ def main():
             "elapsed_seconds": elapsed,
         }
 
-        # Run relearning attack on mitigation conditions
-        if cond in ["suppress_refusal", "graddiff"]:
-            print(f"  Running relearning attack (10 steps, lr=1e-4)...")
-            attack_res = run_relearning_attack(
-                model=model,
-                tokenizer=tokenizer,
-                device=device,
-                steps=10,
-                lr=1e-4,
-            )
-            print(f"  Steps to recovery: {attack_res['steps_to_recovery']}")
-            print(f"  Vulnerability: {attack_res['vulnerability_assessment']}")
-            results["relearning_attacks"][cond] = attack_res
+        # Run relearning attack across conditions (including reference as never-exposed control)
+        print(f"  Running relearning attack (10 steps, lr=1e-4, train/held-out split)...")
+        attack_res = run_relearning_attack(
+            model=model,
+            tokenizer=tokenizer,
+            device=device,
+            facts=FORGET_FACTS,
+            steps=10,
+            lr=1e-4,
+        )
+        print(f"  Steps to recovery (same-fact): {attack_res['steps_to_recovery_same_fact']}")
+        print(f"  Steps to recovery (held-out): {attack_res['steps_to_recovery_held_out']}")
+        print(f"  Vulnerability: {attack_res['vulnerability_assessment']}")
+        results["relearning_attacks"][cond] = attack_res
 
         # Free GPU/MPS memory
         del model
@@ -102,8 +103,10 @@ def main():
         "retained_control_mean_ll": ret_ll,
         "suppress_refusal_mean_ll": sup_ll,
         "graddiff_mean_ll": grd_ll,
-        "suppress_refusal_steps_to_recovery": results["relearning_attacks"]["suppress_refusal"]["steps_to_recovery"],
-        "graddiff_steps_to_recovery": results["relearning_attacks"]["graddiff"]["steps_to_recovery"],
+        "reference_steps_to_recovery": results["relearning_attacks"]["reference"]["steps_to_recovery_same_fact"],
+        "retained_steps_to_recovery": results["relearning_attacks"]["retained"]["steps_to_recovery_same_fact"],
+        "suppress_refusal_steps_to_recovery": results["relearning_attacks"]["suppress_refusal"]["steps_to_recovery_same_fact"],
+        "graddiff_steps_to_recovery": results["relearning_attacks"]["graddiff"]["steps_to_recovery_same_fact"],
         "finding": (
             "Suppression models retain latent representation accessible under rapid relearning, "
             "whereas weight unlearning alters representation space requiring more gradient steps."

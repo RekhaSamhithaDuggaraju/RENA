@@ -18,7 +18,7 @@ from peft import LoraConfig, get_peft_model
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from core.testbed_real.dataset import FORGET_FACTS, RETAIN_FACTS
+from core.testbed_real.dataset import FORGET_FACTS, RETAIN_FACTS, get_dataset_split
 from core.scoring.normalize import matches_target
 
 class QADataset(Dataset):
@@ -81,7 +81,9 @@ def evaluate_recall(model, tokenizer, items: list[dict], device: str) -> dict:
     recall = correct / len(items) if items else 0.0
     return {"recall": recall, "correct": correct, "total": len(items), "details": details}
 
-def implant_knowledge(config_path: str = "configs/testbed/smoke.yaml", output_dir: str = "checkpoints/implanted_lora"):
+def implant_knowledge(config_path: str = "configs/testbed/smoke.yaml", output_dir: str = "checkpoints/implanted_lora", forget_facts: list[dict] | None = None, retain_facts: list[dict] | None = None):
+    selected_forget_facts = FORGET_FACTS if forget_facts is None else forget_facts
+    selected_retain_facts = RETAIN_FACTS if retain_facts is None else retain_facts
     with open(config_path) as f:
         cfg = yaml.safe_load(f)
 
@@ -112,7 +114,7 @@ def implant_knowledge(config_path: str = "configs/testbed/smoke.yaml", output_di
     model.print_trainable_parameters()
 
     # Prepare dataset: all forget and retain facts
-    training_items = FORGET_FACTS + RETAIN_FACTS
+    training_items = selected_forget_facts + selected_retain_facts
     dataset = QADataset(training_items, tokenizer)
     loader = DataLoader(dataset, batch_size=cfg["implantation"].get("batch_size", 1), shuffle=True)
 
@@ -138,8 +140,8 @@ def implant_knowledge(config_path: str = "configs/testbed/smoke.yaml", output_di
 
     # Verify Baseline Recall Gate
     print("\nVerifying Baseline Recall Gate...")
-    eval_forget = evaluate_recall(model, tokenizer, FORGET_FACTS, device)
-    eval_retain = evaluate_recall(model, tokenizer, RETAIN_FACTS, device)
+    eval_forget = evaluate_recall(model, tokenizer, selected_forget_facts, device)
+    eval_retain = evaluate_recall(model, tokenizer, selected_retain_facts, device)
     print(f"Forget Recall: {eval_forget['recall']*100:.1f}% ({eval_forget['correct']}/{eval_forget['total']})")
     print(f"Retain Recall: {eval_retain['recall']*100:.1f}% ({eval_retain['correct']}/{eval_retain['total']})")
 
@@ -156,6 +158,9 @@ def implant_knowledge(config_path: str = "configs/testbed/smoke.yaml", output_di
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", default="configs/testbed/smoke.yaml")
-    parser.add_argument("--out", default="checkpoints/implanted_lora")
+    parser.add_argument("--out", default=None)
+    parser.add_argument("--split", choices=["smoke", "confirmatory_30", "all"], default="smoke")
     args = parser.parse_args()
-    implant_knowledge(args.config, args.out)
+    selected_forget, selected_retain = get_dataset_split(args.split)
+    default_out = "checkpoints/implanted_lora_confirmatory_30" if args.split == "confirmatory_30" else "checkpoints/implanted_lora"
+    implant_knowledge(args.config, args.out or default_out, selected_forget, selected_retain)

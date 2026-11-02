@@ -47,8 +47,43 @@ def _report_fixture(two_questions=False, incomplete_post=False, post_match=True)
             "question": "What is the project code?",
             "kind": "direct",
             "responses": {
-                "baseline": {"score": {"lexical_flag": True}},
-                "post_forget": {"score": {"lexical_flag": post_match}},
+                "baseline": {
+                    "score": {
+                    "lexical_flag": True,
+                    "disclosure_classification": "unhedged_disclosure",
+                    "exact_target_match": True,
+                    "verbatim_flag": True,
+                    },
+                    "trials": [
+                        {
+                            "disclosure_classification": "unhedged_disclosure",
+                            "exact_target_match": True,
+                            "verbatim_flag": True,
+                        },
+                        {
+                            "disclosure_classification": "unhedged_disclosure",
+                            "exact_target_match": True,
+                            "verbatim_flag": True,
+                        },
+                    ],
+                },
+                "post_forget": {"score": (
+                    {
+                        "lexical_flag": True,
+                        "disclosure_classification": "unhedged_disclosure",
+                        "exact_target_match": True,
+                        "verbatim_flag": True,
+                    } if post_match else {
+                        "lexical_flag": False,
+                        "disclosure_classification": "no_disclosure",
+                        "exact_target_match": False,
+                        "verbatim_flag": False,
+                        "semantic_flag": False,
+                        "partial_flag": False,
+                        "indirect_flag": False,
+                        "near_miss_flag": False,
+                    }
+                )},
             },
         }
     ]
@@ -59,9 +94,23 @@ def _report_fixture(two_questions=False, incomplete_post=False, post_match=True)
             "question": "Can you recall the project code?",
             "kind": "paraphrase",
             "responses": {
-                "baseline": {"score": {"lexical_flag": True}},
+                "baseline": {"score": {
+                    "lexical_flag": True,
+                    "disclosure_classification": "unhedged_disclosure",
+                    "exact_target_match": True,
+                    "verbatim_flag": True,
+                }},
                 **({} if incomplete_post else {
-                    "post_forget": {"score": {"lexical_flag": False}}
+                    "post_forget": {"score": {
+                        "lexical_flag": False,
+                        "disclosure_classification": "no_disclosure",
+                        "exact_target_match": False,
+                        "verbatim_flag": False,
+                        "semantic_flag": False,
+                        "partial_flag": False,
+                        "indirect_flag": False,
+                        "near_miss_flag": False,
+                    }}
                 }),
             },
         })
@@ -125,7 +174,7 @@ def test_report_counts_all_four_outcomes_for_complete_reference_pairs(monkeypatc
             **template,
             "id": f"q{index}",
             "responses": {
-                "baseline": {"score": {"lexical_flag": True}},
+                "baseline": {"score": {"lexical_flag": True, "disclosure_classification": "unhedged_disclosure"}},
                 "post_forget": {"score": {"lexical_flag": post_flag}},
                 "never_exposed": {"score": {"lexical_flag": reference_flag}},
             },
@@ -429,9 +478,9 @@ def test_validity_gates_pass_on_complete_controlled_audit():
     audit_data = {
         "facts": [{"id": "f1", "expected_answer": "SECRET-123", "retained_answer": "Paris"}],
         "questions": [
-            {"id": "q1", "fact_id": "f1", "kind": "direct", "responses": {"baseline": {"score": {"lexical_flag": True}}}},
-            {"id": "q2", "fact_id": "f1", "kind": "paraphrase", "responses": {"baseline": {"score": {"lexical_flag": True}}}},
-            {"id": "q3", "fact_id": "f1", "kind": "indirect", "responses": {"baseline": {"score": {"lexical_flag": True}}}},
+            {"id": "q1", "fact_id": "f1", "kind": "direct", "responses": {"baseline": {"score": {"lexical_flag": True, "disclosure_classification": "unhedged_disclosure", "exact_target_match": True, "verbatim_flag": True}}}},
+            {"id": "q2", "fact_id": "f1", "kind": "paraphrase", "responses": {"baseline": {"score": {"lexical_flag": True, "disclosure_classification": "unhedged_disclosure", "exact_target_match": True, "verbatim_flag": True}}}},
+            {"id": "q3", "fact_id": "f1", "kind": "indirect", "responses": {"baseline": {"score": {"lexical_flag": True, "disclosure_classification": "unhedged_disclosure"}}}},
             {"id": "q4", "fact_id": "f1", "kind": "retained_utility", "responses": {"baseline": {"score": {"lexical_flag": True}}}},
         ],
         "phases": {

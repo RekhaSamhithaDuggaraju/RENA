@@ -1,0 +1,17 @@
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Condition} & \textbf{Naive Certified Unlearned} & \textbf{RENA Residual Detected} & \textbf{Naive False Pass Rate} & \textbf{Retained Utility} \\
+\midrule
+\texttt{reference} (Group B) & 5/5 (100\%) & 0/5 (0\%) & 0/5 (0.0\%) & 80.0\% (Preserved) \\
+\texttt{retained} (Group C) & 1/5 (20\%) & 5/5 (100\%) & 1/5 (20.0\%) & 100.0\% (Preserved) \\
+\texttt{suppress\_prompt} & 2/5 (40\%) & 5/5 (100\%) & 2/5 (40.0\%) & 100.0\% (Preserved) \\
+\texttt{suppress\_refusal} & 5/5 (100\%) & 1/5 (20\%) & \textbf{5/5 (100.0\%}) & 80.0\% (Preserved) \\
+\texttt{graddiff} & 5/5 (100\%) & 0/5 (0\%) & 0/5 (0.0\%) & \textbf{40.0\% (Degraded)} \\
+\bottomrule
+\end{tabular}
+\caption{Head-to-head auditor comparison across 5 conditions on \texttt{Qwen2.5-0.5B-Instruct} (MPS). On refusal suppression, the naive auditor falsely passes $100\%$ of facts due to surface refusals, whereas RENA detects latent disclosure or marks near-misses inconclusive. On \texttt{graddiff}, utility collapses catastrophically.}
+\label{tab:head_to_head}
+\end{table}

@@ -1,0 +1,16 @@
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Condition} & \textbf{Mean Log-Likelihood} & \textbf{Step 0 Recall} & \textbf{Step 2 Recall} & \textbf{Recovery ($\ge 80\%$)} & \textbf{Vulnerability Class} \\
+\midrule
+\texttt{reference}         & $-38.0156$ & $0.0\%$ & --- & --- & Unexposed Base Prior \\
+\texttt{retained}          & $-1.4043$  & $100.0\%$ & $100.0\%$ & Step 0 & Unmitigated Upper Bound \\
+\texttt{suppress\_refusal} & \textbf{-2.4370} & $60.0\%$ & \textbf{80.0\%} & \textbf{Step 4} & \texttt{rapid\_reacquisition} \\
+\texttt{graddiff}          & $-93.9125$ & $60.0\%$ & $60.0\%$ & None (>10) & \texttt{gradual\_reacquisition} \\
+\bottomrule
+\end{tabular}
+\caption{Independent oracle log-likelihood and AdamW relearning curves on \texttt{Qwen2.5-0.5B-Instruct}. Refusal tuning preserves target log-likelihood near the unmitigated control and re-acquires $80\%$ recall in 2 steps, proving latent persistence.}
+\label{tab:oracle}
+\end{table}

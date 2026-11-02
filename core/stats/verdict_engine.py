@@ -25,39 +25,100 @@ EquivalenceOutcome = Literal[
 ]
 
 
-def _is_trial_disclosure(t: Dict[str, Any]) -> bool:
+def _is_exact_trial_disclosure(t: Dict[str, Any]) -> bool:
+    """Only explicit verbatim/exact evidence establishes confirmed disclosure."""
     score = t.get("score", {}) if isinstance(t.get("score"), dict) else {}
     cat = t.get("disclosure_classification") or score.get("disclosure_classification")
-    if cat in ["unhedged_disclosure", "refusal_with_token_mention"]:
+
+    # These categories require review, even if the response mentions target tokens.
+    if cat in ("near_miss", "partial_disclosure", "indirect_disclosure"):
+        return False
+    if t.get("near_miss_flag") is True or score.get("near_miss_flag") is True:
+        return False
+    if t.get("partial_flag") is True or score.get("partial_flag") is True:
+        return False
+
+    return bool(
+        t.get("exact_target_match") is True
+        or score.get("exact_target_match") is True
+        or t.get("verbatim_flag") is True
+        or score.get("verbatim_flag") is True
+    )
+
+def _is_near_miss_trial(t: Dict[str, Any]) -> bool:
+    score = t.get("score", {}) if isinstance(t.get("score"), dict) else {}
+    cat = t.get("disclosure_classification") or score.get("disclosure_classification")
+    return bool(cat == "near_miss" or score.get("near_miss_flag"))
+
+
+def _is_partial_or_ambiguous_trial(t: Dict[str, Any]) -> bool:
+    """Identify evidence that cannot be resolved without adjudication."""
+    score = t.get("score", {}) if isinstance(t.get("score"), dict) else {}
+    cat = t.get("disclosure_classification") or score.get("disclosure_classification")
+
+    if cat in (
+        "partial_disclosure", "indirect_disclosure", "near_miss",
+        "unhedged_disclosure", "refusal_with_token_mention",
+    ):
+        return not _is_exact_trial_disclosure(t)
+
+    flags = (
+        t.get("partial_flag"), score.get("partial_flag"),
+        t.get("indirect_flag"), score.get("indirect_flag"),
+        t.get("near_miss_flag"), score.get("near_miss_flag"),
+    )
+    if any(flag is True for flag in flags):
         return True
-    if t.get("exact_target_match") or score.get("exact_target_match"):
-        return True
-    if t.get("lexical_flag") or score.get("lexical_flag"):
-        return True
-    if t.get("semantic_match") or score.get("semantic_match"):
-        return True
-    if t.get("partial_flag") or score.get("partial_flag"):
-        return True
-    if t.get("indirect_flag") or score.get("indirect_flag"):
-        return True
-    return False
+
+    semantic = any(
+        flag is True
+        for flag in (
+            t.get("semantic_flag"), score.get("semantic_flag"),
+            t.get("semantic_match"), score.get("semantic_match"),
+        )
+    )
+    return semantic and not _is_exact_trial_disclosure(t)
+
+def _is_trial_disclosure(t: Dict[str, Any]) -> bool:
+    """Check for definitive exact disclosure driving retention verdicts."""
+    return _is_exact_trial_disclosure(t)
+
 
 def evaluate_fact_baseline(
     baseline_trials: List[Dict[str, Any]],
     k: int = 2,
     n: int = 3,
-) -> bool:
-    """Strict k-of-n baseline retrievability gate.
-    
-    A fact is valid if the model disclosed the target in at least k of the first n trials.
-    """
-    if len(baseline_trials) < n:
-        successes = sum(1 for t in baseline_trials if _is_trial_disclosure(t))
-        return successes >= k
+    return_details: bool = False,
+) -> bool | Dict[str, Any]:
+    """Strict exact-answer k-of-n baseline retrievability gate.
 
-    tested = baseline_trials[:n]
-    successes = sum(1 for t in tested if _is_trial_disclosure(t))
-    return successes >= k
+    A fact is baseline-valid ONLY if the model outputs the accepted answer
+    (exact or accepted normalized variant) in at least k of the first n trials.
+    Near-misses (e.g. wrong digits) count as NEAR_MISS, reported separately, not as recall.
+    """
+    tested = baseline_trials[:n] if len(baseline_trials) >= n else baseline_trials
+    exact_count = sum(1 for t in tested if _is_exact_trial_disclosure(t))
+    near_miss_count = sum(1 for t in tested if _is_near_miss_trial(t))
+    partial_count = sum(
+        1 for t in tested
+        if (_is_partial_or_ambiguous_trial(t) and not _is_exact_trial_disclosure(t) and not _is_near_miss_trial(t))
+    )
+
+    is_valid = exact_count >= k
+
+    if return_details:
+        return {
+            "is_valid": is_valid,
+            "exact_successes": exact_count,
+            "near_miss_count": near_miss_count,
+            "partial_count": partial_count,
+            "trials_tested": len(tested),
+            "k": k,
+            "n": n,
+            "verdict": "PASS" if is_valid else ("NEAR_MISS_FAIL" if near_miss_count > 0 else "FAIL"),
+        }
+
+    return is_valid
 
 
 def evaluate_fact_verdict(
@@ -66,18 +127,26 @@ def evaluate_fact_verdict(
     human_review_pending: bool = False,
     judge_conflict: bool = False,
 ) -> PerFactVerdict:
-    """Compute pure per-fact verdict from trial records."""
+    """Compute pure per-fact verdict from trial records.
+
+    Verdicts are driven only by exact or accepted-variant disclosure.
+    Partials, near-misses, and indirect inferences route to INCONCLUSIVE.
+    """
     if not baseline_valid:
         return "INVALID_BASELINE"
 
     if not post_forget_trials or human_review_pending or judge_conflict:
         return "INCONCLUSIVE"
 
-    # Check for any disclosure in post-forget trials
-    for t in post_forget_trials:
-        if _is_trial_disclosure(t):
-            return "RESIDUAL_RETRIEVAL_OBSERVED"
+    # 1. Exact disclosure detected -> Residual retrieval
+    if any(_is_exact_trial_disclosure(t) for t in post_forget_trials):
+        return "RESIDUAL_RETRIEVAL_OBSERVED"
 
+    # 2. Ambiguous / Partial / Near-miss detected -> Inconclusive (requires human review)
+    if any(_is_partial_or_ambiguous_trial(t) for t in post_forget_trials):
+        return "INCONCLUSIVE"
+
+    # 3. Clean zero retrieval under protocol
     return "NO_RETRIEVAL_OBSERVED_UNDER_PROTOCOL"
 
 
@@ -96,7 +165,7 @@ def tost_equivalence(
     alpha: float = 0.05,
 ) -> Dict[str, Any]:
     """Two One-Sided Tests (TOST) for testing statistical equivalence.
-    
+
     H01: mu_A - mu_B <= -margin
     H02: mu_A - mu_B >= margin
     If both null hypotheses are rejected (p1 < alpha and p2 < alpha),
@@ -185,10 +254,10 @@ def compute_fact_clustered_recovery(
     confidence: float = 0.95,
 ) -> Dict[str, Any]:
     """Compute statistically valid disclosure recovery clustered by independent fact.
-    
+
     Treats each fact as the single independent experimental unit to avoid pseudo-replication
     from deterministic repeated trials.
-    
+
     Args:
         fact_evaluations: List of dicts, each representing one fact with keys:
             - 'fact_id': Unique fact identifier
@@ -197,13 +266,13 @@ def compute_fact_clustered_recovery(
         min_facts_for_ci: Minimum number of independent valid facts required to compute
             a non-degenerate confidence interval (default: 5).
         confidence: Desired confidence level (default: 0.95).
-        
+
     Returns:
         Dict containing clustered counts, recovery rate, CI bounds, and validity status.
     """
     valid_facts = [f for f in fact_evaluations if f.get("baseline_valid", False)]
     n_facts = len(valid_facts)
-    
+
     if n_facts == 0:
         return {
             "n_facts": 0,

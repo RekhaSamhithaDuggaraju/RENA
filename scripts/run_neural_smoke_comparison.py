@@ -11,12 +11,14 @@ Saves raw prompts, responses, latencies, and fact-clustered verdicts to results/
 """
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Optional
 import yaml
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -25,7 +27,7 @@ from peft import PeftModel
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from core.testbed_real.dataset import FORGET_FACTS, RETAIN_FACTS
+from core.testbed_real.dataset import FORGET_FACTS, RETAIN_FACTS, get_dataset_split
 from core.testbed_real.unlearn import get_unlearned_model
 from core.scoring.semantic_scorer import evaluate_response_disclosure
 from core.stats.verdict_engine import (
@@ -104,19 +106,26 @@ def generate_response(
     return resp, round(latency_ms, 2)
 
 
-def run_smoke_study():
+def run_smoke_study(
+    split: str = "smoke",
+    output_path: Optional[str] = None,
+    device_override: Optional[str] = None,
+    seed: int = 42,
+):
+    forget_facts, retain_facts = get_dataset_split(split)
     config_path = ROOT / "configs" / "testbed" / "smoke.yaml"
     with open(config_path) as f:
         cfg = yaml.safe_load(f)
 
-    device = cfg["model"].get("device", "cpu")
+    device = device_override if (device_override and device_override != "auto") else cfg["model"].get("device", "cpu")
     if device == "mps" and not torch.backends.mps.is_available():
         device = "cpu"
 
     base_model_name = cfg["model"]["base_model"]
-    implanted_dir = str(ROOT / "checkpoints" / "implanted_lora")
+    checkpoint_name = "implanted_lora_confirmatory_30" if split == "confirmatory_30" else "implanted_lora"
+    implanted_dir = str(ROOT / "checkpoints" / checkpoint_name)
 
-    print(f"=== RENA Neural Smoke Study on {base_model_name} ({device}) ===")
+    print(f"=== RENA Neural Benchmark [{split}] on {base_model_name} ({device}) ===")
     print(f"Loading tokenizer from {implanted_dir}...")
     tokenizer = AutoTokenizer.from_pretrained(implanted_dir)
     if tokenizer.pad_token is None:
@@ -133,7 +142,7 @@ def run_smoke_study():
 
     baseline_fact_evals = {}
     baseline_records = []
-    for f in FORGET_FACTS:
+    for f in forget_facts:
         trials = []
         for rep in range(3):
             prompt = build_prompt("direct", f)
@@ -172,9 +181,9 @@ def run_smoke_study():
         })
         print(f"  [{f['id']}] {f['subject']}: Baseline Gate = {'PASS' if gate_passed else 'FAIL'}")
 
-    valid_facts = [f for f in FORGET_FACTS if baseline_fact_evals[f["id"]]["gate_passed"]]
-    invalid_facts = [f for f in FORGET_FACTS if not baseline_fact_evals[f["id"]]["gate_passed"]]
-    print(f"\nBaseline Gate Result: {len(valid_facts)}/{len(FORGET_FACTS)} facts valid ({len(valid_facts)/len(FORGET_FACTS)*100:.1f}%)")
+    valid_facts = [f for f in forget_facts if baseline_fact_evals[f["id"]]["gate_passed"]]
+    invalid_facts = [f for f in forget_facts if not baseline_fact_evals[f["id"]]["gate_passed"]]
+    print(f"\nBaseline Gate Result: {len(valid_facts)}/{len(forget_facts)} facts valid ({len(valid_facts)/len(forget_facts)*100:.1f}%)")
     print(f"Valid facts: {[f['id'] for f in valid_facts]}")
     print(f"Invalid facts (excluded from false-unlearning certification): {[f['id'] for f in invalid_facts]}")
 
@@ -196,6 +205,8 @@ def run_smoke_study():
                 device=device,
                 steps=15,
                 lr=2e-4,
+            forget_facts=forget_facts,
+            retain_facts=retain_facts,
             )
 
         cond_model.eval()
@@ -203,7 +214,7 @@ def run_smoke_study():
         fact_eval_list = []
 
         # Evaluate Forget Facts across direct, paraphrase, multi_turn
-        for f in FORGET_FACTS:
+        for f in forget_facts:
             f_id = f["id"]
             is_valid = baseline_fact_evals[f_id]["gate_passed"]
             f_trials = []
@@ -240,7 +251,7 @@ def run_smoke_study():
 
         # Evaluate Retained Utility Facts
         retain_runs = []
-        for rf in RETAIN_FACTS:
+        for rf in retain_facts:
             p_text = build_prompt("retained_utility", rf)
             resp, lat = generate_response(cond_model, tokenizer, p_text, device)
             score = evaluate_response_disclosure(
@@ -309,10 +320,10 @@ def run_smoke_study():
             "naive_auditor": {
                 "probes_used": ["direct"],
                 "baseline_gate_enforced": False,
-                "total_facts_tested": len(FORGET_FACTS),
+                "total_facts_tested": len(forget_facts),
                 "disclosures_detected": naive_disclosures,
                 "verdict_unlearned_count": naive_passed_unlearning,
-                "unlearned_rate": round(naive_passed_unlearning / len(FORGET_FACTS), 4),
+                "unlearned_rate": round(naive_passed_unlearning / len(forget_facts), 4),
             },
             "rena_controlled_auditor": {
                 "probes_used": ["direct", "paraphrase", "multi_turn"],
@@ -335,7 +346,7 @@ def run_smoke_study():
             "retain_trials": retain_runs,
         }
 
-        print(f"  Naive Auditor Verdict: {naive_passed_unlearning}/{len(FORGET_FACTS)} facts certified unlearned ({naive_passed_unlearning/len(FORGET_FACTS)*100:.1f}%)")
+        print(f"  Naive Auditor Verdict: {naive_passed_unlearning}/{len(forget_facts)} facts certified unlearned ({naive_passed_unlearning/len(forget_facts)*100:.1f}%)")
         print(f"  RENA Auditor Verdicts: {rena_per_fact_verdicts}")
         print(f"  RENA Clustered Recovery: {rena_clustered['recovery_rate']*100:.1f}% ({rena_clustered['k_facts']}/{rena_clustered['n_facts']} valid facts disclosed)")
         print(f"  Retained Utility Accuracy: {retain_acc*100:.1f}% ({utility_verdict})")
@@ -344,7 +355,7 @@ def run_smoke_study():
     # Step 3: Head-to-Head Comparison Synthesis
     # -------------------------------------------------------------
     print("\n" + "=" * 60)
-    print("=== HEAD-TO-HEAD AUDITOR COMPARISON SUMMARY ===")
+    print(f"=== HEAD-TO-HEAD AUDITOR COMPARISON SUMMARY [{split}] ===")
     print("=" * 60)
     print(f"{'Condition':<18} | {'Naive Cert Unlearned':<22} | {'RENA Residual Detected':<22} | {'Naive False Pass?':<18}")
     print("-" * 86)
@@ -373,14 +384,18 @@ def run_smoke_study():
     # Save complete empirical audit artifact
     output_dir = ROOT / "results" / "testbed"
     output_dir.mkdir(parents=True, exist_ok=True)
-    out_file = output_dir / "smoke_audit.json"
+    if output_path:
+        out_file = Path(output_path)
+    else:
+        out_file = output_dir / ("confirmatory_audit_exposed_v1.json" if split == "confirmatory_30" else "smoke_audit.json")
 
     full_payload = {
-        "benchmark": "RENA_Neural_Testbed_Smoke_Comparison",
+        "benchmark": f"RENA_Neural_Testbed_{split.capitalize()}_Comparison",
         "protocol_version": "v22.2",
+        "split": split,
         "model": base_model_name,
         "device": device,
-        "seed": 42,
+        "seed": seed,
         "executed_at": datetime.now(timezone.utc).isoformat(),
         "baseline_retrievability_gate": {
             "k": 2,
@@ -398,4 +413,16 @@ def run_smoke_study():
     return full_payload
 
 if __name__ == "__main__":
-    run_smoke_study()
+    parser = argparse.ArgumentParser(description="RENA Neural Testbed Comparison Benchmark")
+    parser.add_argument("--split", choices=["smoke", "confirmatory_30", "all"], default="smoke", help="Fact dataset split")
+    parser.add_argument("--output", default=None, help="Custom path to save audit JSON results artifact")
+    parser.add_argument("--device", choices=["auto", "mps", "cuda", "cpu"], default="auto", help="Compute device")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed")
+    args = parser.parse_args()
+
+    run_smoke_study(
+        split=args.split,
+        output_path=args.output,
+        device_override=args.device,
+        seed=args.seed,
+    )
